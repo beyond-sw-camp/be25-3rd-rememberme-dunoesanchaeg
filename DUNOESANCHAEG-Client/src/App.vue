@@ -1,14 +1,15 @@
 <template>
-  <div class="min-h-screen bg-gray-100 pb-20">
-    <main class="p-5">
-      <Home />
-    </main>
-    
-    <BottomNav />
-  </div>
+  <MainLayout />
 </template>
 
 <script setup>
-import BottomNav from './components/BottomNav.vue';
-import Home from './pages/Homepage.vue';
+import MainLayout from './layouts/MainLayout.vue';
 </script>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+</style>

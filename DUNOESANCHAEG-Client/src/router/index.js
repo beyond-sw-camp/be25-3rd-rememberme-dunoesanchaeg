@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Homepage from "../pages/Homepage.vue"; 
+import Home from "../pages/Home.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 
 const routes = [
@@ -9,9 +9,9 @@ const routes = [
     children: [
       {
         path: '', // 기본 경로일 때 Home을 표시
-        name: 'Homepage',
-        component: Homepage,
-      },
+        name: 'Home',
+        component: Home,
+      }
       // 다른 페이지들(통계, 프로필 등)도 여기에 추가
     ],
   },

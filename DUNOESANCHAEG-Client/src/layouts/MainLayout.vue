@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-100 pb-20"> <main class="p-5">
+  <div class="min-h-screen bg-brand-bg">
+    <main class="p-5">
       <router-view />
     </main>
 
@@ -8,5 +9,5 @@
 </template>
 
 <script setup>
-import BottomNav from '../components/BottomNav.vue';
+import BottomNav from "../components/BottomNav.vue";
 </script>
