@@ -5,7 +5,6 @@ import Statistics from "../pages/Statistics.vue";
 import Notice from "../pages/Notice.vue";
 import Profile from "../pages/Profile.vue";
 
-
 const routes = [
   {
     path: '/',
@@ -30,7 +29,29 @@ const routes = [
         path: 'profile',
         name: 'Profile',
         component: Profile,
+      },
+      {
+        path: 'minigame',
+        children: [
+          {
+            path: 'arithmetic',
+            name: 'GameArithmetic',
+            component: () => import("../pages/minigame/Arithmetic.vue")
+          },
+          {
+            path: 'wordmemory',
+            name: 'GameWordmemory',
+            component: () => import("../pages/minigame/WordMemory.vue")
+          },
+          {
+            path: 'dekarterps',
+            name: 'GameDekarterps',
+            component: () => import("../pages/minigame/Dekarterps.vue")
+          },
+
+        ]
       }
+
     ],
   },
 ];

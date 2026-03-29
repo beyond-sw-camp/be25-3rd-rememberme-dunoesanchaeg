@@ -77,12 +77,15 @@
           <h4 class="text-xl font-bold text-gray-900">미니게임 - 단어 연상</h4>
           <p class="text-gray-400 text-sm font-medium">기억력 향상 게임</p>
         </div>
-        <button
-          class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
-        >
-          <span class="!text-white">시작하기</span>
-          <van-icon name="play" class="ml-1 text-white" />
-        </button>
+        <router-link :to="{ name: 'GameWordmemory' }">
+          <button
+            to="/minigame/dekartersc"
+            class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
+          >
+            <span class="!text-white">시작하기</span>
+            <van-icon name="play" class="ml-1 text-white" />
+          </button>
+        </router-link>
       </div>
 
       <div
@@ -108,12 +111,14 @@
           <h4 class="text-xl font-bold text-gray-900">미니게임 - 간단 연산</h4>
           <p class="text-gray-400 text-sm font-medium">공간 인지력 훈련</p>
         </div>
-        <button
-          class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
-        >
-          <span class="!text-white">시작하기</span>
-          <van-icon name="play" class="ml-1 text-white" />
-        </button>
+        <router-link to="/arithmetic">
+          <button
+            class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
+          >
+            <span class="!text-white">시작하기</span>
+            <van-icon name="play" class="ml-1 text-white" />
+          </button>
+        </router-link>
       </div>
 
       <div
