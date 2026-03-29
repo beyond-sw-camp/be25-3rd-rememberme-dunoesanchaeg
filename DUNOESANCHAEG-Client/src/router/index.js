@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from "../pages/Home.vue";
 import MainLayout from "../layouts/MainLayout.vue";
+import Statistics from "../pages/Statistics.vue";
+import Notice from "../pages/Notice.vue";
+import Profile from "../pages/Profile.vue";
+
 
 const routes = [
   {
@@ -11,8 +15,22 @@ const routes = [
         path: '', // 기본 경로일 때 Home을 표시
         name: 'Home',
         component: Home,
+      },
+      {
+        path: 'statistics',
+        name: 'Statistics',
+        component: Statistics,
+      },
+      {
+        path: 'notice',
+        name: 'Notice',
+        component: Notice,
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile,
       }
-      // 다른 페이지들(통계, 프로필 등)도 여기에 추가
     ],
   },
 ];
