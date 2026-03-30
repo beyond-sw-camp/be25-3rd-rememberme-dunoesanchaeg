@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout.vue";
 import Statistics from "../pages/Statistics.vue";
 import Notice from "../pages/Notice.vue";
 import Profile from "../pages/Profile.vue";
+import Login from "../pages/Login.vue";
 
 const routes = [
   {
@@ -14,6 +15,11 @@ const routes = [
         path: '', // 기본 경로일 때 Home을 표시
         name: 'Home',
         component: Home,
+      },
+      {
+        path: 'login',
+        name: 'Login',
+        component: Login,
       },
       {
         path: 'statistics',
