@@ -1,77 +1,67 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center min-h-screen bg-[--color-brand-bg] p-6 text-center"
+    class="min-h-screen bg-[--color-brand-bg] flex items-center justify-center p-6"
   >
-    <div class="mb-16">
-      <h1
-        class="text-4xl font-black text-[--color-brand-green] mb-3 track-tight"
-      >
-        두뇌산책
-      </h1>
-      <p class="text-gray-600 text-base font-medium">
-        기억을 잇고, 건강을 걷다
-      </p>
-    </div>
+    <section
+      class="w-full max-w-sm bg-white p-10 rounded-[--radius-xl] shadow-sm border border-gray-50 flex flex-col items-center text-center space-y-12"
+    >
+      <div class="space-y-2">
+        <h1 class="text-3xl font-black text-brand-green tracking-tight">
+          두뇌산책
+        </h1>
+        <p class="text-gray-500 text-sm font-medium">
+          기억을 잇고, 건강을 걷다
+        </p>
+      </div>
 
-    <div class="w-full flex justify-center items-center">
-      <a
-        href="#"
-        @click.prevent="handleKakaoLogin"
-        class="transition-all hover:opacity-90 active:scale-[0.98]"
-      >
-        <img
-          src="@/assets/image/kakao_login_medium_narrow.png"
-          alt="카카오 로그인"
-          class="block sm:hidden w-auto h-12"
-        />
+      <div class="space-y-8 w-full">
+        <div class="space-y-2">
+          <p class="text-xl font-bold text-brand-green leading-tight">
+            반가워요
+          </p>
+          <p class="text-gray-700 font-medium">
+            건강한 두뇌를 위해<br />
+            간편하게 시작해보세요.
+          </p>
+        </div>
 
-        <img
-          src="@/assets/image/kakao_login_medium_wide.png"
-          alt="카카오 로그인"
-          class="hidden sm:block md:hidden w-auto h-12"
-        />
+        <a
+          href="#"
+          @click.prevent="loginWithKakao"
+          class="w-full flex justify-center active:scale-[0.98] transition-all"
+        >
+          <img
+            src="../assets/image/kakao_login_medium_narrow.png"
+            alt="카카오 로그인"
+            class="h-12 w-auto shadow-md rounded-xl"
+          />
+        </a>
+      </div>
 
-        <img
-          src="@/assets/image/kakao_login_large_narrow.png"
-          alt="카카오 로그인"
-          class="hidden md:block lg:hidden w-auto h-14"
-        />
-
-        <img
-          src="@/assets/image/kakao_login_large_wide.png"
-          alt="카카오 로그인"
-          class="hidden lg:block w-auto h-16"
-        />
-      </a>
-    </div>
-
-    <div class="absolute bottom-10 text-xs text-gray-400">
-      © 2026 Brainwalk Inc. All rights reserved.
-    </div>
+      <footer class="pt-6 w-full space-y-4 border-t border-gray-100">
+        <p class="text-xs text-gray-400 font-bold">로그인에 문제가 있나요?</p>
+        <div
+          class="flex justify-center items-center gap-4 text-xs text-gray-400 font-bold"
+        >
+          <button class="hover:text-brand-green">고객센터 문의</button>
+          <span class="text-gray-200">|</span>
+          <button class="hover:text-brand-green">도움말</button>
+        </div>
+      </footer>
+    </section>
   </div>
 </template>
 
 <script setup>
-// 카카오 로그인 핸들러
-const handleKakaoLogin = () => {
-  // .env 파일에 설정해둔 값을 가져옵니다.
+const loginWithKakao = () => {
   const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
-  // 필수 값이 없으면 경고 (개발자용)
   if (!clientId || !redirectUri) {
-    console.error(
-      ".env 파일에 VITE_KAKAO_CLIENT_ID 또는 VITE_KAKAO_REDIRECT_URI가 설정되지 않았습니다.",
-    );
-    alert("로그인 설정 오류가 발생했습니다.");
+    alert("환경 변수 설정이 필요합니다!");
     return;
   }
 
-  // 카카오 인증 페이지로 이동 (인가 코드 요청)
-  location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+  //location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
 };
 </script>
-
-<style scoped>
-/* 필요한 경우 컴포넌트 전용 스타일 추가 */
-</style>
