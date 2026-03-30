@@ -1,7 +1,15 @@
+<template>
+  <MainLayout />
+</template>
+
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import MainLayout from './layouts/MainLayout.vue';
 </script>
 
-<template>
-  <HelloWorld />
-</template>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+</style>

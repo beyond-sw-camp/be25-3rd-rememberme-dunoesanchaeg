@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  /* 1. Tailwind v4 전용 테마 정의 (bg-brand-green, text-brand-green 자동 생성) */
+  --color-brand-green: #2D7A36;
+  --color-brand-bg: #F6FAFF;
+  --color-brand-blue: #E8F2FF;
+  
+  /* 2. 커스텀 수치 변수 (rounded-[--radius-card] 등으로 사용) */
+  --radius-card: 2rem;
+}
+
+/* 3. 외부 라이브러리(Vant) 및 표준 CSS 변수 맵핑 */
+@layer base {
+  :root {
+    --van-nav-bar-height: 64px;
+    --van-nav-bar-title-text-color: var(--color-brand-green);
+    
+    --van-tag-default-color: #8A968D;
+    --van-tag-round-border-radius: 999px;
+    --van-tag-medium-padding: 4px 12px;
+
+    --van-button-primary-background: var(--color-brand-green);
+    --van-button-border-radius: 1rem;
+  }
+}
