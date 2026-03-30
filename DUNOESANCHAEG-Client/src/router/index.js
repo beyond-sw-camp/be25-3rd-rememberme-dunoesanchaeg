@@ -4,9 +4,19 @@ import MainLayout from "../layouts/MainLayout.vue";
 import Statistics from "../pages/Statistics.vue";
 import Notice from "../pages/Notice.vue";
 import Profile from "../pages/Profile.vue";
-import Login from "../pages/Login.vue";
+import KakaoCallback from "../pages/KakaoCallback.vue";
 
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import("../pages/Login.vue"), // MainLayout 바깥 todo 수정 필요
+  },
+  {
+    path: '/kakao-auth',
+    name: 'KakaoCallback',
+    component: KakaoCallback,
+  },
   {
     path: '/',
     component: MainLayout, // 전체 틀(네비바 포함)을 레이아웃으로 설정
@@ -15,11 +25,6 @@ const routes = [
         path: '', // 기본 경로일 때 Home을 표시
         name: 'Home',
         component: Home,
-      },
-      {
-        path: 'login',
-        name: 'Login',
-        component: Login,
       },
       {
         path: 'statistics',
@@ -65,6 +70,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+
+router.beforeEach((to, from) => {
+  const isAuthenticated = !!localStorage.getItem('token');
+  const publicPages = ['Login', 'KakaoCallback'];
+  const isPublicPage = publicPages.includes(to.name);
+
+  if (!isPublicPage && !isAuthenticated) {
+    return { name: 'Login' };
+  }
+  if (to.name === 'Login' && isAuthenticated) {
+    return { name: 'Home' };
+  }
+  return true;
 });
 
 export default router;
