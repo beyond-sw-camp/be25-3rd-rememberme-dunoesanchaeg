@@ -70,7 +70,7 @@
       <button 
         @click="checkAnswer"
         :disabled="currentProblem.userSelection.length < currentProblem.displayWords.length"
-        class="w-full py-4 rounded-2xl font-bold text-xl text-white transition-all shadow-lg"
+        class="w-full py-4 rounded-2xl font-bold text-xl !text-white transition-all shadow-lg"
         :class="currentProblem.userSelection.length < currentProblem.displayWords.length ? 'bg-gray-300' : 'bg-brand-green active:scale-95 shadow-green-900/20'"
       >
         제출하기
@@ -81,7 +81,8 @@
 
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
+import { useTimer } from '../../composables/useTimer.js';
 
 const router = useRouter();
 
@@ -106,11 +107,18 @@ const MASTER_WORD_POOL = [
 // 2. 상태 관리
 const currentRound = ref(1);
 const correctCount = ref(0);
-const timeLeft = ref(0); 
 const isGameOver = ref(false);
 const isMemorizing = ref(true); 
-let timerInterval = null;
 let wordSequenceTimeout = []; // 여러 타임아웃 관리를 위해 배열로 변경
+
+const {
+  timeLeft,
+  startTimer: baseStartTimer,
+  stopTimer: baseStopTimer,
+  pauseTimer
+} = useTimer(0, () => {
+  isMemorizing.value ? startSelectionPhase() : checkAnswer();
+});
 
 // 3. 문제 데이터 (매 라운드 동적으로 할당됨)
 const displayList = ref([]);
@@ -122,6 +130,32 @@ const currentProblem = reactive({
 });
 
 const gameResults = ref([]);
+
+
+onBeforeRouteLeave((to, from) => {
+  // 게임이 종료되지 않은 상태에서 페이지를 떠나려 할 때
+  if (!isGameOver.value) {
+    // 1. 타이머 일시 정지
+    pauseTimer();
+
+    // 2. 사용자 확인
+    const confirmLeave = window.confirm(
+      "게임이 아직 진행 중입니다!\n지금 나가시면 진행 데이터가 초기화됩니다. 정말 나가시겠습니까?"
+    );
+
+    if (confirmLeave) {
+      // 나가는 것에 동의하면 이동 허용 (true 반환)
+      return true;
+    } else {
+      // 취소하면 이동 차단 (false 반환)하고 타이머 재개
+      resumeTimer(timeLeft.value);
+      return false;
+    }
+  }
+
+  // 게임 종료 상태라면 이동 허용
+  return true;
+});
 
 const shuffle = (array) => {
   const newArray = [...array];
@@ -159,18 +193,15 @@ const startWordDisplaySequence = () => {
 
 const startTimer = (time) => {
   stopTimer();
-  timeLeft.value = time;
-  timerInterval = setInterval(() => {
-    if (timeLeft.value > 0) {
-      timeLeft.value--;
-    } else {
-      isMemorizing.value ? startSelectionPhase() : checkAnswer();
-    }
-  }, 1000);
+  baseStartTimer(time);
+};
+
+const resumeTimer = (remainingTime) => {
+  baseStartTimer(remainingTime);
 };
 
 const stopTimer = () => {
-  if (timerInterval) clearInterval(timerInterval);
+  baseStopTimer();
   wordSequenceTimeout.forEach(t => clearTimeout(t)); 
 };
 
@@ -225,7 +256,8 @@ const nextStep = () => {
     currentRound.value++;
     resetRound();
   } else {
-    isGameOver.value = true;
+    // 모든 라운드 종료 시 이탈 방지 가드를 통과시키기 위해 true 설정
+    isGameOver.value = true; 
     stopTimer();
     alert(`게임 종료! 맞힌 개수: ${correctCount.value} / ${TOTAL_ROUNDS}`);
     router.push('/'); 
