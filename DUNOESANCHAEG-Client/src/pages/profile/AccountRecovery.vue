@@ -44,7 +44,7 @@
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import { getRoleFromToken } from '@/utils/jwtUtils'; // 🎯 우리가 만든 도구 활용
+import { getRoleFromToken } from '@/utils/jwtUtils';
 import logoGreen from '@/assets/image/logo_profile.png';
 
 const router = useRouter();
@@ -55,9 +55,6 @@ const handleRecovery = async () => {
 
   try {
     const token = localStorage.getItem('token');
-
-    // 1. 복구 API 호출 (POST /api/v1/members/me/recovery)
-    // Request Body에 Action.RESTORE 전달
     const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/members/me/recovery`,
         { action: 'RESTORE' },
@@ -65,12 +62,9 @@ const handleRecovery = async () => {
     );
 
     if (response.data.status === 200) {
-      const recoveryData = response.data.data; // RecoveryResponse 규격
-
-      // 2. 중요: 새 토큰으로 교체 (Role이 USER로 바뀐 토큰임)
+      const recoveryData = response.data.data;
       localStorage.setItem('token', recoveryData.accessToken);
 
-      // 3. 권한 정보 업데이트
       const newRole = getRoleFromToken(recoveryData.accessToken);
       localStorage.setItem('userRole', newRole || 'USER');
       localStorage.setItem('isProfileCompleted', String(recoveryData.isProfileCompleted));
@@ -78,17 +72,14 @@ const handleRecovery = async () => {
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');
 
-      // 4. 홈으로 이동
       router.replace({ name: 'Home' });
     }
   } catch (error: any) {
     closeToast();
-    // 30일이 지났거나 권한이 없는 경우 에러 메시지 출력
     showToast(error.response?.data?.message || '복구에 실패했습니다. 다시 시도해주세요.');
   }
 };
 
-// 로그아웃 처리 (복구 안 함)
 const handleLogout = () => {
   localStorage.clear();
   router.replace({ name: 'Login' });

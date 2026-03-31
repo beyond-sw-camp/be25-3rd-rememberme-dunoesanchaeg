@@ -21,7 +21,6 @@ import instance from '@/api/instance';
 import { useAuthStore } from '@/stores/auth';
 import { getRoleFromToken } from '@/utils/jwtUtils';
 
-/* 🎯 백엔드 공통 응답 규격 정의 (JwtFilter.java 참고) */
 interface ApiErrorResponse {
   status: number;
   message: string;
@@ -46,10 +45,7 @@ onMounted(async () => {
         const role = getRoleFromToken(token);
 
         if (role) {
-          /* 🎯 스토어에 모든 로그인 정보 통합 저장 */
           authStore.setLoginInfo(token, role, isCompleted);
-
-          // 권한 및 상태에 따른 분기 (우선순위: 탈퇴 > 프로필 미완료 > 홈)
           if (role === 'WITHDRAWN') {
             showToast('탈퇴 신청 계정입니다. 복구를 진행해주세요.');
             router.replace({ name: 'AccountRecovery' });
@@ -63,7 +59,6 @@ onMounted(async () => {
         }
       }
     } catch (error) {
-      /* 🎯 에러 타입 구체화 (any 제거) */
       const axiosError = error as AxiosError<ApiErrorResponse>;
       const errorMessage = axiosError.response?.data?.message || '로그인 중 오류가 발생했습니다.';
 

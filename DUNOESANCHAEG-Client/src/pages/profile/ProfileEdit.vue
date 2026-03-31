@@ -134,13 +134,11 @@ import logoGreen from '../../assets/image/logo_profile.png';
 
 const router = useRouter();
 
-// [1] 날짜 기준 (현재 서버 시간 기준: 2026-03-31)
 const today = new Date();
 const currentYear = today.getFullYear();
 const currentMonth = today.getMonth() + 1;
 const currentDay = today.getDate();
 
-// [2] 데이터 상태 관리
 const initialData = ref({});
 const form = ref({
   name: '',
@@ -155,7 +153,6 @@ const form = ref({
 
 const birth = ref({ year: '1960', month: '01', day: '01' });
 
-// 전화번호 자동 포맷팅 함수 (010-0000-0000)
 const formatPhone = (val) => {
   if (!val) return '';
   const clean = val.replace(/[^0-9]/g, '');
@@ -164,7 +161,6 @@ const formatPhone = (val) => {
   return clean.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
 };
 
-// 전화번호 실시간 감시
 watch(() => form.value.phone, (newVal) => {
   form.value.phone = formatPhone(newVal);
 });
@@ -172,7 +168,6 @@ watch(() => form.value.guardianPhone, (newVal) => {
   form.value.guardianPhone = formatPhone(newVal);
 });
 
-// [3] 미래 날짜 차단 Computed 로직
 const years = computed(() => Array.from({ length: 100 }, (_, i) => String(currentYear - i)));
 
 const availableMonths = computed(() => {
@@ -201,7 +196,6 @@ watch([() => birth.value.year, () => birth.value.month], () => {
   }
 });
 
-// [4] 클릭 시 빈칸 처리
 const clearField = (field) => {
   if (form.value[field] === initialData.value[field]) {
     form.value[field] = '';
@@ -214,7 +208,6 @@ const restoreField = (field) => {
   }
 };
 
-// [5] 초기 데이터 로드 (GET /members/me)
 const fetchInitialData = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -225,10 +218,10 @@ const fetchInitialData = async () => {
     const data = response.data.data;
     const mappedData = {
       name: data.name || '',
-      phone: formatPhone(data.phone || ''), // 로드 시 포맷팅 적용
+      phone: formatPhone(data.phone || ''),
       guardianConsent: data.guardianConsent || false,
       guardianEmail: data.guardianEmail || '',
-      guardianPhone: formatPhone(data.guardianPhone || ''), // 로드 시 포맷팅 적용
+      guardianPhone: formatPhone(data.guardianPhone || ''),
       fontSize: data.fontSize || 'MEDIUM',
       isHighContrast: data.isHighContrast || false
     };
@@ -245,14 +238,11 @@ const fetchInitialData = async () => {
   }
 };
 
-// [6] 데이터 저장 (PATCH /members/me)
 const handleSave = async () => {
-  // 서버 전송 시 하이픈 제거
   const rawPhone = form.value.phone.replace(/[^0-9]/g, '');
   const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;
   const formattedBirthDate = `${birth.value.year}-${birth.value.month}-${birth.value.day}`;
 
-  // 비즈니스 로직 검증
   if (form.value.guardianConsent) {
     if (!form.value.guardianEmail && !rawGuardianPhone) {
       return showToast('보호자 동의 시 이메일 또는 전화번호 중 하나는 필수입니다.');

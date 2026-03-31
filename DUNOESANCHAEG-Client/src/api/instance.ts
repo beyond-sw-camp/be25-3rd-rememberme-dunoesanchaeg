@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth';
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    withCredentials: true, // 🎯 중요: 쿠키를 주고받기 위해 설정
+    withCredentials: true,
 });
 
 instance.interceptors.request.use((config) => {
@@ -13,3 +13,5 @@ instance.interceptors.request.use((config) => {
     }
     return config;
 });
+
+export default instance;

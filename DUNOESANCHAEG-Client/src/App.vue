@@ -13,7 +13,7 @@
 import { useRoute } from 'vue-router';
 import MainLayout from './layouts/MainLayout.vue';
 
-const route = useRoute(); // 🎯 현재 페이지 정보를 가져옵니다.
+const route = useRoute();
 </script>
 
 <style>

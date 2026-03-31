@@ -165,13 +165,11 @@ import logoGreen from '../../assets/image/logo_profile.png';
 
 const router = useRouter();
 
-// [1] 날짜 기준 (현재 서버 시간 기준: 2026-03-31)
 const today = new Date();
 const currentYear = today.getFullYear();
 const currentMonth = today.getMonth() + 1;
 const currentDay = today.getDate();
 
-// [2] 폼 상태 관리 (AdditionalInfoRequest 규격)
 const form = ref({
   name: '',
   birthDate: '',
@@ -187,7 +185,6 @@ const initialData = ref({
   name: '', phone: '', guardianEmail: '', guardianPhone: ''
 });
 
-// 전화번호 포맷팅 함수 (010-0000-0000)
 const formatPhone = (val) => {
   if (!val) return '';
   const clean = val.replace(/[^0-9]/g, '');
@@ -227,7 +224,6 @@ const availableDays = computed(() => {
   return Array.from({ length: max }, (_, i) => (i + 1 < 10 ? '0' + (i + 1) : String(i + 1)));
 });
 
-// [4] 데이터 저장 (PUT /api/v1/members/profile)
 const handleComplete = async () => {
   const rawPhone = form.value.phone.replace(/[^0-9]/g, '');
   const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;

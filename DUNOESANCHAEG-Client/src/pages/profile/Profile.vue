@@ -105,9 +105,7 @@ const contrastMode = ref(false);
 const gameReminder = ref(true);
 const dailyRoutine = ref(true);
 
-/**
- * 1. 내 정보 조회 API 연동 (@GetMapping("/me"))
- */
+
 const fetchUserData = async () => {
   try {
     const token = localStorage.getItem('token');
