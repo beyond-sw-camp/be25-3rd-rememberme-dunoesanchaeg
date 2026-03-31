@@ -12,16 +12,19 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import("../pages/login/Login.vue"), // MainLayout 바깥 todo 수정 필요
+    meta: { hideLayout: true }
   },
   {
     path: '/account-recovery',
     name: 'AccountRecovery',
     component: () => import('../pages/profile/AccountRecovery.vue'),
+    meta: { hideLayout: true }
   },
   // {
   //   path: '/kakao-auth',
   //   name: 'KakaoCallback',
   //   component: KakaoCallback,
+  //   meta: { hideLayout: true }
   // },
   {
     path: '/',
@@ -45,7 +48,8 @@ const routes = [
       {
         path: 'profile/complete',
         name: 'ProfileComplete',
-        component: () => import('../pages/profile/ProfileComplete.vue')
+        component: () => import('../pages/profile/ProfileComplete.vue'),
+        meta: { hideLayout: true }
       },
       {
         path: 'profile',
