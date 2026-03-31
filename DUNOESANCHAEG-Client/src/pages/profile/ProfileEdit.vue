@@ -6,7 +6,6 @@
     </header>
 
     <div class="bg-gray-200 rounded-[2.5rem] p-8 shadow-inner">
-
       <div class="mb-6">
         <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">이름</label>
         <input
@@ -39,6 +38,7 @@
         <input
             v-model="form.phone"
             type="tel"
+            maxlength="13"
             @focus="clearField('phone')"
             @blur="restoreField('phone')"
             class="w-full p-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-brand-green outline-none text-xl font-medium transition-all"
@@ -48,20 +48,31 @@
 
       <hr class="border-gray-300 mb-8" />
 
-      <div class="mb-8 text-center">
-        <label class="block text-lg font-bold text-gray-700 mb-4 ml-2 text-left">보호자 동의</label>
-        <div class="flex gap-4 justify-center">
+      <div class="mb-8 w-full">
+        <label class="!block text-lg font-bold text-gray-700 mb-4 ml-2">보호자 활동 공유 동의</label>
+
+        <div class="!grid !grid-cols-2 !gap-2 !w-full">
           <button
               @click="form.guardianConsent = true"
-              :class="form.guardianConsent ? 'bg-green-500 text-white shadow-md' : 'bg-white text-gray-400'"
-              class="px-10 py-3 rounded-xl font-black text-xl transition-all active:scale-95"
+              type="button"
+              :class="[
+          form.guardianConsent
+            ? '!bg-brand-green !text-white'
+            : '!bg-white !text-gray-400'
+        ]"
+              class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
           >
             동의
           </button>
           <button
               @click="form.guardianConsent = false"
-              :class="!form.guardianConsent ? 'bg-gray-500 text-white shadow-md' : 'bg-white text-gray-400'"
-              class="px-10 py-3 rounded-xl font-black text-xl transition-all active:scale-95"
+              type="button"
+              :class="[
+          !form.guardianConsent
+            ? '!bg-gray-500 !text-white'
+            : '!bg-white !text-gray-400'
+        ]"
+              class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
           >
             미동의
           </button>
@@ -85,6 +96,7 @@
           <input
               v-model="form.guardianPhone"
               type="tel"
+              maxlength="13"
               @focus="clearField('guardianPhone')"
               @blur="restoreField('guardianPhone')"
               class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium"
@@ -97,13 +109,15 @@
     <div class="flex gap-4 mt-12">
       <button
           @click="handleSave"
-          class="flex-1 py-5 bg-gray-300 text-gray-800 font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all"
+          type="button"
+          class="flex-1 !py-5 !bg-brand-green !text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
       >
         확인
       </button>
       <button
           @click="router.back()"
-          class="flex-1 py-5 bg-gray-400 text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all"
+          type="button"
+          class="flex-1 !py-5 !bg-gray-400 !text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
       >
         취소
       </button>
@@ -116,7 +130,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import logoGreen from '../assets/image/logo_profile.png';
+import logoGreen from '../../assets/image/logo_profile.png';
 
 const router = useRouter();
 
@@ -127,7 +141,7 @@ const currentMonth = today.getMonth() + 1;
 const currentDay = today.getDate();
 
 // [2] 데이터 상태 관리
-const initialData = ref({}); // "Clear on Focus" 로직을 위한 원본 백업
+const initialData = ref({});
 const form = ref({
   name: '',
   phone: '',
@@ -135,11 +149,28 @@ const form = ref({
   guardianConsent: false,
   guardianEmail: '',
   guardianPhone: '',
-  fontSize: 'MEDIUM', // 유저 설정값 유지용
-  isHighContrast: false // 유저 설정값 유지용
+  fontSize: 'MEDIUM',
+  isHighContrast: false
 });
 
 const birth = ref({ year: '1960', month: '01', day: '01' });
+
+// 전화번호 자동 포맷팅 함수 (010-0000-0000)
+const formatPhone = (val) => {
+  if (!val) return '';
+  const clean = val.replace(/[^0-9]/g, '');
+  if (clean.length <= 3) return clean;
+  if (clean.length <= 7) return clean.replace(/(\d{3})(\d{1,4})/, '$1-$2');
+  return clean.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
+};
+
+// 전화번호 실시간 감시
+watch(() => form.value.phone, (newVal) => {
+  form.value.phone = formatPhone(newVal);
+});
+watch(() => form.value.guardianPhone, (newVal) => {
+  form.value.guardianPhone = formatPhone(newVal);
+});
 
 // [3] 미래 날짜 차단 Computed 로직
 const years = computed(() => Array.from({ length: 100 }, (_, i) => String(currentYear - i)));
@@ -163,7 +194,6 @@ const availableDays = computed(() => {
   });
 });
 
-// 연/월 변경 시 일(day) 보정 watch
 watch([() => birth.value.year, () => birth.value.month], () => {
   const maxDay = availableDays.value.length;
   if (parseInt(birth.value.day) > maxDay) {
@@ -171,7 +201,7 @@ watch([() => birth.value.year, () => birth.value.month], () => {
   }
 });
 
-// [4] 클릭 시 빈칸 처리 (UX 디테일)
+// [4] 클릭 시 빈칸 처리
 const clearField = (field) => {
   if (form.value[field] === initialData.value[field]) {
     form.value[field] = '';
@@ -195,10 +225,10 @@ const fetchInitialData = async () => {
     const data = response.data.data;
     const mappedData = {
       name: data.name || '',
-      phone: data.phone || '',
+      phone: formatPhone(data.phone || ''), // 로드 시 포맷팅 적용
       guardianConsent: data.guardianConsent || false,
       guardianEmail: data.guardianEmail || '',
-      guardianPhone: data.guardianPhone || '',
+      guardianPhone: formatPhone(data.guardianPhone || ''), // 로드 시 포맷팅 적용
       fontSize: data.fontSize || 'MEDIUM',
       isHighContrast: data.isHighContrast || false
     };
@@ -217,32 +247,30 @@ const fetchInitialData = async () => {
 
 // [6] 데이터 저장 (PATCH /members/me)
 const handleSave = async () => {
-  // 1. 데이터 가공 (전화번호 하이픈 제거)
-  const processedPhone = form.value.phone.replace(/[^0-9]/g, '');
-  const processedGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;
+  // 서버 전송 시 하이픈 제거
+  const rawPhone = form.value.phone.replace(/[^0-9]/g, '');
+  const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;
   const formattedBirthDate = `${birth.value.year}-${birth.value.month}-${birth.value.day}`;
 
-  // 2. 비즈니스 로직: 보호자 동의 시 연락처 필수 체크
+  // 비즈니스 로직 검증
   if (form.value.guardianConsent) {
-    if (!form.value.guardianEmail && !processedGuardianPhone) {
+    if (!form.value.guardianEmail && !rawGuardianPhone) {
       return showToast('보호자 동의 시 이메일 또는 전화번호 중 하나는 필수입니다.');
     }
   }
 
-  // 3. 필수 기본값 검증
   if (!form.value.name) return showToast('이름을 입력해주세요.');
-  if (processedPhone.length < 10) return showToast('올바른 본인 전화번호를 입력해주세요.');
+  if (rawPhone.length < 10) return showToast('올바른 본인 전화번호를 입력해주세요.');
 
-  // 4. DTO 규격 (UpdateMemberRequest) 구성
   const requestData = {
     name: form.value.name,
-    phone: processedPhone,
+    phone: rawPhone,
     birthDate: formattedBirthDate,
     guardianConsent: form.value.guardianConsent,
     guardianEmail: form.value.guardianEmail || null,
-    guardianPhone: processedGuardianPhone,
-    fontSize: form.value.fontSize, // 서버에서 가져온 기존 설정값 유지
-    isHighContrast: form.value.isHighContrast // 서버에서 가져온 기존 설정값 유지
+    guardianPhone: rawGuardianPhone,
+    fontSize: form.value.fontSize,
+    isHighContrast: form.value.isHighContrast
   };
 
   showLoadingToast({ message: '저장 중...', forbidClick: true });
@@ -268,21 +296,19 @@ onMounted(fetchInitialData);
 </script>
 
 <style scoped>
-/* 입력창 포커스 효과 */
 input:focus {
   background-color: #ffffff;
   box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.1);
 }
 
-/* 셀렉트 박스 디자인 (화살표 커스텀) */
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.7rem center;
-  background-size: 1em;
+  background-size: 1.2em;
   padding-right: 2rem;
 }
 

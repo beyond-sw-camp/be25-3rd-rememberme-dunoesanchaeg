@@ -93,8 +93,8 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { showConfirmDialog, showToast } from 'vant';
-import logoGreen from '../assets/image/logo_profile.png';
-import profileDefault from '../assets/image/profile_default.png';
+import logoGreen from '../../assets/image/logo_profile.png';
+import profileDefault from '../../assets/image/profile_default.png';
 
 const router = useRouter();
 

@@ -54,8 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import logoImage from '../assets/image/logo_green.png';
-import kakaoLoginBtnImage from '../assets/image/kakao_login_medium_narrow.png';
+import logoImage from '../../assets/image/logo_green.png';
+import kakaoLoginBtnImage from '../../assets/image/kakao_login_medium_narrow.png';
 
 const loginWithKakao = () => {
   const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
