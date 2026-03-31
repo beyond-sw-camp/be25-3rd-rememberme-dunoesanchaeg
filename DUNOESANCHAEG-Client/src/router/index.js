@@ -8,11 +8,11 @@ import KakaoCallback from "../pages/KakaoCallback.vue";
 
 const routes = [
     // TODO 마지막에 주석 해제 해야함
-  // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   component: () => import("../pages/Login.vue"), // MainLayout 바깥 todo 수정 필요
-  // },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import("../pages/Login.vue"), // MainLayout 바깥 todo 수정 필요
+  },
   // {
   //   path: '/kakao-auth',
   //   name: 'KakaoCallback',
@@ -39,8 +39,18 @@ const routes = [
       },
       {
         path: 'profile',
-        name: 'Profile',
-        component: Profile,
+        children: [
+          {
+            path: '', // /profile 주소일 때
+            name: 'Profile',
+            component: Profile,
+          },
+          {
+            path: 'edit', // /profile/edit 주소일 때
+            name: 'ProfileEdit',
+            component: () => import("../pages/ProfileEdit.vue"),
+          },
+        ]
       },
       {
         path: 'minigame',
