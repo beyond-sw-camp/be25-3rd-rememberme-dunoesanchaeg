@@ -13,6 +13,11 @@ const routes = [
     name: 'Login',
     component: () => import("../pages/login/Login.vue"), // MainLayout 바깥 todo 수정 필요
   },
+  {
+    path: '/account-recovery',
+    name: 'AccountRecovery',
+    component: () => import('../pages/profile/AccountRecovery.vue'),
+  },
   // {
   //   path: '/kakao-auth',
   //   name: 'KakaoCallback',
