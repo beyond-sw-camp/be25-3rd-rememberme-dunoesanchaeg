@@ -16,64 +16,61 @@
 import { Loading as VanLoading, showToast } from 'vant';
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import { getRoleFromToken } from '../../utils/jwtUtils'; // 🎯 직접 만든 유틸리티 임포트
+import type { AxiosError } from 'axios'; // 🎯 Axios 에러 타입 임포트
+import instance from '@/api/instance';
+import { useAuthStore } from '@/stores/auth';
+import { getRoleFromToken } from '@/utils/jwtUtils';
+
+/* 🎯 백엔드 공통 응답 규격 정의 (JwtFilter.java 참고) */
+interface ApiErrorResponse {
+  status: number;
+  message: string;
+  data: null;
+}
 
 const route = useRoute();
 const router = useRouter();
+const authStore = useAuthStore();
 
 onMounted(async () => {
   const code = route.query.code;
 
   if (code) {
     try {
-      // 1. 카카오 인증 코드를 백엔드로 전송
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/kakao-auth`, {
-        code: code
-      });
-
-      // 🎯 백엔드 응답 데이터 추출 (이 시점에 데이터가 생성됩니다)
+      const response = await instance.post('/auth/kakao-auth', { code });
       const loginData = response.data.data;
       const token = loginData.accessToken;
-      const isProfileCompleted = loginData.isProfileCompleted;
+      const isCompleted = loginData.isProfileCompleted; //
 
       if (token) {
-        // 2. 로컬 스토리지에 토큰 저장
-        localStorage.setItem('token', token);
-
-        // 3. 🎯 토큰에서 직접 Role 추출하여 저장
         const role = getRoleFromToken(token);
-        if(role){
-          localStorage.setItem('userRole', role);
-          localStorage.setItem('isProfileCompleted', String(isProfileCompleted));
-        }else {
-          console.error("role 정보 가져오기 실패");
-        }
 
-        // 4. 권한 및 프로필 상태에 따른 페이지 리다이렉트 (우선순위 중요!)
-        if (role === 'WITHDRAWN') {
-          // 탈퇴 상태라면 무조건 복구 페이지로
-          showToast('탈퇴 신청 계정입니다. 복구를 진행해주세요.');
-          router.replace({ name: 'AccountRecovery' });
-        } else if (!isProfileCompleted) {
-          // 탈퇴가 아니고 프로필이 미완성이라면
-          showToast('추가 정보 입력이 필요합니다.');
-          router.replace({ name: 'ProfileComplete' });
-        } else {
-          // 모든 조건을 통과한 일반 유저
-          showToast('반갑습니다!');
-          router.replace({ name: 'Home' });
+        if (role) {
+          /* 🎯 스토어에 모든 로그인 정보 통합 저장 */
+          authStore.setLoginInfo(token, role, isCompleted);
+
+          // 권한 및 상태에 따른 분기 (우선순위: 탈퇴 > 프로필 미완료 > 홈)
+          if (role === 'WITHDRAWN') {
+            showToast('탈퇴 신청 계정입니다. 복구를 진행해주세요.');
+            router.replace({ name: 'AccountRecovery' });
+          } else if (!authStore.isProfileCompleted) {
+            showToast('추가 정보 입력이 필요합니다.');
+            router.replace({ name: 'ProfileComplete' });
+          } else {
+            showToast('반갑습니다!');
+            router.replace({ name: 'Home' });
+          }
         }
       }
     } catch (error) {
-      console.error("로그인 처리 실패:", error);
-      showToast('로그인에 실패했습니다.');
+      /* 🎯 에러 타입 구체화 (any 제거) */
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+      const errorMessage = axiosError.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+
+      console.error("로그인 에러:", errorMessage);
+      showToast(errorMessage);
       router.replace({ name: 'Login' });
     }
   }
 });
 </script>
-
-<style scoped>
-
-</style>
