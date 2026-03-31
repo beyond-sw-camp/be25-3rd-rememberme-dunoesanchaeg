@@ -61,41 +61,41 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to) => {
-  const authStore = useAuthStore();
-  const token = localStorage.getItem('token');
-  const role = getRoleFromToken(token);
-  const isProfileCompleted = localStorage.getItem('isProfileCompleted') === 'true';
-
-  const publicPages = ['Login', 'KakaoCallback'];
-  const targetName = to.name;
-  const isPublicPage = publicPages.includes(targetName);
-
-  if (!isPublicPage && !token) {
-    return { name: 'Login' };
-  }
-
-  if (token) {
-    if (isPublicPage) {
-      return { name: 'Home' };
-    }
-
-    if (role === 'WITHDRAWN') {
-      if (targetName !== 'AccountRecovery') {
-        return { name: 'AccountRecovery' };
-      }
-      return true;
-    }
-
-    if (!isProfileCompleted && targetName !== 'ProfileComplete') {
-      return { name: 'ProfileComplete' };
-    }
-
-    if (isProfileCompleted && targetName === 'ProfileComplete') {
-      return { name: 'Home' };
-    }
-  }
-  return true;
-});
+// router.beforeEach((to) => {
+//   const authStore = useAuthStore();
+//   const token = localStorage.getItem('token');
+//   const role = getRoleFromToken(token);
+//   const isProfileCompleted = localStorage.getItem('isProfileCompleted') === 'true';
+//
+//   const publicPages = ['Login', 'KakaoCallback'];
+//   const targetName = to.name;
+//   const isPublicPage = publicPages.includes(targetName);
+//
+//   if (!isPublicPage && !token) {
+//     return { name: 'Login' };
+//   }
+//
+//   if (token) {
+//     if (isPublicPage) {
+//       return { name: 'Home' };
+//     }
+//
+//     if (role === 'WITHDRAWN') {
+//       if (targetName !== 'AccountRecovery') {
+//         return { name: 'AccountRecovery' };
+//       }
+//       return true;
+//     }
+//
+//     if (!isProfileCompleted && targetName !== 'ProfileComplete') {
+//       return { name: 'ProfileComplete' };
+//     }
+//
+//     if (isProfileCompleted && targetName === 'ProfileComplete') {
+//       return { name: 'Home' };
+//     }
+//   }
+//   return true;
+// });
 
 export default router;
