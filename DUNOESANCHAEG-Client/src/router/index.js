@@ -7,16 +7,17 @@ import Profile from "../pages/Profile.vue";
 import KakaoCallback from "../pages/KakaoCallback.vue";
 
 const routes = [
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import("../pages/Login.vue"), // MainLayout 바깥 todo 수정 필요
-  },
-  {
-    path: '/kakao-auth',
-    name: 'KakaoCallback',
-    component: KakaoCallback,
-  },
+    // TODO 마지막에 주석 해제 해야함
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: () => import("../pages/Login.vue"), // MainLayout 바깥 todo 수정 필요
+  // },
+  // {
+  //   path: '/kakao-auth',
+  //   name: 'KakaoCallback',
+  //   component: KakaoCallback,
+  // },
   {
     path: '/',
     component: MainLayout, // 전체 틀(네비바 포함)을 레이아웃으로 설정
@@ -73,18 +74,18 @@ const router = createRouter({
 });
 
 
-router.beforeEach((to, from) => {
-  const isAuthenticated = !!localStorage.getItem('token');
-  const publicPages = ['Login', 'KakaoCallback'];
-  const isPublicPage = publicPages.includes(to.name);
-
-  if (!isPublicPage && !isAuthenticated) {
-    return { name: 'Login' };
-  }
-  if (to.name === 'Login' && isAuthenticated) {
-    return { name: 'Home' };
-  }
-  return true;
-});
+// router.beforeEach((to, from) => {
+//   const isAuthenticated = !!localStorage.getItem('token');
+//   const publicPages = ['Login', 'KakaoCallback'];
+//   const isPublicPage = publicPages.includes(to.name);
+//
+//   if (!isPublicPage && !isAuthenticated) {
+//     return { name: 'Login' };
+//   }
+//   if (to.name === 'Login' && isAuthenticated) {
+//     return { name: 'Home' };
+//   }
+//   return true;
+// });
 
 export default router;
