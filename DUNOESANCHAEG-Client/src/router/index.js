@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {useAuthStore} from '@/stores/auth';
-import {getRoleFromToken} from '@/utils/jwtUtils';
+import {useAuthStore} from '@/stores/auth.js';
+import {getRoleFromToken} from '@/utils/jwtUtils.js';
 
 
 // 컴포넌트 임포트

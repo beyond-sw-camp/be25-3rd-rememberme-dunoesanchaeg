@@ -44,7 +44,7 @@
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import { getRoleFromToken } from '@/utils/jwtUtils';
+import { getRoleFromToken } from '@/utils/jwtUtils.js';
 import logoGreen from '@/assets/image/logo_profile.png';
 
 const router = useRouter();
