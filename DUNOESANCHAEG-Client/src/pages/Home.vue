@@ -109,9 +109,42 @@
         </div>
         <div>
           <h4 class="text-xl font-bold text-gray-900">미니게임 - 간단 연산</h4>
-          <p class="text-gray-400 text-sm font-medium">공간 인지력 훈련</p>
+          <p class="text-gray-400 text-sm font-medium">뇌의 회전 속도를 높여보세요</p>
         </div>
-        <router-link to="/arithmetic">
+        <router-link :to="{ name: 'GameArithmetic' }">
+          <button
+            class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
+          >
+            <span class="!text-white">시작하기</span>
+            <van-icon name="play" class="ml-1 text-white" />
+          </button>
+        </router-link>
+      </div>
+
+      <div
+        class="bg-brand-blue p-6 rounded-[--radius-xl] shadow-sm flex flex-col gap-4"
+      >
+        <div class="flex justify-between items-start">
+          <div
+            class="size-12 bg-white/60 rounded-2xl flex items-center justify-center text-2xl text-blue-600"
+          >
+            ✌️
+          </div>
+          <!-- 완료 태그 -->
+          <!-- <van-tag
+            round
+            color="#F0F5F1"
+            text-color="#2D7A36"
+            class="px-3 py-1 font-bold"
+          >
+            <van-icon name="success" class="mr-1" /> 완료
+          </van-tag> -->
+        </div>
+        <div>
+          <h4 class="text-xl font-bold text-gray-900">미니게임 - 데카르트 가위바위보</h4>
+          <p class="text-gray-400 text-sm font-medium">뇌의 억제 능력과 적응력을 극대화하세요!</p>
+        </div>
+        <router-link :to="{ name: 'GameDekarterps' }">
           <button
             class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-md shadow-green-900/10"
           >

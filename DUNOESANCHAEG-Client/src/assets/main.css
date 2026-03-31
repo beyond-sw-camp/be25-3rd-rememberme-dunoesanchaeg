@@ -1,16 +1,66 @@
 @import "tailwindcss";
 
+:root {
+  --font-scale: 1; /* Default medium */
+}
+
+html[data-font-size="small"] {
+  --font-scale: 0.85; /* 15% smaller */
+}
+
+html[data-font-size="large"] {
+  --font-scale: 1.15; /* 15% bigger */
+}
+
+html[data-font-size="xlarge"] {
+  --font-scale: 1.30; /* Optional: even bigger */
+}
+
 @theme {
   /* 1. Tailwind v4 전용 테마 정의 (bg-brand-green, text-brand-green 자동 생성) */
   --color-brand-green: #2D7A36;
   --color-brand-bg: #F6FAFF;
   --color-brand-blue: #E8F2FF;
   
-  /* 2. 커스텀 수치 변수 (rounded-[--radius-card] 등으로 사용) */
+  /* 2. 커스텀 수치 변수 */
   --radius-card: 2rem;
+
+  /* 3. 기반 텍스트 크기 스케일링 설정 */
+  --text-xs: calc(0.75rem * var(--font-scale));
+  --text-xs--line-height: calc(1rem * var(--font-scale));
+  
+  --text-sm: calc(0.875rem * var(--font-scale));
+  --text-sm--line-height: calc(1.25rem * var(--font-scale));
+  
+  --text-base: calc(1rem * var(--font-scale));
+  --text-base--line-height: calc(1.5rem * var(--font-scale));
+  
+  --text-lg: calc(1.125rem * var(--font-scale));
+  --text-lg--line-height: calc(1.75rem * var(--font-scale));
+  
+  --text-xl: calc(1.25rem * var(--font-scale));
+  --text-xl--line-height: calc(1.75rem * var(--font-scale));
+  
+  --text-2xl: calc(1.5rem * var(--font-scale));
+  --text-2xl--line-height: calc(2rem * var(--font-scale));
+  
+  --text-3xl: calc(1.875rem * var(--font-scale));
+  --text-3xl--line-height: calc(2.25rem * var(--font-scale));
+  
+  --text-4xl: calc(2.25rem * var(--font-scale));
+  --text-4xl--line-height: calc(2.5rem * var(--font-scale));
+  
+  --text-5xl: calc(3rem * var(--font-scale));
+  --text-5xl--line-height: 1; /* Unitless scales automatically */
+  
+  --text-6xl: calc(3.75rem * var(--font-scale));
+  --text-6xl--line-height: 1;
+
+  --text-7xl: calc(4.5rem * var(--font-scale));
+  --text-7xl--line-height: 1;
 }
 
-/* 3. 외부 라이브러리(Vant) 및 표준 CSS 변수 맵핑 */
+/* 4. 외부 라이브러리(Vant) 및 표준 CSS 변수 맵핑 */
 @layer base {
   :root {
     --van-nav-bar-height: 64px;
@@ -22,5 +72,22 @@
 
     --van-button-primary-background: var(--color-brand-green);
     --van-button-border-radius: 1rem;
+
+    /* Vant UI 폰트 스케일링 */
+    --van-font-size-xs: calc(10px * var(--font-scale));
+    --van-font-size-sm: calc(12px * var(--font-scale));
+    --van-font-size-md: calc(14px * var(--font-scale));
+    --van-font-size-lg: calc(16px * var(--font-scale));
+    
+    --van-line-height-xs: calc(14px * var(--font-scale));
+    --van-line-height-sm: calc(18px * var(--font-scale));
+    --van-line-height-md: calc(20px * var(--font-scale));
+    --van-line-height-lg: calc(22px * var(--font-scale));
   }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
 }

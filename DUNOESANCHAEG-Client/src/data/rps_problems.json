@@ -1,0 +1,11 @@
+[
+  { "id": "rock_win", "missionText": "이겨보세요!", "opponentImg": "rock", "opponentText": "바위", "correctAnswer": "paper" },
+  { "id": "scissors_win", "missionText": "이겨보세요!", "opponentImg": "scissors", "opponentText": "가위", "correctAnswer": "rock" },
+  { "id": "paper_win", "missionText": "이겨보세요!", "opponentImg": "paper", "opponentText": "보", "correctAnswer": "scissors" },
+  { "id": "rock_lose", "missionText": "져보세요!", "opponentImg": "rock", "opponentText": "바위", "correctAnswer": "scissors" },
+  { "id": "scissors_lose", "missionText": "져보세요!", "opponentImg": "scissors", "opponentText": "가위", "correctAnswer": "paper" },
+  { "id": "paper_lose", "missionText": "져보세요!", "opponentImg": "paper", "opponentText": "보", "correctAnswer": "rock" },
+  { "id": "rock_tie", "missionText": "비겨보세요!", "opponentImg": "rock", "opponentText": "바위", "correctAnswer": "rock" },
+  { "id": "scissors_tie", "missionText": "비겨보세요!", "opponentImg": "scissors", "opponentText": "가위", "correctAnswer": "scissors" },
+  { "id": "paper_tie", "missionText": "비겨보세요!", "opponentImg": "paper", "opponentText": "보", "correctAnswer": "paper" }
+]

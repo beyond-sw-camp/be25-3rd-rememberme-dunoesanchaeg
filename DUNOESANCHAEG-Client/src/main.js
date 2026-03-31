@@ -4,6 +4,8 @@ import App from './App.vue';
 import router from './router';
 import './assets/main.css';
 
+import { createPinia } from 'pinia';
+
 // 1. Vant UI 스타일 전체 불러오기
 import 'vant/lib/index.css';
 
@@ -11,8 +13,10 @@ import 'vant/lib/index.css';
 import { NavBar, Icon, Tabbar, TabbarItem, Progress, Tag } from 'vant';
 
 const app = createApp(App);
+const pinia = createPinia();
 
 // 3. 앱에 등록
+app.use(pinia);
 app.use(NavBar);
 app.use(Icon);
 app.use(Tabbar);
