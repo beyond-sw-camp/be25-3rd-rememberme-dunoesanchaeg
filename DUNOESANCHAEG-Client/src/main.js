@@ -1,7 +1,8 @@
 // main.js
 import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
+import { createPinia } from 'pinia'
+import router from './router'
+import App from './App.vue'
 import './assets/main.css';
 
 import 'vant/lib/index.css';
@@ -34,6 +35,6 @@ app.use(CellGroup); // 추가
 app.use(Switch);    // 추가
 app.use(Image);     // 추가
 app.use(Loading);    // 추가
-
+app.use(pinia)
 app.use(router);
 app.mount('#app');

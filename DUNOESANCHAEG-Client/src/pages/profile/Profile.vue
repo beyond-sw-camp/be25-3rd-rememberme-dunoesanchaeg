@@ -89,62 +89,74 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue'; // 🎯 watch 추가
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import instance from '@/api/instance';
+import { useAuthStore } from '@/store/auth';
 import { showConfirmDialog, showToast } from 'vant';
-import logoGreen from '../../assets/image/logo_profile.png';
-import profileDefault from '../../assets/image/profile_default.png';
+import logoGreen from '@/assets/image/logo_profile.png';
+import profileDefault from '@/assets/image/profile_default.png';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
-// 유저 정보 상태
-const userInfo = ref({ nickname: '', email: '' });
+// 유저 정보 및 설정 상태
+const userInfo = ref({ nickname: '', email: '', profileImage: '' });
 const viewMode = ref('MEDIUM');
 const contrastMode = ref(false);
 const gameReminder = ref(true);
 const dailyRoutine = ref(true);
 
-
 const fetchUserData = async () => {
   try {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+    const response = await instance.get('/members/me');
+    const result = response.data.data;
 
-    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/members/me`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    const result = response.data;
-    if (result && result.data) {
-      userInfo.value = result.data;
-      if (result.message.includes("탈퇴한 회원")) {
-        showToast(result.message);
-      }
+    if (result) {
+      userInfo.value = result;
+      // 서버에서 받은 설정값을 UI 변수에 반영
+      viewMode.value = result.viewMode || 'MEDIUM';
+      contrastMode.value = result.contrastMode || false;
+      gameReminder.value = result.gameReminder !== false; // 기본값 true 처리
+      dailyRoutine.value = result.dailyRoutine !== false;
     }
   } catch (error) {
     console.error("유저 정보 로드 실패:", error);
   }
 };
 
-
-const handleLogout = async () => {
+const updateMemberSettings = async () => {
   try {
-    const token = localStorage.getItem('token');
-    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
+    await instance.patch('/members/me', {
+      nickname: userInfo.value.nickname,
+      profileImage: userInfo.value.profileImage,
+      viewMode: viewMode.value,
+      contrastMode: contrastMode.value,
+      gameReminder: gameReminder.value,
+      dailyRoutine: dailyRoutine.value
     });
-
-    localStorage.removeItem('token');
-    showToast('안전하게 로그아웃되었습니다.');
-    router.replace('/login');
+    // 자동 저장이므로 굳이 토스트를 띄우지 않거나, 아주 작게 띄울 수 있음
+    console.log("설정 자동 저장 완료");
   } catch (error) {
-    console.error("로그아웃 과정 중 오류:", error);
-    localStorage.removeItem('token');
-    router.replace('/login');
+    showToast('설정 저장 중 오류가 발생했습니다.');
   }
 };
 
+watch([viewMode, contrastMode, gameReminder, dailyRoutine], () => {
+  updateMemberSettings();
+});
+
+const handleLogout = async () => {
+  try {
+    await instance.post('/auth/logout');
+    authStore.logout(); // 🎯 스토어 정리
+    showToast('안전하게 로그아웃되었습니다.');
+    router.replace('/login');
+  } catch (error) {
+    authStore.logout();
+    router.replace('/login');
+  }
+};
 
 const handleWithdraw = () => {
   showConfirmDialog({
@@ -155,20 +167,16 @@ const handleWithdraw = () => {
     cancelButtonText: '취소',
   }).then(async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/members/me`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
+      const response = await instance.delete('/members/me');
       if (response.data.status === 200) {
         showToast(response.data.message);
-        localStorage.removeItem('token');
+        authStore.logout();
         router.replace('/login');
       }
     } catch (error) {
       showToast('탈퇴 처리 중 오류가 발생했습니다.');
     }
-  }).catch(() => { /* 취소 시 무시 */ });
+  }).catch(() => {});
 };
 
 onMounted(() => {

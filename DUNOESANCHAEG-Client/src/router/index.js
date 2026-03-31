@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {useAuthStore} from '@/stores/auth.js';
+import {useAuthStore} from '@/store/auth.js';
 import {getRoleFromToken} from '@/utils/jwtUtils.js';
 
 

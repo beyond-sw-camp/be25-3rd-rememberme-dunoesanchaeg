@@ -18,7 +18,7 @@ import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { AxiosError } from 'axios'; // 🎯 Axios 에러 타입 임포트
 import instance from '@/api/instance.js';
-import { useAuthStore } from '@/stores/auth.js';
+import { useAuthStore } from '@/store/auth.js';
 import { getRoleFromToken } from '@/utils/jwtUtils.js';
 
 interface ApiErrorResponse {

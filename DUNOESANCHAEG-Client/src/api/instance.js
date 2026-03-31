@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuthStore } from '@/stores/auth.js'; // 🎯 .js 확장자 명시 확인!
+import { useAuthStore } from '@/store/auth.js'; // 🎯 .js 확장자 명시 확인!
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
