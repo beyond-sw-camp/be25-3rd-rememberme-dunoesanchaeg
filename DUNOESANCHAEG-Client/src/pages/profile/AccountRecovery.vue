@@ -24,7 +24,7 @@
       <button
           @click="handleRecovery"
           type="button"
-          class="w-full !py-5 !bg-brand-green !text-white !font-black !text-2xl rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
+          class="w-full py-5! bg-brand-green! text-white! font-black! text-2xl! rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
       >
         계정 복구하기
       </button>
