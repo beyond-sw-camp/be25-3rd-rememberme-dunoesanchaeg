@@ -5,6 +5,8 @@ export const useSettingsStore = defineStore('settings', () => {
   // 'small', 'medium', 'large' 등 가능
   const fontSizeMode = ref('medium');
 
+  const isHighContrast = ref(false);
+
   /**
    * 멤버 설정(API)이나 UI 이벤트 발생 시 이 함수를 호출하여 
    * 최상단 html 속성을 변경, 전역 CSS 스케일을 조절합니다.
@@ -22,15 +24,33 @@ export const useSettingsStore = defineStore('settings', () => {
   };
 
   /**
+   * 고대비 모드 설정 함수
+   */
+  const setHighContrast = (enabled) => {
+    isHighContrast.value = enabled;
+
+    if (enabled) {
+      // <html> 태그에 data-contrast="high" 추가
+      document.documentElement.setAttribute('data-contrast', 'high');
+    } else {
+      // 속성 제거
+      document.documentElement.removeAttribute('data-contrast');
+    }
+  };
+
+  /**
    * 혹시 로컬스토리지나 서버에서 가져온 초기값을 적용하고 싶을 때 실행하는 초기화 함수
    */
-  const initSettings = (initialMode = 'medium') => {
+  const initSettings = (initialMode = 'medium', initialContrast = false) => { // 🎯 매개변수 추가
     setFontSize(initialMode);
+    setHighContrast(initialContrast);
   };
 
   return {
     fontSizeMode,
+    isHighContrast,
     setFontSize,
+    setHighContrast,
     initSettings
   };
 });
