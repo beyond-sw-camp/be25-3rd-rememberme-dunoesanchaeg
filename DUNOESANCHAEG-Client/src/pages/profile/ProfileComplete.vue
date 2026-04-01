@@ -124,12 +124,12 @@
           <button
               v-for="size in ['SMALL', 'MEDIUM', 'LARGE']"
               :key="size"
-              @click="form.fontSize = size"
+              @click="handleFontSizeChange(size)"
               type="button"
               :class="[
-                form.fontSize === size
-                  ? '!bg-brand-green !text-white !font-black'
-                  : '!bg-white !text-gray-500 !font-medium'
+              form.fontSize === size
+                ? '!bg-brand-green !text-white !font-black'
+                : '!bg-white !text-gray-500 !font-medium'
               ]"
               class="!py-4 rounded-2xl !text-lg shadow-sm transition-all border-none cursor-pointer flex items-center justify-center"
           >
@@ -157,34 +157,55 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import logoGreen from '../../assets/image/logo_profile.png';
+import instance from '@/api/instance.js'; // 🎯 공통 인스턴스 사용
+import { useAuthStore } from '@/store/auth.js';
+import { useSettingsStore } from '@/store/settings.js';
+import logoGreen from '@/assets/image/logo_profile.png';
 
+
+// 1. 초기 선언
 const router = useRouter();
+const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 
 const today = new Date();
 const currentYear = today.getFullYear();
 const currentMonth = today.getMonth() + 1;
 const currentDay = today.getDate();
 
+// 2. 폼 상태 관리
 const form = ref({
   name: '',
-  birthDate: '',
   phone: '',
+  fontSize: 'MEDIUM',
   guardianEmail: '',
   guardianPhone: '',
   guardianConsent: false,
-  fontSize: 'MEDIUM',
-  isHighContrast: false
 });
 
-const initialData = ref({
-  name: '', phone: '', guardianEmail: '', guardianPhone: ''
+const handleFontSizeChange = (size) => {
+  form.value.fontSize = size; // 서버 전송용 (SMALL, MEDIUM, LARGE)
+  settingsStore.setFontSize(size.toLowerCase()); // 실시간 화면 반영 (small, medium, large)
+};
+
+const selectedFontSize = ref('MEDIUM');
+const birth = ref({ year: '1960', month: '01', day: '01' });
+
+onMounted(() => {
+  // 화면 UI를 'medium'으로 즉시 변경
+  settingsStore.setFontSize('medium');
+  selectedFontSize.value = 'MEDIUM';
 });
 
+const changeFontSize = (size) => {
+  selectedFontSize.value = size; // 서버 전송용 값 업데이트 ('SMALL', 'MEDIUM', 'LARGE')
+  settingsStore.setFontSize(size.toLowerCase()); // 실제 화면 크기 반영
+};
+
+// 3. 전화번호 포맷팅 로직
 const formatPhone = (val) => {
   if (!val) return '';
   const clean = val.replace(/[^0-9]/g, '');
@@ -196,21 +217,7 @@ const formatPhone = (val) => {
 watch(() => form.value.phone, (newVal) => form.value.phone = formatPhone(newVal));
 watch(() => form.value.guardianPhone, (newVal) => form.value.guardianPhone = formatPhone(newVal));
 
-const clearField = (field) => {
-  if (form.value[field] === initialData.value[field]) {
-    form.value[field] = '';
-  }
-};
-
-const restoreField = (field) => {
-  if (!form.value[field]) {
-    form.value[field] = initialData.value[field];
-  }
-};
-
-const birth = ref({ year: '1960', month: '01', day: '01' });
-
-// [3] 미래 날짜 제한
+// 4. 생년월일 셀렉트 박스 계산 로직
 const years = computed(() => Array.from({ length: 100 }, (_, i) => String(currentYear - i)));
 const availableMonths = computed(() => {
   let max = (parseInt(birth.value.year) === currentYear) ? currentMonth : 12;
@@ -224,12 +231,19 @@ const availableDays = computed(() => {
   return Array.from({ length: max }, (_, i) => (i + 1 < 10 ? '0' + (i + 1) : String(i + 1)));
 });
 
+watch([() => birth.value.year, () => birth.value.month], () => {
+  const max = availableDays.value.length;
+  if (parseInt(birth.value.day) > max) birth.value.day = availableDays.value[max - 1];
+});
+
+// 5. 핵심: 프로필 완료 및 서버 전송 함수
 const handleComplete = async () => {
+  // 숫자만 추출
   const rawPhone = form.value.phone.replace(/[^0-9]/g, '');
   const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;
   const formattedBirthDate = `${birth.value.year}-${birth.value.month}-${birth.value.day}`;
 
-  // 유효성 검증
+  // [유효성 검증]
   if (!form.value.name) return showToast('성함을 입력해주세요.');
   if (rawPhone.length < 10) return showToast('올바른 본인 전화번호를 입력해주세요.');
 
@@ -242,40 +256,59 @@ const handleComplete = async () => {
     }
   }
 
-  const requestData = {
-    name: form.value.name,
-    birthDate: formattedBirthDate,
-    phone: rawPhone,
-    guardianConsent: form.value.guardianConsent,
-    guardianEmail: form.value.guardianEmail || null,
-    guardianPhone: rawGuardianPhone,
-    fontSize: form.value.fontSize,
-    isHighContrast: form.value.isHighContrast
-  };
-
+  // 로딩 시작
   showLoadingToast({ message: '등록 중...', forbidClick: true });
 
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/members/profile`, requestData, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    // 백엔드 엔티티 구조에 맞춘 데이터 구성
+    const requestData = {
+      name: form.value.name,
+      birthDate: formattedBirthDate,
+      phone: rawPhone,
+      guardianEmail: form.value.guardianEmail || null,
+      guardianPhone: rawGuardianPhone,
+      guardianConsent: form.value.guardianConsent,
+      fontSize: selectedFontSize.value.toUpperCase(), // Enum: SMALL, MEDIUM, LARGE
+      isHighContrast: false
+    };
 
-    if (response.data.status === 200) {
-      localStorage.setItem('isProfileCompleted', 'true'); // 가드 통과용 상태 갱신
+    // 서버 전송 (PATCH 또는 POST, 백엔드 설정에 맞춰 사용하세요)
+    const response = await instance.put('/members/profile', requestData);
+
+    if (response.status === 200 || response.status === 204) {
+      localStorage.setItem('isProfileCompleted', 'true');
+      authStore.isProfileCompleted = true;
       closeToast();
       showToast('반갑습니다! 설정이 완료되었습니다.');
       router.replace('/');
     }
   } catch (error) {
     closeToast();
-    showToast(error.response?.data?.message || '등록 중 오류가 발생했습니다.');
+    const errorData = error.response?.data;
+    const serverMessage = errorData?.message || errorData?.detail || '등록 중 오류가 발생했습니다.';
+
+    console.error("상세 에러 로그:", error.response?.data);
+
+    if (serverMessage === '사용자 정보를 찾을 수 없습니다.') {
+      showToast('인증 정보가 유효하지 않습니다. 다시 로그인해주세요.');
+
+      // 로컬 데이터 정리
+      localStorage.clear();
+      authStore.accessToken = null;
+
+      // 로그인 페이지로 이동
+      router.replace({ name: 'Login' });
+      return; // 함수 종료
+    }
+
+    // 서버 메시지가 있으면 그걸 보여주고, 없으면 기본 메시지 출력
+    showToast(serverMessage || defaultMessage);
   }
 };
 
-watch([() => birth.value.year, () => birth.value.month], () => {
-  const max = availableDays.value.length;
-  if (parseInt(birth.value.day) > max) birth.value.day = availableDays.value[max - 1];
+// 6. 기타 UI 초기화 로직 (필요 시)
+onMounted(() => {
+  console.log("프로필 완료 페이지 진입");
 });
 </script>
 

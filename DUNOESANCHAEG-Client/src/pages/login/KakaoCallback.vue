@@ -14,9 +14,9 @@
 
 <script setup lang="ts">
 import { Loading as VanLoading, showToast } from 'vant';
-import { onMounted } from 'vue';
+import { onMounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { AxiosError } from 'axios'; // 🎯 Axios 에러 타입 임포트
+import type { AxiosError } from 'axios';
 import instance from '@/api/instance.js';
 import { useAuthStore } from '@/store/auth.js';
 import { getRoleFromToken } from '@/utils/jwtUtils.js';
@@ -33,39 +33,57 @@ const authStore = useAuthStore();
 
 onMounted(async () => {
   const code = route.query.code;
+  if (!code) {
+    router.replace({ name: 'Login' });
+    return;
+  }
 
-  if (code) {
-    try {
-      const response = await instance.post('/auth/kakao-auth', { code });
-      const loginData = response.data.data;
-      const token = loginData.accessToken;
-      const isCompleted = loginData.isProfileCompleted; //
+  console.log("카카오 인가 코드 확인됨:", code);
 
-      if (token) {
-        const role = getRoleFromToken(token);
+  try {
+    // 1. 백엔드에 인가 코드 전달 및 토큰 발급 요청
+    const response = await instance.post('/auth/kakao-auth', { code });
+    const loginData = response.data.data; //
 
-        if (role) {
-          authStore.setLoginInfo(token, role, isCompleted);
-          if (role === 'WITHDRAWN') {
-            showToast('탈퇴 신청 계정입니다. 복구를 진행해주세요.');
-            router.replace({ name: 'AccountRecovery' });
-          } else if (!authStore.isProfileCompleted) {
-            showToast('추가 정보 입력이 필요합니다.');
-            router.replace({ name: 'ProfileComplete' });
-          } else {
-            showToast('반갑습니다!');
-            router.replace({ name: 'Home' });
-          }
-        }
-      }
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiErrorResponse>;
-      const errorMessage = axiosError.response?.data?.message || '로그인 중 오류가 발생했습니다.';
-
-      console.error("로그인 에러:", errorMessage);
-      showToast(errorMessage);
-      router.replace({ name: 'Login' });
+    if (!loginData || !loginData.accessToken) {
+      throw new Error("서버 응답에 토큰이 포함되어 있지 않습니다.");
     }
+
+    const { accessToken, isProfileCompleted } = loginData;
+    const role = getRoleFromToken(accessToken);
+    console.log("획득된 역할(Role):", role);
+
+    if (role) {
+      // 🎯 [핵심 해결책] 스토어와 로컬 스토리지를 즉시 업데이트
+      // setLoginInfo 내부에서 localStorage.setItem이 실행되어야 합니다.
+      authStore.setLoginInfo(accessToken, role, isProfileCompleted);
+
+      // 인터셉터가 확실히 토큰을 인지할 수 있도록 로컬 스토리지에 한 번 더 명시적 저장
+      localStorage.setItem('accessToken', accessToken);
+
+      // Pinia 상태가 DOM/인터셉터에 반영될 시간을 확보하기 위해 nextTick 사용
+      await nextTick();
+
+      // 2. 분기 처리 및 이동
+      if (role === 'WITHDRAWN') {
+        showToast('탈퇴 신청 계정입니다.');
+        router.replace({ name: 'AccountRecovery' });
+      } else if (!isProfileCompleted) {
+        showToast('추가 정보 입력이 필요합니다.');
+        router.replace({ name: 'ProfileComplete' });
+      } else {
+        showToast('반갑습니다!');
+        router.replace({ name: 'Home' });
+      }
+    } else {
+      throw new Error("유효하지 않은 토큰 역할입니다.");
+    }
+  } catch (error) {
+    console.error("로그인 처리 실패:", error);
+    const axiosError = error as AxiosError<ApiErrorResponse>;
+    const errorMessage = axiosError.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+    showToast(errorMessage);
+    router.replace({ name: 'Login' });
   }
 });
 </script>
