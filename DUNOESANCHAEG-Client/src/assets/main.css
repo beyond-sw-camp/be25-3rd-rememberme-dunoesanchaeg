@@ -1,58 +1,111 @@
 @import "tailwindcss";
 
+/* 1. 전역 CSS 변수 정의 (기본값) */
 :root {
-  --font-scale: 1; /* Default medium */
-}
+  /* --- 기반 수치 --- */
+  --font-scale: 1; /* 기본 중간(Medium) */
+  --radius-card: 2rem;
 
-html[data-font-size="small"] {
-  --font-scale: 0.85; /* 15% smaller */
-}
-
-html[data-font-size="large"] {
-  --font-scale: 1.15; /* 15% bigger */
-}
-
-html[data-font-size="xlarge"] {
-  --font-scale: 1.30; /* Optional: even bigger */
-}
-
-@theme {
-  /* 1. Tailwind v4 전용 테마 정의 (bg-brand-green, text-brand-green 자동 생성) */
+  /* --- 브랜드 색상 (기본) --- */
   --color-brand-green: #2D7A36;
   --color-brand-bg: #F6FAFF;
   --color-brand-blue: #E8F2FF;
-  
-  /* 2. 커스텀 수치 변수 */
-  --radius-card: 2rem;
 
-  /* 3. 기반 텍스트 크기 스케일링 설정 */
+  /* --- UI 요소 및 텍스트 색상 (기본) --- */
+  --color-text-main: #111827;    /* gray-900 */
+  --color-text-sub: #4b5563;     /* gray-600 */
+  --color-text-muted: #9ca3af;   /* gray-400 */
+  --color-surface: #ffffff;      /* bg-white */
+  --color-surface-variant: #f3f4f6; /* gray-100 */
+
+  /* --- 하단바 색상 --- */
+  --tabbar-bg: #ffffff;
+  --tabbar-active: #1B391E;
+  --tabbar-inactive: #A8B5AA;
+  --tabbar-border: #ebedf0;
+}
+
+/* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
+
+/* 폰트 스케일링 선택자 */
+html[data-font-size="small"]  { --font-scale: 0.85; }
+html[data-font-size="medium"] { --font-scale: 1; }
+html[data-font-size="large"]  { --font-scale: 1.15; }
+html[data-font-size="xlarge"] { --font-scale: 1.30; }
+
+/* 고대비 모드 선택자 */
+html[data-high-contrast="true"] {
+  --color-brand-bg: #000000;       /* 배경: 검정 */
+  --color-brand-blue: #1a1a1a;     /* 카드/셀 배경: 어두운 회색 */
+  --color-brand-green: #2D7A36;    /* 강조색 */
+
+  --color-text-main: #ffffff;      /* 메인 글자: 흰색 */
+  --color-text-sub: #2D7A36;       /* 서브 글자: 초록 */
+  --color-text-muted: #e5e7eb;     /* 부가 정보: 연한 회색 */
+
+  --color-surface: #000000;
+  --color-surface-variant: #2D7A36;
+
+  /* 하단바 고대비 */
+  --tabbar-bg: #000000;
+  --tabbar-active: #ffffff;
+  --tabbar-inactive: #2D7A36;
+  --tabbar-border: #ffffff;
+
+  /* 고대비 시 Vant 강제 조정 */
+  --van-cell-background: #1a1a1a;
+  --van-cell-text-color: #ffffff;
+  --van-button-primary-background: #2D7A36;
+  --van-button-primary-color: #000000;
+  --van-cell-border-color: #ffffff;
+}
+
+/* 3. Tailwind v4 테마 연동 */
+@theme {
+  /* 색상 매핑 */
+  --color-brand-green: var(--color-brand-green);
+  --color-brand-bg: var(--color-brand-bg);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-text-main: var(--color-text-main);
+  --color-text-sub: var(--color-text-sub);
+  --color-text-muted: var(--color-text-muted);
+  --color-surface: var(--color-surface);
+  --color-surface-variant: var(--color-surface-variant);
+
+  --color-tabbar-bg: var(--tabbar-bg);
+  --color-tabbar-active: var(--tabbar-active);
+  --color-tabbar-inactive: var(--tabbar-inactive);
+
+  --radius-card: var(--radius-card);
+
+  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
-  
+
   --text-sm: calc(0.875rem * var(--font-scale));
   --text-sm--line-height: calc(1.25rem * var(--font-scale));
-  
+
   --text-base: calc(1rem * var(--font-scale));
   --text-base--line-height: calc(1.5rem * var(--font-scale));
-  
+
   --text-lg: calc(1.125rem * var(--font-scale));
   --text-lg--line-height: calc(1.75rem * var(--font-scale));
-  
+
   --text-xl: calc(1.25rem * var(--font-scale));
   --text-xl--line-height: calc(1.75rem * var(--font-scale));
-  
+
   --text-2xl: calc(1.5rem * var(--font-scale));
   --text-2xl--line-height: calc(2rem * var(--font-scale));
-  
+
   --text-3xl: calc(1.875rem * var(--font-scale));
   --text-3xl--line-height: calc(2.25rem * var(--font-scale));
-  
+
   --text-4xl: calc(2.25rem * var(--font-scale));
   --text-4xl--line-height: calc(2.5rem * var(--font-scale));
-  
+
   --text-5xl: calc(3rem * var(--font-scale));
-  --text-5xl--line-height: 1; /* Unitless scales automatically */
-  
+  --text-5xl--line-height: 1;
+
   --text-6xl: calc(3.75rem * var(--font-scale));
   --text-6xl--line-height: 1;
 
@@ -60,34 +113,42 @@ html[data-font-size="xlarge"] {
   --text-7xl--line-height: 1;
 }
 
-/* 4. 외부 라이브러리(Vant) 및 표준 CSS 변수 맵핑 */
+/* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
 @layer base {
   :root {
+    /* Vant 레이아웃 */
     --van-nav-bar-height: 64px;
     --van-nav-bar-title-text-color: var(--color-brand-green);
-    
     --van-tag-default-color: #8A968D;
     --van-tag-round-border-radius: 999px;
-    --van-tag-medium-padding: 4px 12px;
-
     --van-button-primary-background: var(--color-brand-green);
     --van-button-border-radius: 1rem;
 
-    /* Vant UI 폰트 스케일링 */
+    /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
     --van-font-size-xs: calc(10px * var(--font-scale));
     --van-font-size-sm: calc(12px * var(--font-scale));
     --van-font-size-md: calc(14px * var(--font-scale));
     --van-font-size-lg: calc(16px * var(--font-scale));
-    
+
     --van-line-height-xs: calc(14px * var(--font-scale));
     --van-line-height-sm: calc(18px * var(--font-scale));
     --van-line-height-md: calc(20px * var(--font-scale));
     --van-line-height-lg: calc(22px * var(--font-scale));
-  }
-}
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    /* 하단바 맵핑 */
+    --color-tabbar-bg: var(--tabbar-bg);
+    --color-tabbar-active: var(--tabbar-active);
+    --color-tabbar-inactive: var(--tabbar-inactive);
+    --color-tabbar-border: var(--tabbar-border);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    background-color: var(--color-brand-bg);
+    color: var(--color-text-main);
+    /* 모드 전환 시 부드러운 애니메이션 */
+    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+  }
 }
