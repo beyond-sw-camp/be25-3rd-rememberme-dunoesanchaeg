@@ -1,3 +1,5 @@
+Home.vue
+
 <template>
   <div class="space-y-8 px-1 pb-10">
     <header>

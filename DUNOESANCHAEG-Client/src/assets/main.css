@@ -27,20 +27,22 @@
 html[data-high-contrast="true"] {
   --color-brand-bg: #000000;       /* 배경: 검정 */
   --color-brand-blue: #1a1a1a;     /* 카드/셀 배경: 어두운 회색 */
-  --color-brand-green: #ffff00;    /* 강조색: 노랑 (가독성 최상) */
+  --color-brand-green: #2D7A36;    /* 강조색: (가독성 최상) */
 
   --color-text-main: #ffffff;      /* 메인 글자: 흰색 */
-  --color-text-sub: #ffff00;       /* 서브 글자: 노랑 */
+  --color-text-sub: #2D7A36;       /* 서브 글자: 초록 */
   --color-text-muted: #e5e7eb;     /* 부가 정보: 연한 회색 */
 
+
   --color-surface: #000000;
-  --color-surface-variant: #333333;
+  --color-surface-variant: #2D7A36;
 
   /* Vant 컴포넌트 강제 조정 */
   --van-cell-background: #1a1a1a;
   --van-cell-text-color: #ffffff;
-  --van-button-primary-background: #ffff00;
+  --van-button-primary-background: #2D7A36;
   --van-button-primary-color: #000000;
+  --van-cell-border-color: #ffffff;
 }
 
 /* 3. 폰트 스케일링 설정 */
@@ -83,6 +85,12 @@ html[data-font-size="large"] { --font-scale: 1.3; }
     --van-font-size-sm: calc(12px * var(--font-scale));
     --van-font-size-md: calc(14px * var(--font-scale));
     --van-font-size-lg: calc(16px * var(--font-scale));
+
+    /* 하단바 색상 */
+    --color-tabbar-bg: var(--tabbar-bg);
+    --color-tabbar-active: var(--tabbar-active);
+    --color-tabbar-inactive: var(--tabbar-inactive);
+    --color-tabbar-border: var(--tabbar-border);
   }
 
   body {
