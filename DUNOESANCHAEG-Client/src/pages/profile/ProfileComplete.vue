@@ -2,60 +2,56 @@
   <div class="min-h-screen bg-brand-bg p-6 pb-20">
     <header class="text-center mt-8 mb-12">
       <van-image :src="logoGreen" class="w-24 h-auto mb-4" />
-      <h1 class="text-3xl font-black text-gray-800 tracking-tight">환영합니다!</h1>
-      <p class="text-gray-500 mt-2 text-lg font-medium">원활한 서비스 이용을 위해<br/>추가 정보를 입력해주세요.</p>
+      <h1 class="text-3xl font-black text-text-main tracking-tight">환영합니다!</h1>
+      <p class="text-text-sub mt-2 text-lg font-medium">원활한 서비스 이용을 위해<br/>추가 정보를 입력해주세요.</p>
     </header>
 
-    <section class="bg-gray-200 rounded-[2.5rem] p-8 shadow-inner mb-10">
+    <section class="bg-surface-variant rounded-[2.5rem] p-8 shadow-inner mb-10 border border-transparent has-[input:focus]:border-brand-green transition-all">
       <h2 class="text-xl font-black text-brand-green mb-8 flex items-center gap-2">
         <span class="w-8 h-8 bg-brand-green text-white rounded-full flex items-center justify-center text-sm">1</span>
         기본 정보 입력
       </h2>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">이름</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">이름</label>
         <input
             v-model="form.name"
             type="text"
-            @focus="clearField('name')"
-            @blur="restoreField('name')"
-            class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-gray-100 focus:!bg-white focus:ring-2 focus:ring-brand-green"
+            class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-surface text-text-main placeholder:text-text-muted focus:ring-2 focus:ring-brand-green"
             placeholder="성함을 입력하세요"
         />
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">생년월일</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일</label>
         <div class="flex gap-2">
-          <select v-model="birth.year" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-white text-center">
+          <select v-model="birth.year" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-surface text-text-main text-center">
             <option v-for="y in years" :key="y" :value="y">{{ y }}년</option>
           </select>
-          <select v-model="birth.month" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-white text-center">
+          <select v-model="birth.month" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-surface text-text-main text-center">
             <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}월</option>
           </select>
-          <select v-model="birth.day" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-white text-center">
+          <select v-model="birth.day" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg font-bold appearance-none bg-surface text-text-main text-center">
             <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}일</option>
           </select>
         </div>
       </div>
 
       <div class="mb-10">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">전화번호</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">전화번호</label>
         <input
             v-model="form.phone"
             type="tel"
             maxlength="13"
-            @focus="clearField('phone')"
-            @blur="restoreField('phone')"
-            class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-gray-100 focus:!bg-white focus:ring-2 focus:ring-brand-green"
+            class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-surface text-text-main placeholder:text-text-muted focus:ring-2 focus:ring-brand-green"
             placeholder="010-0000-0000"
         />
       </div>
 
-      <hr class="border-gray-300 mb-10" />
+      <hr class="border-text-muted opacity-30 mb-10" />
 
       <div class="mb-8 w-full">
-        <label class="!block text-lg font-bold text-gray-700 mb-4 ml-2">보호자 활동 공유 동의</label>
+        <label class="!block text-lg font-bold text-text-main mb-4 ml-2">보호자 활동 공유 동의</label>
 
         <div class="!grid !grid-cols-2 !gap-2 !w-full">
           <button
@@ -64,7 +60,7 @@
               :class="[
                 form.guardianConsent
                   ? '!bg-brand-green !text-white'
-                  : '!bg-white !text-gray-400'
+                  : '!bg-surface !text-text-muted'
               ]"
               class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
           >
@@ -75,8 +71,8 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? '!bg-gray-500 !text-white'
-                  : '!bg-white !text-gray-400'
+                  ? '!bg-text-sub !text-white'
+                  : '!bg-surface !text-text-muted'
               ]"
               class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
           >
@@ -87,39 +83,35 @@
 
       <div :class="{'opacity-30 pointer-events-none': !form.guardianConsent}" class="transition-all duration-500">
         <div class="mb-6">
-          <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">보호자 이메일(선택)</label>
+          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 이메일(선택)</label>
           <input
               v-model="form.guardianEmail"
               type="email"
-              @focus="clearField('guardianEmail')"
-              @blur="restoreField('guardianEmail')"
-              class="w-full p-4 rounded-2xl border-none shadow-sm mb-4 outline-none text-xl font-medium transition-all bg-gray-100 focus:!bg-white"
+              class="w-full p-4 rounded-2xl border-none shadow-sm mb-4 outline-none text-xl font-medium transition-all bg-surface text-text-main placeholder:text-text-muted"
               placeholder="example@mail.com"
           />
         </div>
         <div class="mb-2">
-          <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">보호자 전화번호(선택)</label>
+          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 전화번호(선택)</label>
           <input
               v-model="form.guardianPhone"
               type="tel"
               maxlength="13"
-              @focus="clearField('guardianPhone')"
-              @blur="restoreField('guardianPhone')"
-              class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-gray-100 focus:!bg-white"
+              class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium transition-all bg-surface text-text-main placeholder:text-text-muted"
               placeholder="010-0000-0000"
           />
         </div>
       </div>
     </section>
 
-    <section class="bg-gray-200 rounded-[2.5rem] p-8 shadow-inner mb-12">
+    <section class="bg-surface-variant rounded-[2.5rem] p-8 shadow-inner mb-12">
       <h2 class="text-xl font-black text-brand-green mb-8 flex items-center gap-2">
         <span class="w-8 h-8 bg-brand-green text-white rounded-full flex items-center justify-center text-sm">2</span>
         접근성 설정
       </h2>
 
       <div class="mb-8">
-        <label class="block text-lg font-bold text-gray-700 mb-4 ml-2">글자 크기</label>
+        <label class="block text-lg font-bold text-text-main mb-4 ml-2">글자 크기</label>
         <div class="grid grid-cols-3 gap-3">
           <button
               v-for="size in ['SMALL', 'MEDIUM', 'LARGE']"
@@ -129,7 +121,7 @@
               :class="[
               form.fontSize === size
                 ? '!bg-brand-green !text-white !font-black'
-                : '!bg-white !text-gray-500 !font-medium'
+                : '!bg-surface !text-text-muted !font-medium'
               ]"
               class="!py-4 rounded-2xl !text-lg shadow-sm transition-all border-none cursor-pointer flex items-center justify-center"
           >
@@ -139,8 +131,8 @@
       </div>
 
       <div class="flex items-center justify-between px-2">
-        <label class="text-lg font-bold text-gray-700">고대비 모드 활성화</label>
-        <van-switch v-model="form.isHighContrast" active-color="#2D7A36" size="32px" />
+        <label class="text-lg font-bold text-text-main">고대비 모드 활성화</label>
+        <van-switch v-model="form.isHighContrast" active-color="var(--color-brand-green)" size="32px" />
       </div>
     </section>
 

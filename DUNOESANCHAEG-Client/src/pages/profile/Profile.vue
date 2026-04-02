@@ -3,21 +3,21 @@
 
     <header class="flex items-center gap-3 mb-10">
       <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
-      <h1 class="text-3xl font-black text-[var(--color-brand-green)] tracking-tight">두뇌산책</h1>
+      <h1 class="text-3xl font-black text-brand-green tracking-tight">두뇌산책</h1>
     </header>
 
-    <van-cell-group inset class="mb-10 profile-card shadow-lg">
+    <van-cell-group inset class="mb-10 profile-card shadow-lg border border-surface-variant">
       <van-cell center class="py-10 bg-transparent">
         <template #icon>
           <van-image round :src="profileDefault" class="w-24 h-24 mr-6 border-4 border-white shadow-md" />
         </template>
         <template #title>
-          <div class="text-3xl font-extrabold text-[var(--color-text-main)] mb-1">
+          <div class="text-3xl font-extrabold text-text-main mb-1">
             {{ userInfo.nickname || '가져오는 중...' }} 님
           </div>
         </template>
         <template #label>
-          <div class="text-xl font-medium text-[var(--color-text-sub)]">
+          <div class="text-xl font-medium text-text-sub">
             {{ userInfo.email || '연결 중...' }}
           </div>
         </template>
@@ -25,15 +25,15 @@
     </van-cell-group>
 
     <section class="mt-16 mb-10">
-      <div class="text-lg font-bold text-[var(--color-text-main)] opacity-70 mb-4 px-3">회원 관리</div>
-      <van-cell-group inset class="shadow-sm">
+      <div class="text-lg font-bold text-text-main opacity-90 mb-4 px-3">회원 관리</div>
+      <van-cell-group inset class="shadow-sm border border-surface-variant">
         <van-cell title="회원 정보 수정" is-link size="large" icon="edit" to="/profile/edit" class="py-5" />
       </van-cell-group>
     </section>
 
     <section class="mb-10">
-      <div class="text-lg font-bold text-[var(--color-text-main)] opacity-70 mb-4 px-3">화면 설정</div>
-      <van-cell-group inset class="shadow-sm">
+      <div class="text-lg font-bold text-text-main opacity-70 mb-4 px-3">화면 설정</div>
+      <van-cell-group inset class="shadow-sm border border-surface-variant">
         <van-cell title="크게 보기" size="large" class="py-5">
           <template #value>
             <select v-model="fontSize" class="view-mode-select">
@@ -53,8 +53,8 @@
     </section>
 
     <section class="mb-10">
-      <div class="text-lg font-bold text-[var(--color-text-main)] opacity-70 mb-4 px-3">알림 설정</div>
-      <van-cell-group inset class="shadow-sm">
+      <div class="text-lg font-bold text-text-main opacity-70 mb-4 px-3">알림 설정</div>
+      <van-cell-group inset class="shadow-sm border border-surface-variant">
         <van-cell title="게임 리마인더" size="large" class="py-5">
           <template #right-icon>
             <van-switch v-model="gameReminder" size="28px" :active-color="'var(--color-brand-green)'" />
