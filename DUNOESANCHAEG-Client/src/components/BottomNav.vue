@@ -26,10 +26,16 @@
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* 고대비 모드일 때 그림자가 가독성을 해치므로 제거 */
+:deep(.van-tabbar-item--active) {
+  background-color: var(--tabbar-active-bg) !important;
+  transition: background-color 0.2s ease;
+}
+
+/* 고대비 모드 시 그림자 제거 (선명도 유지) */
 html[data-high-contrast="true"] .tabbar-custom {
   box-shadow: none !important;
 }
+
 </style>
 
 <script setup>

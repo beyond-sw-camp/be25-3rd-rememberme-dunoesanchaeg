@@ -23,6 +23,7 @@
   --tabbar-active: #1B391E;
   --tabbar-inactive: #A8B5AA;
   --tabbar-border: #ebedf0;
+  --tabbar-active-bg: transparent;
 }
 
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
@@ -49,8 +50,10 @@ html[data-high-contrast="true"] {
   /* 하단바 고대비 */
   --tabbar-bg: #000000;
   --tabbar-active: #ffffff;
-  --tabbar-inactive: #2D7A36;
-  --tabbar-border: #ffffff;
+  --tabbar-inactive: #9ca3af;
+  --tabbar-border: #2D7A36;
+  --tabbar-active-bg: var(--color-brand-green);
+
 
   /* 고대비 시 Vant 강제 조정 */
   --van-cell-background: #1a1a1a;
