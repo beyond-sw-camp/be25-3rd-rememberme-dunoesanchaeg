@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
-/* 1. 전역 CSS 변수 정의 (여기 있어야 var()로 호출 가능합니다) */
+/* 1. 전역 CSS 변수 정의 */
 :root {
   --font-scale: 1;
 
-  /* 브랜드 색상 */
+  /* 브랜드 색상 (기본) */
   --color-brand-green: #2D7A36;
   --color-brand-bg: #F6FAFF;
   --color-brand-blue: #E8F2FF;
 
-  /* 텍스트 색상 (🎯 여기에 추가됨) */
-  --color-text-main: #333333;
-  --color-text-sub: #9ca3af;
+  /* UI 요소 및 텍스트 색상 (기본 - gray 계열 대체) */
+  --color-text-main: #111827;    /* gray-900 수준 */
+  --color-text-sub: #4b5563;     /* gray-600 수준 */
+  --color-text-muted: #9ca3af;   /* gray-400 수준 */
+  --color-surface: #ffffff;      /* bg-white 대체 */
+  --color-surface-variant: #f3f4f6; /* gray-100 수준 */
 
   /* 하단바 색상 */
   --tabbar-bg: #ffffff;
@@ -20,36 +23,43 @@
   --tabbar-border: #ebedf0;
 }
 
-/* 2. 폰트 스케일링 설정 */
+/* 2. 고대비 모드 (변수 재정의) */
+html[data-high-contrast="true"] {
+  --color-brand-bg: #000000;       /* 배경: 검정 */
+  --color-brand-blue: #1a1a1a;     /* 카드/셀 배경: 어두운 회색 */
+  --color-brand-green: #ffff00;    /* 강조색: 노랑 (가독성 최상) */
+
+  --color-text-main: #ffffff;      /* 메인 글자: 흰색 */
+  --color-text-sub: #ffff00;       /* 서브 글자: 노랑 */
+  --color-text-muted: #e5e7eb;     /* 부가 정보: 연한 회색 */
+
+  --color-surface: #000000;
+  --color-surface-variant: #333333;
+
+  /* Vant 컴포넌트 강제 조정 */
+  --van-cell-background: #1a1a1a;
+  --van-cell-text-color: #ffffff;
+  --van-button-primary-background: #ffff00;
+  --van-button-primary-color: #000000;
+}
+
+/* 3. 폰트 스케일링 설정 */
 html[data-font-size="small"] { --font-scale: 0.8; }
 html[data-font-size="medium"] { --font-scale: 1; }
 html[data-font-size="large"] { --font-scale: 1.3; }
 
-/* 고대비 모드 */
-html[data-high-contrast="true"] {
-  --color-brand-bg: #000000;       /* 배경은 검정 */
-  --color-brand-blue: #1a1a1a;     /* 셀 배경은 어두운 회색 */
-  --color-brand-green: #2D7A36;    /* 강조색은 노랑 (가독성 최상) */
-  --color-text-main: #ffffff;      /* 메인 글자는 흰색 */
-  --color-text-sub: #2D7A36;       /* 서브 글자는 노랑 */
-
-  /* Vant 컴포넌트 변수도 고대비에 맞춰 강제 조정 */
-  --van-cell-background: #1a1a1a;
-  --van-cell-text-color: #ffffff;
-  --van-button-primary-background: #2D7A36;
-  --van-button-primary-color: #000000;
-}
-
-
-/* 3. Tailwind v4 테마 연동 */
+/* 4. Tailwind v4 테마 연동 (중복 제거) */
 @theme {
   --color-brand-green: var(--color-brand-green);
   --color-brand-bg: var(--color-brand-bg);
   --color-brand-blue: var(--color-brand-blue);
 
-  /* 🎯 텍스트 색상 테마 등록 */
   --color-text-main: var(--color-text-main);
   --color-text-sub: var(--color-text-sub);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-surface: var(--color-surface);
+  --color-surface-variant: var(--color-surface-variant);
 
   --radius-card: 2rem;
 
