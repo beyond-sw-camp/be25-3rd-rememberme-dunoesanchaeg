@@ -14,7 +14,7 @@ Home.vue
         </div>
         <div class="text-right">
           <span class="text-3xl font-black text-brand-green">85%</span>
-          <p class="text-[10px] text-text-muted font-bold uppercase">주간 목표 달성</p>
+          <p class="text-xs text-text-muted font-bold uppercase">주간 목표 달성</p>
         </div>
       </div>
 
@@ -33,7 +33,7 @@ Home.vue
               ]"
             >
               <van-icon v-if="idx < 3" name="success" size="18" />
-              <span v-else-if="idx === 3" class="text-[10px] font-bold">진행</span>
+              <span v-else-if="idx === 3" class="text-xs font-bold">진행</span>
             </div>
           </div>
         </template>
