@@ -1,66 +1,65 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-6 pb-20">
+  <div class="min-h-screen bg-brand-bg p-6 pb-20 transition-all">
     <header class="flex items-center gap-3 mb-8">
       <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
       <h1 class="text-2xl font-black text-brand-green tracking-tight">회원 정보 수정</h1>
     </header>
 
-    <div class="bg-gray-200 rounded-[2.5rem] p-8 shadow-inner">
+    <div class="bg-brand-blue rounded-card p-8 shadow-inner transition-all">
+
       <div class="mb-6">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">이름</label>
+        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">이름</label>
         <input
             v-model="form.name"
             type="text"
             @focus="clearField('name')"
             @blur="restoreField('name')"
-            class="w-full p-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-brand-green outline-none text-xl font-medium transition-all"
+            class="input-custom text-xl font-medium"
             placeholder="이름을 입력하세요"
         />
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">생년월일</label>
+        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">생년월일</label>
         <div class="flex gap-2">
-          <select v-model="birth.year" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg bg-white text-center font-bold appearance-none">
+          <select v-model="birth.year" class="select-custom text-lg">
             <option v-for="y in years" :key="y" :value="y">{{ y }}년</option>
           </select>
-          <select v-model="birth.month" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg bg-white text-center font-bold appearance-none">
+          <select v-model="birth.month" class="select-custom text-lg">
             <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}월</option>
           </select>
-          <select v-model="birth.day" class="flex-1 p-4 rounded-2xl border-none shadow-sm outline-none text-lg bg-white text-center font-bold appearance-none">
+          <select v-model="birth.day" class="select-custom text-lg">
             <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}일</option>
           </select>
         </div>
       </div>
 
       <div class="mb-8">
-        <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">전화번호</label>
+        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">전화번호</label>
         <input
             v-model="form.phone"
             type="tel"
             maxlength="13"
-            @focus="clearField('phone')"
-            @blur="restoreField('phone')"
-            class="w-full p-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-brand-green outline-none text-xl font-medium transition-all"
+            class="input-custom text-xl font-medium"
             placeholder="010-0000-0000"
         />
       </div>
 
-      <hr class="border-gray-300 mb-8" />
+      <hr class="border-text-muted/30 mb-8" />
 
       <div class="mb-8 w-full">
-        <label class="!block text-lg font-bold text-gray-700 mb-4 ml-2">보호자 활동 공유 동의</label>
+        <label class="!block text-lg font-bold text-text-sub mb-4 ml-2">보호자 활동 공유 동의</label>
 
-        <div class="!grid !grid-cols-2 !gap-2 !w-full">
+        <div class="grid grid-cols-2 gap-2 w-full">
           <button
               @click="form.guardianConsent = true"
               type="button"
               :class="[
-          form.guardianConsent
-            ? '!bg-brand-green !text-white'
-            : '!bg-white !text-gray-400'
-        ]"
-              class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+                form.guardianConsent
+                  ? 'bg-brand-green text-surface'
+                  : 'bg-surface text-text-muted'
+              ]"
+              class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
           >
             동의
           </button>
@@ -68,38 +67,34 @@
               @click="form.guardianConsent = false"
               type="button"
               :class="[
-          !form.guardianConsent
-            ? '!bg-gray-500 !text-white'
-            : '!bg-white !text-gray-400'
-        ]"
-              class="!w-full !p-4 !rounded-2xl !border-none !shadow-sm !outline-none !text-lg !text-center !font-bold !transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+                !form.guardianConsent
+                  ? 'bg-text-sub text-surface'
+                  : 'bg-surface text-text-muted'
+              ]"
+              class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
           >
             미동의
           </button>
         </div>
       </div>
 
-      <div :class="{'opacity-30 pointer-events-none': !form.guardianConsent}" class="transition-all duration-500">
+      <div :class="{'opacity-20 pointer-events-none': !form.guardianConsent}" class="transition-all duration-500">
         <div class="mb-6">
-          <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">보호자 이메일(선택)</label>
+          <label class="block text-lg font-bold text-text-sub mb-2 ml-2">보호자 이메일(선택)</label>
           <input
               v-model="form.guardianEmail"
               type="email"
-              @focus="clearField('guardianEmail')"
-              @blur="restoreField('guardianEmail')"
-              class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium"
+              class="input-custom text-xl font-medium"
               placeholder="example@mail.com"
           />
         </div>
         <div class="mb-2">
-          <label class="block text-lg font-bold text-gray-700 mb-2 ml-2">보호자 전화번호(선택)</label>
+          <label class="block text-lg font-bold text-text-sub mb-2 ml-2">보호자 전화번호(선택)</label>
           <input
               v-model="form.guardianPhone"
               type="tel"
               maxlength="13"
-              @focus="clearField('guardianPhone')"
-              @blur="restoreField('guardianPhone')"
-              class="w-full p-4 rounded-2xl border-none shadow-sm outline-none text-xl font-medium"
+              class="input-custom text-xl font-medium"
               placeholder="010-0000-0000"
           />
         </div>
@@ -110,14 +105,14 @@
       <button
           @click="handleSave"
           type="button"
-          class="flex-1 !py-5 !bg-brand-green !text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
+          class="flex-1 py-5 bg-brand-green text-surface font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         확인
       </button>
       <button
           @click="router.back()"
           type="button"
-          class="flex-1 !py-5 !bg-gray-400 !text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
+          class="flex-1 py-5 bg-error text-surface font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         취소
       </button>
@@ -275,23 +270,10 @@ onMounted(fetchInitialData);
 </script>
 
 <style scoped>
-input:focus {
-  background-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.1);
-}
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.7rem center;
-  background-size: 1.2em;
-  padding-right: 2rem;
-}
-
+/* 이제 @apply를 사용하지 않습니다.
+  모든 스타일은 main.css의 @layer components에서 관리됩니다.
+*/
 .transition-all {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 </style>

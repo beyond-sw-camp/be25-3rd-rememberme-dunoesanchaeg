@@ -46,7 +46,7 @@
 
         <van-cell title="고대비 모드" size="large" class="py-5">
           <template #right-icon>
-            <van-switch v-model="contrastMode" size="28px" :active-color="'var(--color-brand-green)'" />
+            <van-switch v-model="contrastMode" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
           </template>
         </van-cell>
       </van-cell-group>
@@ -57,12 +57,12 @@
       <van-cell-group inset class="shadow-sm border border-surface-variant">
         <van-cell title="게임 리마인더" size="large" class="py-5">
           <template #right-icon>
-            <van-switch v-model="gameReminder" size="28px" :active-color="'var(--color-brand-green)'" />
+            <van-switch v-model="gameReminder" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
           </template>
         </van-cell>
         <van-cell title="일일 루틴 알림" size="large" class="py-5">
           <template #right-icon>
-            <van-switch v-model="dailyRoutine" size="28px" :active-color="'var(--color-brand-green)'" />
+            <van-switch v-model="dailyRoutine" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
           </template>
         </van-cell>
       </van-cell-group>

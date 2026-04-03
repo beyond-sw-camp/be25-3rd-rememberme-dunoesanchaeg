@@ -132,7 +132,7 @@
 
       <div class="flex items-center justify-between px-2">
         <label class="text-lg font-bold text-text-main">고대비 모드 활성화</label>
-        <van-switch v-model="form.isHighContrast" active-color="var(--color-brand-green)" size="32px" />
+        <van-switch v-model="form.isHighContrast" active-color="var(--color-brand-green)" size="'var(--text-3xl)'" />
       </div>
     </section>
 
