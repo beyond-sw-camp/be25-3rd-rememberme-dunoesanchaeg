@@ -7,7 +7,7 @@ import Home from "@/pages/Home.vue";
 import Statistics from "@/pages/Statistics.vue";
 import Notice from "@/pages/Notice.vue";
 import Profile from "@/pages/profile/Profile.vue";
-// import KakaoCallback from "@/pages/login/KakaoCallback.vue";
+import KakaoCallback from "@/pages/login/KakaoCallback.vue";
 
 
 // meta: {hideLayout: true} 추가시 페이지 및 하단바 안보임
@@ -30,12 +30,12 @@ const routes = [
     //     component: KakaoCallback,
     //     meta: {hideLayout: true}
     // },
-    {
-        path: '/profile/complete',
-        name: 'ProfileComplete',
-        component: () => import('@/pages/profile/ProfileComplete.vue'),
-        meta: {hideLayout: true}
-    },
+    // {
+    //     path: '/profile/complete',
+    //     name: 'ProfileComplete',
+    //     component: () => import('@/pages/profile/ProfileComplete.vue'),
+    //     meta: {hideLayout: true}
+    // },
     {
         path: '/',
         name: 'Home',
