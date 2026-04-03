@@ -8,7 +8,7 @@
     <div class="bg-brand-blue rounded-card p-8 shadow-inner transition-all">
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">이름</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">이름</label>
         <input
             v-model="form.name"
             type="text"
@@ -20,7 +20,7 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">생년월일</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일</label>
         <div class="flex gap-2">
           <select v-model="birth.year" class="select-custom text-lg">
             <option v-for="y in years" :key="y" :value="y">{{ y }}년</option>
@@ -35,7 +35,7 @@
       </div>
 
       <div class="mb-8">
-        <label class="block text-lg font-bold text-text-sub mb-2 ml-2">전화번호</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">전화번호</label>
         <input
             v-model="form.phone"
             type="tel"
@@ -48,7 +48,7 @@
       <hr class="border-text-muted/30 mb-8" />
 
       <div class="mb-8 w-full">
-        <label class="!block text-lg font-bold text-text-sub mb-4 ml-2">보호자 활동 공유 동의</label>
+        <label class="block! text-lg font-bold text-text-main mb-4 ml-2">보호자 활동 공유 동의</label>
 
         <div class="grid grid-cols-2 gap-2 w-full">
           <button
@@ -80,7 +80,7 @@
 
       <div :class="{'opacity-20 pointer-events-none': !form.guardianConsent}" class="transition-all duration-500">
         <div class="mb-6">
-          <label class="block text-lg font-bold text-text-sub mb-2 ml-2">보호자 이메일(선택)</label>
+          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 이메일(선택)</label>
           <input
               v-model="form.guardianEmail"
               type="email"
@@ -89,7 +89,7 @@
           />
         </div>
         <div class="mb-2">
-          <label class="block text-lg font-bold text-text-sub mb-2 ml-2">보호자 전화번호(선택)</label>
+          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 전화번호(선택)</label>
           <input
               v-model="form.guardianPhone"
               type="tel"

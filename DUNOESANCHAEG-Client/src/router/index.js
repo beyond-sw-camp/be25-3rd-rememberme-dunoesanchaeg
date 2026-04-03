@@ -30,12 +30,12 @@ const routes = [
     //     component: KakaoCallback,
     //     meta: {hideLayout: true}
     // },
-    // {
-    //     path: '/profile/complete',
-    //     name: 'ProfileComplete',
-    //     component: () => import('@/pages/profile/ProfileComplete.vue'),
-    //     meta: {hideLayout: true}
-    // },
+    {
+        path: '/profile/complete',
+        name: 'ProfileComplete',
+        component: () => import('@/pages/profile/ProfileComplete.vue'),
+        meta: {hideLayout: true}
+    },
     {
         path: '/',
         name: 'Home',
