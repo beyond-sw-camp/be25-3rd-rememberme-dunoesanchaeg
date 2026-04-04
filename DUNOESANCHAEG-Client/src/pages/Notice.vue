@@ -61,23 +61,21 @@ const finished = ref(false);
 const page = ref(0);
 const size = ref(10);
 
-// API 호출 설정 (실제 환경에 맞게 베이스 URL 수정 필요)
+// API 호출 설정
 const api = axios.create({
   baseURL: '/api/v1',
   headers: {
-    // 세션이나 로컬스토리지에서 토큰을 가져와 적용
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
   }
 });
 
-// 공지사항 목록 가져오기 (Pagination 적용)
 const onLoad = async () => {
   try {
     const response = await api.get('/notices', {
       params: { page: page.value, size: size.value }
     });
 
-    // ApiResponse<List<NoticeListResponse>> 구조 대응
+    // ApiResponse<List<NoticeListResponse>>
     const data = response.data.data;
 
     if (data.length > 0) {
@@ -121,7 +119,7 @@ const formatDate = (dateString) => {
 
 <style scoped>
 .notice-container {
-  min-height: calc(100vh - 150px); /* 바텀네비 높이 제외 */
+  min-height: calc(100vh - 150px);
 }
 
 /* main.css 변수 활용 */
@@ -144,7 +142,6 @@ const formatDate = (dateString) => {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-/* 고대비 모드 대응: main.css에서 정의한 변수가 자동으로 적용됨 */
 html[data-high-contrast="true"] .notice-item {
   border-color: var(--color-brand-green) !important;
   box-shadow: none;
