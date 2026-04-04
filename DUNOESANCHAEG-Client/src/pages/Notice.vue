@@ -1,5 +1,156 @@
 <template>
-  <div>
-    <h3>공지사항 페이지</h3>
+  <div class="notice-container">
+    <div v-if="selectedNotice" class="detail-view">
+      <div class="flex items-center mb-6">
+        <button @click="closeDetail" class="back-button">
+          <van-icon name="arrow-left" /> 뒤로가기
+        </button>
+      </div>
+
+      <div class="bg-surface p-6 rounded-card border-2 border-brand-blue shadow-sm">
+        <h2 class="text-2xl font-bold text-main mb-2">{{ selectedNotice.title }}</h2>
+        <p class="text-sm text-muted mb-6">{{ formatDate(selectedNotice.createdAt) }}</p>
+
+        <div class="content-area text-base text-main whitespace-pre-wrap leading-relaxed">
+          {{ selectedNotice.content }}
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="list-view">
+      <h1 class="text-3xl font-bold text-brand-green mb-6">공지사항</h1>
+
+      <van-list
+          v-model:loading="loading"
+          :finished="finished"
+          finished-text="모든 공지를 확인했습니다"
+          @load="onLoad"
+      >
+        <div
+            v-for="item in noticeList"
+            :key="item.noticeId"
+            class="notice-item bg-surface p-5 mb-4 rounded-card border-2 border-brand-blue flex justify-between items-center transition-standard active:scale-[0.98]"
+            @click="fetchDetail(item.noticeId)"
+        >
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-main line-clamp-1">{{ item.title }}</h3>
+            <p class="text-sm text-muted mt-1">{{ formatDate(item.createdAt) }}</p>
+          </div>
+          <van-icon name="arrow" class="text-brand-green" />
+        </div>
+      </van-list>
+
+      <div v-if="noticeList.length === 0 && !loading" class="py-20 text-center text-muted">
+        등록된 공지사항이 없습니다.
+      </div>
+    </div>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { showToast, List as VanList, Icon as VanIcon, Cell as VanCell } from 'vant';
+
+
+// 상태 관리
+const noticeList = ref([]);
+const selectedNotice = ref(null);
+const loading = ref(false);
+const finished = ref(false);
+const page = ref(0);
+const size = ref(10);
+
+// API 호출 설정 (실제 환경에 맞게 베이스 URL 수정 필요)
+const api = axios.create({
+  baseURL: '/api/v1',
+  headers: {
+    // 세션이나 로컬스토리지에서 토큰을 가져와 적용
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  }
+});
+
+// 공지사항 목록 가져오기 (Pagination 적용)
+const onLoad = async () => {
+  try {
+    const response = await api.get('/notices', {
+      params: { page: page.value, size: size.value }
+    });
+
+    // ApiResponse<List<NoticeListResponse>> 구조 대응
+    const data = response.data.data;
+
+    if (data.length > 0) {
+      noticeList.value.push(...data);
+      page.value++;
+    }
+
+    loading.value = false;
+
+    if (data.length < size.value) {
+      finished.value = true;
+    }
+  } catch (error) {
+    showToast('공지사항을 불러오지 못했습니다.');
+    loading.value = false;
+    finished.value = true;
+  }
+};
+
+// 상세 내용 가져오기
+const fetchDetail = async (id) => {
+  try {
+    const response = await api.get(`/notices/${id}`);
+    selectedNotice.value = response.data.data;
+    window.scrollTo(0, 0); // 상세 페이지 진입 시 상단으로 이동
+  } catch (error) {
+    showToast('공지 상세 내용을 불러올 수 없습니다.');
+  }
+};
+
+const closeDetail = () => {
+  selectedNotice.value = null;
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+};
+</script>
+
+<style scoped>
+.notice-container {
+  min-height: calc(100vh - 150px); /* 바텀네비 높이 제외 */
+}
+
+/* main.css 변수 활용 */
+.text-main { color: var(--color-text-main); }
+.text-muted { color: var(--color-text-muted); }
+.bg-surface { background-color: var(--color-surface); }
+.rounded-card { border-radius: var(--radius-card); }
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-brand-green);
+  font-weight: bold;
+  font-size: var(--van-font-size-md);
+}
+
+.notice-item {
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* 고대비 모드 대응: main.css에서 정의한 변수가 자동으로 적용됨 */
+html[data-high-contrast="true"] .notice-item {
+  border-color: var(--color-brand-green) !important;
+  box-shadow: none;
+}
+
+.content-area {
+  min-height: 200px;
+}
+</style>
