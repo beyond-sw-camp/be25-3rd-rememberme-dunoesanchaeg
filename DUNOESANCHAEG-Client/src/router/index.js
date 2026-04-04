@@ -6,7 +6,7 @@ import {createRouter, createWebHistory} from 'vue-router';
 // 컴포넌트 임포트
 import Home from "@/pages/Home.vue";
 import Statistics from "@/pages/Statistics.vue";
-import Notice from "@/pages/Notice.vue";
+//import Notice from "@/pages/Notice.vue";
 // import Notice from "@/pages/Notice.vue";
 // import Profile from "@/pages/profile/Profile.vue";
 // import KakaoCallback from "@/pages/login/KakaoCallback.vue";
@@ -44,7 +44,7 @@ const routes = [
         component: Home
     },
     {path: '/statistics', name: 'Statistics', component: Statistics},
-    {path: '/notices', name: 'Notice', component: Notice},
+    //{path: '/notices', name: 'Notice', component: Notice},
     // {path: '/profile', name: 'Profile', component: Profile},
     // {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},
     {
