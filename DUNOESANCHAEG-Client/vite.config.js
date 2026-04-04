@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url' // 🎯 경로 처리를 위해 추가
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig /*, loadEnv*/ } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
