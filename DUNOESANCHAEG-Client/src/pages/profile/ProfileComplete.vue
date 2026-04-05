@@ -157,7 +157,7 @@ const form = ref({
 
 const birth = ref({ year: '1960', month: '01', day: '01' });
 
-// 3. 접근성 제어 로직 (중복 제거 및 스토어 연동)
+// 3. 접근성 제어 로직
 const handleFontSizeChange = (size) => {
   form.value.fontSize = size; // 서버 전송용 (Enum)
   settingsStore.setFontSize(size.toLowerCase()); // 🎯 실시간 화면 크기 반영
@@ -238,8 +238,8 @@ const handleComplete = async () => {
       guardianEmail: form.value.guardianEmail || null,
       guardianPhone: rawGuardianPhone,
       guardianConsent: form.value.guardianConsent,
-      fontSize: form.value.fontSize.toUpperCase(), // 🎯 reactive 변수 사용
-      isHighContrast: form.value.isHighContrast     // 🎯 실제 선택값 전송
+      fontSize: form.value.fontSize.toUpperCase(),
+      isHighContrast: form.value.isHighContrast
     };
 
     // 서버 전송

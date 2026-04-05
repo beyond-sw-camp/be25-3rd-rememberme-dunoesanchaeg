@@ -51,43 +51,38 @@ import logoGreen from '@/assets/image/logo_profile.png';
 const router = useRouter();
 const authStore = useAuthStore();
 
-// 🎯 계정 복구 처리 함수
+// 계정 복구 처리 함수
 const handleRecovery = async () => {
   showLoadingToast({ message: '복구 처리 중...', forbidClick: true });
 
   try {
-    // 🎯 1. instance를 사용하여 자동으로 토큰 및 기본 URL 처리를 맡깁니다.
+    // instance를 사용하여 자동으로 토큰 및 기본 URL 처리
     const response = await instance.post('/members/me/recovery', { action: 'RESTORE' });
 
-    // 🎯 2. 백엔드 ApiResponse 구조(code)에 맞춰 확인합니다.
     if (response.data.code === 200) {
       const recoveryData = response.data.data;
       const newToken = recoveryData.accessToken;
       const isCompleted = recoveryData.isProfileCompleted;
       const newRole = getRoleFromToken(newToken);
 
-      // 🎯 3. 저장 키를 'accessToken'으로 통일하고 Store도 업데이트합니다.
       localStorage.setItem('accessToken', newToken);
       authStore.setLoginInfo(newToken, newRole || 'USER', isCompleted);
 
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');
 
-      // 🎯 4. 모든 상태 반영이 확실히 끝난 후 이동합니다.
       router.replace({ name: 'Home' });
     }
   } catch (error: any) {
     closeToast();
-    console.log("복구 요청 에러 상세:", error.response); // 🎯 디버깅 로그
+    console.log("복구 요청 에러 상세:", error.response);
 
     if (error.response?.status === 403) {
-      // 🎯 이미 서버는 ACTIVE인 상태이므로, 기존 토큰을 지우고 로그인을 다시 유도합니다.
       showToast('이미 복구된 계정입니다. 보안을 위해 다시 로그인해 주세요.');
 
-      localStorage.clear(); // 🎯 옛날 토큰 청소
-      authStore.logout();   // 🎯 스토어 상태 초기화
+      localStorage.clear();
+      authStore.logout();
 
-      // 🎯 Home 대신 Login으로 보내는 것이 가장 안전합니다.
       router.replace({ name: 'Login' });
       return;
     }

@@ -206,7 +206,6 @@ const restoreField = (field) => {
 
 const fetchInitialData = async () => {
   try {
-    // 🎯 instance를 사용하면 헤더 설정을 따로 안 해도 됩니다.
     const response = await instance.get('/members/me');
     const data = response.data.data;
 
@@ -234,8 +233,6 @@ const fetchInitialData = async () => {
 };
 
 const handleSave = async () => {
-  // ... 생략 (기존 유효성 검사 로직은 완벽합니다!)
-
   const requestData = {
     name: form.value.name,
     phone: form.value.phone.replace(/[^0-9]/g, ''),
@@ -250,14 +247,11 @@ const handleSave = async () => {
   showLoadingToast({ message: '저장 중...', forbidClick: true });
 
   try {
-    // 🎯 instance.patch를 사용하여 경로와 토큰 문제를 해결합니다.
     const response = await instance.patch('/members/me', requestData);
 
     if (response.data.code === 200) {
       closeToast();
       showToast('성공적으로 수정되었습니다.');
-
-      // 🎯 리다이렉트: 'Profile'은 router/index.js의 name과 일치해야 합니다.
       router.push({ name: 'Profile' });
     }
   } catch (error) {
@@ -270,9 +264,6 @@ onMounted(fetchInitialData);
 </script>
 
 <style scoped>
-/* 이제 @apply를 사용하지 않습니다.
-  모든 스타일은 main.css의 @layer components에서 관리됩니다.
-*/
 .transition-all {
   transition: all 0.2s ease-in-out;
 }

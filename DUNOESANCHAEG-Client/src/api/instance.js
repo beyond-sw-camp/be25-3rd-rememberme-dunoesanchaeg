@@ -9,7 +9,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
     const authStore = useAuthStore();
-    // 스토어에 없으면 로컬 스토리지에서라도 가져오게 함 (가장 확실한 방법)
+    // 스토어에 없으면 로컬 스토리지에서라도 가져오게 함
     const token = authStore.accessToken || localStorage.getItem('accessToken');
 
     if (token) {
@@ -23,11 +23,11 @@ instance.interceptors.response.use(
     (error) => {
         const { status, data } = error.response || {};
 
-        // 🎯 404 에러(사용자 정보 없음)도 감시 대상에 추가해야 합니다.
+        // 404 에러(사용자 정보 없음)도 감시 대상에 추가해야 합니다.
         if (status === 401 || status === 404 || (status === 400 && data?.message === '사용자 정보를 찾을 수 없습니다.')) {
             console.warn("유효하지 않은 유저 상태 - 로그인 페이지로 이동합니다.");
 
-            // 🎯 스토어와 로컬스토리지의 키를 통일하세요! ('accessToken' 인지 'token' 인지)
+            // 스토어와 로컬스토리지의 키를 통일하세요! ('accessToken' 인지 'token' 인지)
             localStorage.clear(); // 안전하게 전체 삭제 추천
 
             router.replace({ name: 'Login' });

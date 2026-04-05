@@ -84,7 +84,7 @@ html[data-high-contrast="true"] {
 
   --radius-card: var(--radius-card);
 
-  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
+  /* 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
 
@@ -131,7 +131,7 @@ html[data-high-contrast="true"] {
     --van-button-primary-background: var(--color-brand-green);
     --van-button-border-radius: 1rem;
 
-    /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
+    /* Vant UI 폰트 및 라인헤이트 스케일링 */
     --van-font-size-xs: calc(10px * var(--font-scale));
     --van-font-size-sm: calc(12px * var(--font-scale));
     --van-font-size-md: calc(14px * var(--font-scale));

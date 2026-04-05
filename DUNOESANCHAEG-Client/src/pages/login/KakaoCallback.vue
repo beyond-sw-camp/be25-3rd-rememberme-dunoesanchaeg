@@ -54,14 +54,12 @@ onMounted(async () => {
     console.log("획득된 역할(Role):", role);
 
     if (role) {
-      // 🎯 [핵심 해결책] 스토어와 로컬 스토리지를 즉시 업데이트
+      // 스토어와 로컬 스토리지를 즉시 업데이트
       // setLoginInfo 내부에서 localStorage.setItem이 실행되어야 합니다.
       authStore.setLoginInfo(accessToken, role, isProfileCompleted);
 
-      // 인터셉터가 확실히 토큰을 인지할 수 있도록 로컬 스토리지에 한 번 더 명시적 저장
       localStorage.setItem('accessToken', accessToken);
 
-      // Pinia 상태가 DOM/인터셉터에 반영될 시간을 확보하기 위해 nextTick 사용
       await nextTick();
 
       // 2. 분기 처리 및 이동
