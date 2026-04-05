@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {useAuthStore} from '@/store/auth.js';
 import {getRoleFromToken} from '@/utils/jwtUtils.js';
-
+import { isTokenExpired } from '@/utils/jwtUtils.js';
 
 // 컴포넌트 임포트
 import Home from "@/pages/Home.vue";
@@ -70,6 +70,12 @@ router.beforeEach((to) => {
   const publicPages = ['Login', 'KakaoCallback'];
   const targetName = to.name;
   const isPublicPage = publicPages.includes(targetName);
+
+  if (token && isTokenExpired(token)) {
+      console.warn("토큰이 만료되었습니다. 세션을 초기화합니다.");
+      authStore.logout(); // 스토어와 로컬스토리지 모두 삭제
+      return { name: 'Login' };
+  }
 
   if (!isPublicPage && !token) {
     return { name: 'Login' };

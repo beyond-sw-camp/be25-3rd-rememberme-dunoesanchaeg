@@ -1,5 +1,5 @@
 // src/store/auth.js
-import { defineStore } from 'pinia'; // 🎯 이 줄이 빠져서 에러가 난 것입니다!
+import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {

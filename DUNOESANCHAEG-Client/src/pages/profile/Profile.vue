@@ -111,21 +111,18 @@ const fetchUserData = async () => {
     const result = response.data.data;
     if (result) {
       userInfo.value = {
-        // 🎯 백엔드 Member 도메인이나 DTO의 필드명(nickname 또는 name)을 확인하세요.
         nickname: result.name || result.nickname || '이름 없음',
         email: result.email,
         profileImage: result.profileImage || profileDefault
       };
       fontSize.value = result.fontSize || 'MEDIUM';
 
-      // 🎯 고대비 모드도 서버 데이터(isHighContrast)를 반영해야 합니다.
       contrastMode.value = result.isHighContrast;
       settingsStore.initSettings(fontSize.value.toLowerCase(), result.isHighContrast);
     }
   } catch (error) {
     console.error("데이터 로드 실패:", error);
 
-    // 🎯 서버에서 사용자 정보를 찾을 수 없다고 하면(404) 강제 로그아웃
     if (error.response?.status === 404) {
       showToast('세션이 만료되었거나 사용자 정보를 찾을 수 없습니다.');
 
@@ -139,9 +136,7 @@ const fetchUserData = async () => {
   }
 };
 
-/**
- * 서버 저장 (isHighContrast 제외)
- */
+// 서버 저장
 const updateMemberSettings = async () => {
   try {
     await instance.patch('/members/me', {
@@ -171,9 +166,7 @@ watch([gameReminder, dailyRoutine], () => {
   updateMemberSettings();
 });
 
-/**
- * 로그아웃
- */
+// 로그아웃
 const handleLogout = async () => {
   showConfirmDialog({
     title: '로그아웃',
@@ -185,9 +178,7 @@ const handleLogout = async () => {
   }).catch(() => {});
 };
 
-/**
- * 회원 탈퇴
- */
+// 회원 탈퇴
 const handleWithdraw = () => {
   showConfirmDialog({
     title: '회원 탈퇴',

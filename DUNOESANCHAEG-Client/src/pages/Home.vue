@@ -80,7 +80,6 @@ Home.vue
 </template>
 
 <script setup>
-// 🎯 반복되는 카드들을 데이터로 관리하면 코드가 훨씬 깨끗해집니다.
 const games = [
   { icon: '⚙️', title: '미니게임 - 단어 연상', desc: '기억력 향상 게임', link: 'GameWordmemory' },
   { icon: '🧮', title: '미니게임 - 간단 연산', desc: '뇌의 회전 속도를 높여보세요', link: 'GameArithmetic' },
