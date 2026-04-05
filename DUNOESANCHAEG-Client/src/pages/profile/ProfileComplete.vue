@@ -160,12 +160,12 @@ const birth = ref({ year: '1960', month: '01', day: '01' });
 // 3. 접근성 제어 로직
 const handleFontSizeChange = (size) => {
   form.value.fontSize = size; // 서버 전송용 (Enum)
-  settingsStore.setFontSize(size.toLowerCase()); // 🎯 실시간 화면 크기 반영
+  settingsStore.setFontSize(size.toLowerCase());
 };
 
 // 고대비 모드 변경 실시간 감시
 watch(() => form.value.isHighContrast, (newVal) => {
-  settingsStore.setHighContrast(newVal); // 🎯 실시간 고대비 색상 반영
+  settingsStore.setHighContrast(newVal);
 });
 
 // 초기 로드 시 현재 폼 상태에 맞춰 UI 초기화
