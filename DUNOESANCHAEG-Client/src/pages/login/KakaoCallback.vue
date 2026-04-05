@@ -38,7 +38,7 @@ onMounted(async () => {
     return;
   }
 
-  console.log("카카오 인가 코드 확인됨:", code);
+  console.log("카카오 인가 코드 확인됨");
 
   try {
     // 1. 백엔드에 인가 코드 전달 및 토큰 발급 요청
@@ -49,14 +49,26 @@ onMounted(async () => {
       throw new Error("서버 응답에 토큰이 포함되어 있지 않습니다.");
     }
 
-    const { accessToken, isProfileCompleted } = loginData;
+    const {
+      accessToken,
+      isProfileCompleted,
+      isHighContrast,
+      fontSize
+    } = loginData;
+
     const role = getRoleFromToken(accessToken);
     console.log("획득된 역할(Role):", role);
 
     if (role) {
       // 스토어와 로컬 스토리지를 즉시 업데이트
       // setLoginInfo 내부에서 localStorage.setItem이 실행
-      authStore.setLoginInfo(accessToken, role, isProfileCompleted);
+      authStore.setLoginInfo({
+        accessToken: accessToken,
+        role: role,
+        isProfileCompleted: isProfileCompleted,
+        isHighContrast: isHighContrast,
+        fontSize: fontSize
+      });
 
       // 로컬 스토리지에 한 번 더 저장
       localStorage.setItem('accessToken', accessToken);

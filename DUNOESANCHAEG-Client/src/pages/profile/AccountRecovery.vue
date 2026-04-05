@@ -63,12 +63,19 @@ const handleRecovery = async () => {
     if (response.data.code === 200) {
       const recoveryData = response.data.data;
       const newToken = recoveryData.accessToken;
-      const isCompleted = recoveryData.isProfileCompleted;
       const newRole = getRoleFromToken(newToken);
 
       // Store도 업데이트
       localStorage.setItem('accessToken', newToken);
-      authStore.setLoginInfo(newToken, newRole || 'USER', isCompleted);
+
+
+      authStore.setLoginInfo({
+        accessToken: recoveryData.accessToken,
+        role: newRole,
+        isProfileCompleted: recoveryData.isProfileCompleted,
+        isHighContrast: false,
+        fontSize: 'medium'
+      });
 
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');

@@ -1,6 +1,6 @@
 // src/store/auth.js
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
     // 초기값 로드 (새로고침 시에도 상태 유지)
@@ -16,9 +16,9 @@ export const useAuthStore = defineStore('auth', () => {
     const setLoginInfo = (data) => {
         accessToken.value = data.accessToken;
         role.value = data.role;
-        isProfileCompleted.value = data.isProfileCompleted;
-        isHighContrast.value = data.isHighContrast;
-        fontSize.value = data.fontSize;
+        isProfileCompleted.value = !!data.isProfileCompleted;
+        isHighContrast.value = !!data.isHighContrast ?? false;
+        fontSize.value = data.fontSize ?? 'medium';
 
         // 라우터 가드 및 API 인스턴스가 참조할 수 있도록 로컬 스토리지 동기화
         localStorage.setItem('accessToken', data.accessToken);
@@ -49,12 +49,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     const applyTheme = (highContrast, fSize) => {
         const html = document.documentElement;
-        if (highContrast) {
-            html.classList.add('high-contrast');
-        } else {
-            html.classList.remove('high-contrast');
+        const isHighContrast = !!highContrast;
+        html.setAttribute('data-high-contrast', String(isHighContrast));
+
+        if (fSize) {
+            html.setAttribute('data-font-size', fSize.toLowerCase());
         }
-        html.setAttribute('data-font-size', fSize);
     };
 
     return {

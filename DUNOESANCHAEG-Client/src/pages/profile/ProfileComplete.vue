@@ -258,7 +258,7 @@ const handleComplete = async () => {
     if (serverMessage === '사용자 정보를 찾을 수 없습니다.') {
       showToast('인증 정보가 만료되었습니다. 다시 로그인해주세요.');
       localStorage.clear();
-      authStore.accessToken = null;
+      authStore.logout();
       router.replace({ name: 'Login' });
       return;
     }
