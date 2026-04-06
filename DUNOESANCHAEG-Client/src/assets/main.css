@@ -250,4 +250,4 @@ body {
   color: var(--color-text-main);
   /* 모드 전환 시 부드러운 애니메이션 */
   transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
-}
+}

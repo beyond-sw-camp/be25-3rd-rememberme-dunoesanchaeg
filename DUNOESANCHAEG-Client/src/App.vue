@@ -10,10 +10,25 @@
 </template>
 
 <script setup>
+import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import MainLayout from './layouts/MainLayout.vue';
+import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
+const authStore = useAuthStore();
+
+onMounted(() => {
+  authStore.applyTheme(authStore.isHighContrast, authStore.fontSize);
+});
+
+watch(
+    () => [authStore.isHighContrast, authStore.fontSize],
+    ([newContrast, newSize]) => {
+      authStore.applyTheme(newContrast, newSize);
+    }
+);
+
 </script>
 
 <style>
