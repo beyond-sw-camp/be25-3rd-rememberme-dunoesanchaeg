@@ -17,10 +17,4 @@ const route = useRoute();
 </script>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-  background-color: #F7F7F7; /* 두뇌산책 기본 배경색 */
-}
 </style>

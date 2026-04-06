@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 @import "tailwindcss";
 
 @font-face {
@@ -211,44 +212,42 @@ html[data-high-contrast="true"] {
 }
 
 /* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
-@layer base {
-  :root {
-    /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
-    --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+:root {
+  /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
+  --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
 
-    /* Vant 레이아웃 */
-    --van-nav-bar-height: 64px;
-    --van-nav-bar-title-text-color: var(--color-brand-green);
-    --van-tag-default-color: #8A968D;
-    --van-tag-round-border-radius: 999px;
-    --van-button-primary-background: var(--color-brand-green);
-    --van-button-border-radius: 1rem;
+  /* Vant 레이아웃 */
+  --van-nav-bar-height: 64px;
+  --van-nav-bar-title-text-color: var(--color-brand-green);
+  --van-tag-default-color: #8A968D;
+  --van-tag-round-border-radius: 999px;
+  --van-button-primary-background: var(--color-brand-green);
+  --van-button-border-radius: 1rem;
 
-    /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
-    --van-font-size-xs: calc(10px * var(--font-scale));
-    --van-font-size-sm: calc(12px * var(--font-scale));
-    --van-font-size-md: calc(14px * var(--font-scale));
-    --van-font-size-lg: calc(16px * var(--font-scale));
+  /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
+  --van-font-size-xs: calc(10px * var(--font-scale));
+  --van-font-size-sm: calc(12px * var(--font-scale));
+  --van-font-size-md: calc(14px * var(--font-scale));
+  --van-font-size-lg: calc(16px * var(--font-scale));
 
-    --van-line-height-xs: calc(14px * var(--font-scale));
-    --van-line-height-sm: calc(18px * var(--font-scale));
-    --van-line-height-md: calc(20px * var(--font-scale));
-    --van-line-height-lg: calc(22px * var(--font-scale));
+  --van-line-height-xs: calc(14px * var(--font-scale));
+  --van-line-height-sm: calc(18px * var(--font-scale));
+  --van-line-height-md: calc(20px * var(--font-scale));
+  --van-line-height-lg: calc(22px * var(--font-scale));
 
-    /* 하단바 맵핑 */
-    --color-tabbar-bg: var(--tabbar-bg);
-    --color-tabbar-active: var(--tabbar-active);
-    --color-tabbar-inactive: var(--tabbar-inactive);
-    --color-tabbar-border: var(--tabbar-border);
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    background-color: var(--color-brand-bg);
-    color: var(--color-text-main);
-    /* 모드 전환 시 부드러운 애니메이션 */
-    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
-  }
+  /* 하단바 맵핑 */
+  --color-tabbar-bg: var(--tabbar-bg);
+  --color-tabbar-active: var(--tabbar-active);
+  --color-tabbar-inactive: var(--tabbar-inactive);
+  --color-tabbar-border: var(--tabbar-border);
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+  background-color: var(--color-brand-bg);
+  color: var(--color-text-main);
+  /* 모드 전환 시 부드러운 애니메이션 */
+  transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+}
