@@ -84,7 +84,7 @@ html[data-high-contrast="true"] {
 
   --radius-card: var(--radius-card);
 
-  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
+  /* 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
 

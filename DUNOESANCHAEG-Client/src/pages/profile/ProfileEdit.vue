@@ -105,14 +105,14 @@
       <button
           @click="handleSave"
           type="button"
-          class="flex-1 py-5 bg-brand-green text-surface font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+          class="flex-1 py-5 bg-brand-green text-white! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         확인
       </button>
       <button
           @click="router.back()"
           type="button"
-          class="flex-1 py-5 bg-error text-surface font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+          class="flex-1 py-5 bg-gray-400! text-white! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         취소
       </button>
