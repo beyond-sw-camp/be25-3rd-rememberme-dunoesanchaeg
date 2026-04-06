@@ -182,7 +182,7 @@ const handleLogout = async () => {
 const handleWithdraw = () => {
   showConfirmDialog({
     title: '회원 탈퇴',
-    message: '탈퇴 시 모든 데이터가 삭제됩니다. 계속하시겠습니까?',
+    message: '탈퇴 시 30일 이내 복구 가능합니다. 계속하시겠습니까?',
     confirmButtonColor: '#ef4444',
   }).then(async () => {
     try {
