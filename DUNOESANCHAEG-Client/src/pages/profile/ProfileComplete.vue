@@ -209,7 +209,7 @@ watch([() => birth.value.year, () => birth.value.month], () => {
   if (parseInt(birth.value.day) > max) birth.value.day = availableDays.value[max - 1];
 });
 
-// 5. 핵심: 서버 전송 및 프로필 등록 완료 함수
+// 5. 서버 전송 및 프로필 등록 완료 함수
 const handleComplete = async () => {
   const rawPhone = form.value.phone.replace(/[^0-9]/g, '');
   const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;

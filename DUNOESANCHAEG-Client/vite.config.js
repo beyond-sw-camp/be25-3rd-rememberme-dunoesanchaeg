@@ -18,16 +18,16 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-    server: {
-      proxy: {
-        '/api': {
-          target: env.VITE_PROXY_TARGET,
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path
-        }
-      }
-    },
+    // server: {
+    //   proxy: {
+    //     '/api': {
+    //       target: env.VITE_PROXY_TARGET,
+    //       changeOrigin: true,
+    //       secure: false,
+    //       rewrite: (path) => path
+    //     }
+    //   }
+    // },
     build: {
       target: 'esnext'
     }

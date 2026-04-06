@@ -31,9 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
         applyTheme(data.isHighContrast, data.fontSize);
     };
 
-    /**
-     * 로그아웃 처리
-     */
+    // 로그아웃 처리
     const logout = () => {
         accessToken.value = null;
         role.value = null;
@@ -43,7 +41,6 @@ export const useAuthStore = defineStore('auth', () => {
 
         localStorage.clear();
 
-        // 테마 초기화
         applyTheme(false, 'medium');
     };
 
