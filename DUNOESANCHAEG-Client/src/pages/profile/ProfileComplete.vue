@@ -160,12 +160,12 @@ const birth = ref({ year: '1960', month: '01', day: '01' });
 // 3. 접근성 제어 로직
 const handleFontSizeChange = (size) => {
   form.value.fontSize = size; // 서버 전송용 (Enum)
-  settingsStore.setFontSize(size.toLowerCase()); // 🎯 실시간 화면 크기 반영
+  settingsStore.setFontSize(size.toLowerCase());
 };
 
 // 고대비 모드 변경 실시간 감시
 watch(() => form.value.isHighContrast, (newVal) => {
-  settingsStore.setHighContrast(newVal); // 🎯 실시간 고대비 색상 반영
+  settingsStore.setHighContrast(newVal);
 });
 
 // 초기 로드 시 현재 폼 상태에 맞춰 UI 초기화
@@ -215,7 +215,6 @@ const handleComplete = async () => {
   const rawGuardianPhone = form.value.guardianPhone ? form.value.guardianPhone.replace(/[^0-9]/g, '') : null;
   const formattedBirthDate = `${birth.value.year}-${birth.value.month}-${birth.value.day}`;
 
-  // [유효성 검증]
   if (!form.value.name) return showToast('성함을 입력해주세요.');
   if (rawPhone.length < 10) return showToast('올바른 본인 전화번호를 입력해주세요.');
 
@@ -259,7 +258,7 @@ const handleComplete = async () => {
     if (serverMessage === '사용자 정보를 찾을 수 없습니다.') {
       showToast('인증 정보가 만료되었습니다. 다시 로그인해주세요.');
       localStorage.clear();
-      authStore.accessToken = null;
+      authStore.logout();
       router.replace({ name: 'Login' });
       return;
     }

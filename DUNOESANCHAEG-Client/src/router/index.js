@@ -1,15 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router';
-// import {useAuthStore} from '@/store/auth.js';
-// import {getRoleFromToken} from '@/utils/jwtUtils.js';
-
+import {useAuthStore} from '@/store/auth.js';
+import {getRoleFromToken} from '@/utils/jwtUtils.js';
+import { isTokenExpired } from '@/utils/jwtUtils.js';
 
 // 컴포넌트 임포트
 import Home from "@/pages/Home.vue";
 import Statistics from "@/pages/Statistics.vue";
-//import Notice from "@/pages/Notice.vue";
-// import Notice from "@/pages/Notice.vue";
-// import Profile from "@/pages/profile/Profile.vue";
-// import KakaoCallback from "@/pages/login/KakaoCallback.vue";
+import Notice from "@/pages/Notice.vue";
+import Profile from "@/pages/profile/Profile.vue";
+import KakaoCallback from "@/pages/login/KakaoCallback.vue";
 
 
 // meta: {hideLayout: true} 추가시 페이지 및 하단바 안보임
@@ -44,9 +43,9 @@ const routes = [
         component: Home
     },
     {path: '/statistics', name: 'Statistics', component: Statistics},
-    //{path: '/notices', name: 'Notice', component: Notice},
-    // {path: '/profile', name: 'Profile', component: Profile},
-    // {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},
+    {path: '/notices', name: 'Notice', component: Notice},
+    {path: '/profile', name: 'Profile', component: Profile},
+    {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},
     {
         path: '/minigame',
         children: [
@@ -64,13 +63,19 @@ const router = createRouter({
 
 // router.beforeEach((to) => {
 //   const authStore = useAuthStore();
-//   const token = localStorage.getItem('token');
+//   const token = localStorage.getItem('accessToken');
 //   const role = getRoleFromToken(token);
 //   const isProfileCompleted = localStorage.getItem('isProfileCompleted') === 'true';
 //
 //   const publicPages = ['Login', 'KakaoCallback'];
 //   const targetName = to.name;
 //   const isPublicPage = publicPages.includes(targetName);
+//
+//   if (token && isTokenExpired(token)) {
+//       console.warn("토큰이 만료되었습니다. 세션을 초기화합니다.");
+//       authStore.logout(); // 스토어와 로컬스토리지 모두 삭제
+//       return { name: 'Login' };
+//   }
 //
 //   if (!isPublicPage && !token) {
 //     return { name: 'Login' };

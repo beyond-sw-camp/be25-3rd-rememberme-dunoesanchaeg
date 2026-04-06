@@ -59,14 +59,23 @@ const handleRecovery = async () => {
     // instance를 사용하여 자동으로 토큰 및 기본 URL 처리
     const response = await instance.post('/members/me/recovery', { action: 'RESTORE' });
 
+    // 백엔드 ApiResponse 확인
     if (response.data.code === 200) {
       const recoveryData = response.data.data;
       const newToken = recoveryData.accessToken;
-      const isCompleted = recoveryData.isProfileCompleted;
       const newRole = getRoleFromToken(newToken);
 
+      // Store도 업데이트
       localStorage.setItem('accessToken', newToken);
-      authStore.setLoginInfo(newToken, newRole || 'USER', isCompleted);
+
+
+      authStore.setLoginInfo({
+        accessToken: recoveryData.accessToken,
+        role: newRole,
+        isProfileCompleted: recoveryData.isProfileCompleted,
+        isHighContrast: false,
+        fontSize: 'medium'
+      });
 
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');
@@ -75,7 +84,7 @@ const handleRecovery = async () => {
     }
   } catch (error: any) {
     closeToast();
-    console.log("복구 요청 에러 상세:", error.response);
+    console.log("복구 요청 에러 상세:", error.response); // 🎯 디버깅 로그
 
     if (error.response?.status === 403) {
       showToast('이미 복구된 계정입니다. 보안을 위해 다시 로그인해 주세요.');

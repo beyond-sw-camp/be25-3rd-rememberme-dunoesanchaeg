@@ -206,6 +206,7 @@ const restoreField = (field) => {
 
 const fetchInitialData = async () => {
   try {
+    // 🎯 instance를 사용하면 헤더 설정을 따로 안 해도 됩니다.
     const response = await instance.get('/members/me');
     const data = response.data.data;
 
@@ -233,6 +234,8 @@ const fetchInitialData = async () => {
 };
 
 const handleSave = async () => {
+  // ... 생략 (기존 유효성 검사 로직은 완벽합니다!)
+
   const requestData = {
     name: form.value.name,
     phone: form.value.phone.replace(/[^0-9]/g, ''),
@@ -252,6 +255,7 @@ const handleSave = async () => {
     if (response.data.code === 200) {
       closeToast();
       showToast('성공적으로 수정되었습니다.');
+
       router.push({ name: 'Profile' });
     }
   } catch (error) {

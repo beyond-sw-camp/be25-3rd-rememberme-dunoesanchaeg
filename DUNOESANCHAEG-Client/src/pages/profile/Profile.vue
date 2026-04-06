@@ -178,7 +178,7 @@ const handleLogout = async () => {
   }).catch(() => {});
 };
 
-// 회원탈퇴
+// 회원 탈퇴
 const handleWithdraw = () => {
   showConfirmDialog({
     title: '회원 탈퇴',
