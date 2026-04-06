@@ -131,7 +131,7 @@ html[data-high-contrast="true"] {
     --van-button-primary-background: var(--color-brand-green);
     --van-button-border-radius: 1rem;
 
-    /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
+    /* Vant UI 폰트 및 라인헤이트 스케일링 */
     --van-font-size-xs: calc(10px * var(--font-scale));
     --van-font-size-sm: calc(12px * var(--font-scale));
     --van-font-size-md: calc(14px * var(--font-scale));

@@ -84,7 +84,7 @@ const handleRecovery = async () => {
     }
   } catch (error: any) {
     closeToast();
-    console.log("복구 요청 에러 상세:", error.response); // 🎯 디버깅 로그
+    console.log("복구 요청 에러 상세:", error.response);
 
     if (error.response?.status === 403) {
       showToast('이미 복구된 계정입니다. 보안을 위해 다시 로그인해 주세요.');
