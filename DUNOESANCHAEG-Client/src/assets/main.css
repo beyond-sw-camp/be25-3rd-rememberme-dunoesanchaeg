@@ -71,10 +71,12 @@
   font-style: normal;
   font-display: swap;
 }
+
 /* 1. 전역 CSS 변수 정의 (기본값) */
 :root {
   /* --- 기반 수치 --- */
-  --font-scale: 1; /* 기본 중간(Medium) */
+  --font-scale: 1;
+  /* 기본 중간(Medium) */
   --radius-card: 2rem;
 
   /* --- 브랜드 색상 (기본) --- */
@@ -83,11 +85,16 @@
   --color-brand-blue: #E8F2FF;
 
   /* --- UI 요소 및 텍스트 색상 (기본) --- */
-  --color-text-main: #111827;    /* gray-900 */
-  --color-text-sub: #4b5563;     /* gray-600 */
-  --color-text-muted: #9ca3af;   /* gray-400 */
-  --color-surface: #ffffff;      /* bg-white */
-  --color-surface-variant: #f3f4f6; /* gray-100 */
+  --color-text-main: #111827;
+  /* gray-900 */
+  --color-text-sub: #4b5563;
+  /* gray-600 */
+  --color-text-muted: #9ca3af;
+  /* gray-400 */
+  --color-surface: #ffffff;
+  /* bg-white */
+  --color-surface-variant: #f3f4f6;
+  /* gray-100 */
 
   /* --- 하단바 색상 --- */
   --tabbar-bg: #ffffff;
@@ -99,20 +106,37 @@
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
 
 /* 폰트 스케일링 선택자 */
-html[data-font-size="small"]  { --font-scale: 0.85; }
-html[data-font-size="medium"] { --font-scale: 1; }
-html[data-font-size="large"]  { --font-scale: 1.15; }
-html[data-font-size="xlarge"] { --font-scale: 1.30; }
+html[data-font-size="small"] {
+  --font-scale: 0.85;
+}
+
+html[data-font-size="medium"] {
+  --font-scale: 1;
+}
+
+html[data-font-size="large"] {
+  --font-scale: 1.15;
+}
+
+html[data-font-size="xlarge"] {
+  --font-scale: 1.30;
+}
 
 /* 고대비 모드 선택자 */
 html[data-high-contrast="true"] {
-  --color-brand-bg: #000000;       /* 배경: 검정 */
-  --color-brand-blue: #1a1a1a;     /* 카드/셀 배경: 어두운 회색 */
-  --color-brand-green: #2D7A36;    /* 강조색 */
+  --color-brand-bg: #000000;
+  /* 배경: 검정 */
+  --color-brand-blue: #1a1a1a;
+  /* 카드/셀 배경: 어두운 회색 */
+  --color-brand-green: #2D7A36;
+  /* 강조색 */
 
-  --color-text-main: #ffffff;      /* 메인 글자: 흰색 */
-  --color-text-sub: #2D7A36;       /* 서브 글자: 초록 */
-  --color-text-muted: #e5e7eb;     /* 부가 정보: 연한 회색 */
+  --color-text-main: #ffffff;
+  /* 메인 글자: 흰색 */
+  --color-text-sub: #2D7A36;
+  /* 서브 글자: 초록 */
+  --color-text-muted: #e5e7eb;
+  /* 부가 정보: 연한 회색 */
 
   --color-surface: #000000;
   --color-surface-variant: #2D7A36;
@@ -133,6 +157,8 @@ html[data-high-contrast="true"] {
 
 /* 3. Tailwind v4 테마 연동 */
 @theme {
+  /* 추가된 코드: 글로벌 폰트 패밀리 지정 (Tailwind의 기본 sans 폰트를 덮어씀) */
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 색상 매핑 */
   --color-brand-green: var(--color-brand-green);
   --color-brand-bg: var(--color-brand-bg);
@@ -187,6 +213,9 @@ html[data-high-contrast="true"] {
 /* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
 @layer base {
   :root {
+    /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
+    --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+
     /* Vant 레이아웃 */
     --van-nav-bar-height: 64px;
     --van-nav-bar-title-text-color: var(--color-brand-green);
