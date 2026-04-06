@@ -35,7 +35,7 @@ const routes = [
     //     path: '/profile/complete',
     //     name: 'ProfileComplete',
     //     component: () => import('@/pages/profile/ProfileComplete.vue'),
-    //     meta: {hideLayout: true} // 🎯 App.vue의 v-if 로직에 의해 레이아웃 숨김
+    //     meta: {hideLayout: true} // 하단바 숨겨야하는 경우 사용
     // },
     {
         path: '/',
