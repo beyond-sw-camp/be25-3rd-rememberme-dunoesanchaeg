@@ -94,6 +94,8 @@
   --tabbar-active: #1B391E;
   --tabbar-inactive: #A8B5AA;
   --tabbar-border: #ebedf0;
+  --tabbar-active-bg: transparent;
+  --color-error: rgba(255, 0, 0, 0.66); /* 회원탈퇴 붉은색 */
 }
 
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
@@ -120,8 +122,10 @@ html[data-high-contrast="true"] {
   /* 하단바 고대비 */
   --tabbar-bg: #000000;
   --tabbar-active: #ffffff;
-  --tabbar-inactive: #2D7A36;
-  --tabbar-border: #ffffff;
+  --tabbar-inactive: #9ca3af;
+  --tabbar-border: #2D7A36;
+  --tabbar-active-bg: var(--color-brand-green);
+
 
   /* 고대비 시 Vant 강제 조정 */
   --van-cell-background: #1a1a1a;
@@ -147,9 +151,11 @@ html[data-high-contrast="true"] {
   --color-tabbar-active: var(--tabbar-active);
   --color-tabbar-inactive: var(--tabbar-inactive);
 
+  --color-error: var(--color-error);
+
   --radius-card: var(--radius-card);
 
-  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
+  /* 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
 
@@ -167,6 +173,7 @@ html[data-high-contrast="true"] {
 
   --text-2xl: calc(1.5rem * var(--font-scale));
   --text-2xl--line-height: calc(2rem * var(--font-scale));
+
 
   --text-3xl: calc(1.875rem * var(--font-scale));
   --text-3xl--line-height: calc(2.25rem * var(--font-scale));
@@ -195,7 +202,7 @@ html[data-high-contrast="true"] {
     --van-button-primary-background: var(--color-brand-green);
     --van-button-border-radius: 1rem;
 
-    /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
+    /* Vant UI 폰트 및 라인헤이트 스케일링 */
     --van-font-size-xs: calc(10px * var(--font-scale));
     --van-font-size-sm: calc(12px * var(--font-scale));
     --van-font-size-md: calc(14px * var(--font-scale));
@@ -221,5 +228,41 @@ html[data-high-contrast="true"] {
     color: var(--color-text-main);
     /* 모드 전환 시 부드러운 애니메이션 */
     transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+  }
+}
+
+/* 5. 커스텀 컴포넌트 클래스 정의 */
+@layer components {
+  /* 입력창 공통 스타일 */
+  .input-custom {
+    @apply w-full p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .input-custom:focus {
+    box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.3);
+    background-color: var(--color-surface);
+  }
+
+  /* 셀렉트 박스: border-none을 지우고 테두리 2px 추가 */
+  .select-custom {
+    @apply flex-1 p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none text-center font-bold appearance-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+
+    /* 화살표 아이콘 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.2em;
+    padding-right: 2rem;
+  }
+
+
+  .transition-standard {
+    transition: all 0.2s ease-in-out;
   }
 }
