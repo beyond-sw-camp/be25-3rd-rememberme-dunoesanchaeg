@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 @import "tailwindcss";
 
 @font-face {
@@ -71,10 +72,12 @@
   font-style: normal;
   font-display: swap;
 }
+
 /* 1. 전역 CSS 변수 정의 (기본값) */
 :root {
   /* --- 기반 수치 --- */
-  --font-scale: 1; /* 기본 중간(Medium) */
+  --font-scale: 1;
+  /* 기본 중간(Medium) */
   --radius-card: 2rem;
 
   /* --- 브랜드 색상 (기본) --- */
@@ -83,38 +86,58 @@
   --color-brand-blue: #E8F2FF;
 
   /* --- UI 요소 및 텍스트 색상 (기본) --- */
-  --color-text-main: #111827;    /* gray-900 */
-  --color-text-sub: #4b5563;     /* gray-600 */
-  --color-text-muted: #9ca3af;   /* gray-400 */
-  --color-surface: #ffffff;      /* bg-white */
-  --color-surface-variant: #f3f4f6; /* gray-100 */
+  --color-text-main: #111827;
+  /* gray-900 */
+  --color-text-sub: #4b5563;
+  /* gray-600 */
+  --color-text-muted: #9ca3af;
+  /* gray-400 */
+  --color-surface: #ffffff;
+  /* bg-white */
+  --color-surface-variant: #f3f4f6;
+  /* gray-100 */
 
   /* --- 하단바 색상 --- */
   --tabbar-bg: #ffffff;
   --tabbar-active: #1B391E;
   --tabbar-inactive: #A8B5AA;
   --tabbar-border: #ebedf0;
-  --tabbar-active-bg: transparent;
-  --color-error: rgba(255, 0, 0, 0.66); /* 회원탈퇴 붉은색 */
 }
 
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
 
 /* 폰트 스케일링 선택자 */
-html[data-font-size="small"]  { --font-scale: 0.85; }
-html[data-font-size="medium"] { --font-scale: 1; }
-html[data-font-size="large"]  { --font-scale: 1.15; }
-html[data-font-size="xlarge"] { --font-scale: 1.30; }
+html[data-font-size="small"] {
+  --font-scale: 0.85;
+}
+
+html[data-font-size="medium"] {
+  --font-scale: 1;
+}
+
+html[data-font-size="large"] {
+  --font-scale: 1.15;
+}
+
+html[data-font-size="xlarge"] {
+  --font-scale: 1.30;
+}
 
 /* 고대비 모드 선택자 */
 html[data-high-contrast="true"] {
-  --color-brand-bg: #000000;       /* 배경: 검정 */
-  --color-brand-blue: #1a1a1a;     /* 카드/셀 배경: 어두운 회색 */
-  --color-brand-green: #2D7A36;    /* 강조색 */
+  --color-brand-bg: #000000;
+  /* 배경: 검정 */
+  --color-brand-blue: #1a1a1a;
+  /* 카드/셀 배경: 어두운 회색 */
+  --color-brand-green: #2D7A36;
+  /* 강조색 */
 
-  --color-text-main: #ffffff;      /* 메인 글자: 흰색 */
-  --color-text-sub: #2D7A36;       /* 서브 글자: 초록 */
-  --color-text-muted: #e5e7eb;     /* 부가 정보: 연한 회색 */
+  --color-text-main: #ffffff;
+  /* 메인 글자: 흰색 */
+  --color-text-sub: #2D7A36;
+  /* 서브 글자: 초록 */
+  --color-text-muted: #e5e7eb;
+  /* 부가 정보: 연한 회색 */
 
   --color-surface: #000000;
   --color-surface-variant: #2D7A36;
@@ -122,10 +145,8 @@ html[data-high-contrast="true"] {
   /* 하단바 고대비 */
   --tabbar-bg: #000000;
   --tabbar-active: #ffffff;
-  --tabbar-inactive: #9ca3af;
-  --tabbar-border: #2D7A36;
-  --tabbar-active-bg: var(--color-brand-green);
-
+  --tabbar-inactive: #2D7A36;
+  --tabbar-border: #ffffff;
 
   /* 고대비 시 Vant 강제 조정 */
   --van-cell-background: #1a1a1a;
@@ -137,6 +158,8 @@ html[data-high-contrast="true"] {
 
 /* 3. Tailwind v4 테마 연동 */
 @theme {
+  /* 추가된 코드: 글로벌 폰트 패밀리 지정 (Tailwind의 기본 sans 폰트를 덮어씀) */
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 색상 매핑 */
   --color-brand-green: var(--color-brand-green);
   --color-brand-bg: var(--color-brand-bg);
@@ -151,11 +174,9 @@ html[data-high-contrast="true"] {
   --color-tabbar-active: var(--tabbar-active);
   --color-tabbar-inactive: var(--tabbar-inactive);
 
-  --color-error: var(--color-error);
-
   --radius-card: var(--radius-card);
 
-  /* 텍스트 크기 및 line-height 상세 스케일링 */
+  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
 
@@ -174,7 +195,6 @@ html[data-high-contrast="true"] {
   --text-2xl: calc(1.5rem * var(--font-scale));
   --text-2xl--line-height: calc(2rem * var(--font-scale));
 
-
   --text-3xl: calc(1.875rem * var(--font-scale));
   --text-3xl--line-height: calc(2.25rem * var(--font-scale));
 
@@ -192,77 +212,42 @@ html[data-high-contrast="true"] {
 }
 
 /* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
-@layer base {
-  :root {
-    /* Vant 레이아웃 */
-    --van-nav-bar-height: 64px;
-    --van-nav-bar-title-text-color: var(--color-brand-green);
-    --van-tag-default-color: #8A968D;
-    --van-tag-round-border-radius: 999px;
-    --van-button-primary-background: var(--color-brand-green);
-    --van-button-border-radius: 1rem;
+:root {
+  /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
+  --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
 
-    /* Vant UI 폰트 및 라인헤이트 스케일링 */
-    --van-font-size-xs: calc(10px * var(--font-scale));
-    --van-font-size-sm: calc(12px * var(--font-scale));
-    --van-font-size-md: calc(14px * var(--font-scale));
-    --van-font-size-lg: calc(16px * var(--font-scale));
+  /* Vant 레이아웃 */
+  --van-nav-bar-height: 64px;
+  --van-nav-bar-title-text-color: var(--color-brand-green);
+  --van-tag-default-color: #8A968D;
+  --van-tag-round-border-radius: 999px;
+  --van-button-primary-background: var(--color-brand-green);
+  --van-button-border-radius: 1rem;
 
-    --van-line-height-xs: calc(14px * var(--font-scale));
-    --van-line-height-sm: calc(18px * var(--font-scale));
-    --van-line-height-md: calc(20px * var(--font-scale));
-    --van-line-height-lg: calc(22px * var(--font-scale));
+  /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
+  --van-font-size-xs: calc(10px * var(--font-scale));
+  --van-font-size-sm: calc(12px * var(--font-scale));
+  --van-font-size-md: calc(14px * var(--font-scale));
+  --van-font-size-lg: calc(16px * var(--font-scale));
 
-    /* 하단바 맵핑 */
-    --color-tabbar-bg: var(--tabbar-bg);
-    --color-tabbar-active: var(--tabbar-active);
-    --color-tabbar-inactive: var(--tabbar-inactive);
-    --color-tabbar-border: var(--tabbar-border);
-  }
+  --van-line-height-xs: calc(14px * var(--font-scale));
+  --van-line-height-sm: calc(18px * var(--font-scale));
+  --van-line-height-md: calc(20px * var(--font-scale));
+  --van-line-height-lg: calc(22px * var(--font-scale));
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-    background-color: var(--color-brand-bg);
-    color: var(--color-text-main);
-    /* 모드 전환 시 부드러운 애니메이션 */
-    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
-  }
+  /* 하단바 맵핑 */
+  --color-tabbar-bg: var(--tabbar-bg);
+  --color-tabbar-active: var(--tabbar-active);
+  --color-tabbar-inactive: var(--tabbar-inactive);
+  --color-tabbar-border: var(--tabbar-border);
 }
 
-/* 5. 커스텀 컴포넌트 클래스 정의 */
-@layer components {
-  /* 입력창 공통 스타일 */
-  .input-custom {
-    @apply w-full p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none;
-    background-color: var(--color-surface);
-    color: var(--color-text-main);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .input-custom:focus {
-    box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.3);
-    background-color: var(--color-surface);
-  }
-
-  /* 셀렉트 박스: border-none을 지우고 테두리 2px 추가 */
-  .select-custom {
-    @apply flex-1 p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none text-center font-bold appearance-none;
-    background-color: var(--color-surface);
-    color: var(--color-text-main);
-    transition: all 0.2s ease-in-out;
-
-    /* 화살표 아이콘 */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 1.2em;
-    padding-right: 2rem;
-  }
-
-
-  .transition-standard {
-    transition: all 0.2s ease-in-out;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+  background-color: var(--color-brand-bg);
+  color: var(--color-text-main);
+  /* 모드 전환 시 부드러운 애니메이션 */
+  transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
 }

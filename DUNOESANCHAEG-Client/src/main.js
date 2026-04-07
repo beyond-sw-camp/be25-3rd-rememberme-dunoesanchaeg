@@ -3,8 +3,10 @@ import { createPinia } from 'pinia';
 import router from './router';
 import App from './App.vue';
 
+
 // 전역 스타일 설정
 import './assets/main.css';
+
 import 'vant/lib/index.css';
 
 // 사용할 Vant 컴포넌트 임포트
@@ -21,14 +23,22 @@ import {
     Image,
     Loading
 } from 'vant';
+// 언어 설정
+import { Locale } from 'vant';
+import koKR from 'vant/es/locale/lang/ko-KR';
+Locale.use('ko-KR', koKR);
 
 // 앱 생성
 const app = createApp(App);
 
 /* 2. [가장 중요] Pinia 인스턴스를 실제로 생성합니다! */
+
+
+
 const pinia = createPinia();
 
 // 3. Vant 컴포넌트 등록
+
 app.use(NavBar);
 app.use(Icon);
 app.use(Tabbar);
@@ -47,4 +57,5 @@ app.use(pinia);
 app.use(router);
 
 // 5. 마운트
+
 app.mount('#app');
