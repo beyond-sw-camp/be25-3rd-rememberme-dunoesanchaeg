@@ -23,6 +23,10 @@ import {
     Image,
     Loading
 } from 'vant';
+// 언어 설정
+import { Locale } from 'vant';
+import koKR from 'vant/es/locale/lang/ko-KR';
+Locale.use('ko-KR', koKR);
 
 // 앱 생성
 const app = createApp(App);
