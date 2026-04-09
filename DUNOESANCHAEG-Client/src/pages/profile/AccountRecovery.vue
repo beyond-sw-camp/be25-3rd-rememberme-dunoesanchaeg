@@ -80,7 +80,7 @@ const handleRecovery = async () => {
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');
 
-      router.replace({ name: 'Home' });
+      await router.replace({ name: 'Home' });
     }
   } catch (error: any) {
     closeToast();
@@ -92,7 +92,7 @@ const handleRecovery = async () => {
       localStorage.clear();
       authStore.logout();
 
-      router.replace({ name: 'Login' });
+      await router.replace({ name: 'Login' });
       return;
     }
 

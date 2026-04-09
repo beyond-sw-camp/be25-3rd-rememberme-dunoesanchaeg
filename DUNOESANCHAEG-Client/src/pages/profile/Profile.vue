@@ -131,7 +131,7 @@ const fetchUserData = async () => {
       authStore.logout();
 
       // 로그인 페이지로 이동
-      router.replace('/login');
+      await router.replace('/login');
     }
   }
 };
@@ -172,8 +172,8 @@ const handleLogout = async () => {
     title: '로그아웃',
     message: '정말 로그아웃 하시겠습니까?',
   }).then(async () => {
-    await authStore.logout();
-    router.push('/login');
+    authStore.logout();
+    await router.push('/login');
     showToast('로그아웃 되었습니다.');
   }).catch(() => {});
 };
@@ -187,9 +187,9 @@ const handleWithdraw = () => {
   }).then(async () => {
     try {
       await instance.delete('/members/me');
-      await authStore.logout();
+      authStore.logout();
       showToast('탈퇴가 완료되었습니다.');
-      router.push('/login');
+      await router.push('/login');
     } catch (error) {
       showToast('처리 중 오류가 발생했습니다.');
     }
