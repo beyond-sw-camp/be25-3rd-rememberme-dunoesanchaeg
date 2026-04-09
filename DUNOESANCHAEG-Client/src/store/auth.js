@@ -1,6 +1,7 @@
 // src/store/auth.js
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useSettingsStore } from './settings';
 
 export const useAuthStore = defineStore('auth', () => {
     // 초기값 로드 (새로고침 시에도 상태 유지)
@@ -10,9 +11,14 @@ export const useAuthStore = defineStore('auth', () => {
     const isHighContrast = ref(localStorage.getItem('isHighContrast') === 'true');
     const fontSize = ref(localStorage.getItem('fontSize') || 'medium'); //
 
-    /**
-     * 로그인 정보 저장 (KakaoCallback 등에서 호출)
-     */
+    // 고대비, 폰트 세팅
+    const settings = useSettingsStore();
+
+
+    settings.initSettings(fontSize.value, isHighContrast.value);
+
+
+    // 로그인 정보 저장 (KakaoCallback 등에서 호출)
     const setLoginInfo = (data) => {
         accessToken.value = data.accessToken;
         role.value = data.role;
@@ -28,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem('fontSize', data.fontSize);
 
         // 즉시 UI 적용
-        applyTheme(data.isHighContrast, data.fontSize);
+        settings.initSettings(data.fontSize, data.isHighContrast);
     };
 
     // 로그아웃 처리
@@ -39,19 +45,10 @@ export const useAuthStore = defineStore('auth', () => {
         isHighContrast.value = false;
         fontSize.value = 'medium';
 
+        settings.initSettings(fontSize.value, isHighContrast.value);
+
         localStorage.clear();
 
-        applyTheme(false, 'medium');
-    };
-
-    const applyTheme = (highContrast, fSize) => {
-        const html = document.documentElement;
-        const isHighContrast = !!highContrast;
-        html.setAttribute('data-high-contrast', String(isHighContrast));
-
-        if (fSize) {
-            html.setAttribute('data-font-size', fSize.toLowerCase());
-        }
     };
 
     return {
@@ -61,7 +58,6 @@ export const useAuthStore = defineStore('auth', () => {
         isHighContrast,
         fontSize,
         setLoginInfo,
-        logout,
-        applyTheme
+        logout
     };
 });

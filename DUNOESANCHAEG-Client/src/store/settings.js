@@ -12,13 +12,15 @@ export const useSettingsStore = defineStore('settings', () => {
    * @param {'small' | 'medium' | 'large'} mode
    */
   const setFontSize = (mode) => {
-    fontSizeMode.value = mode;
+    // 소문자 변환
+    const safeMode = mode ? mode.toLowerCase() : 'medium';
+    fontSizeMode.value = safeMode;
 
     // 루트 HTML 요소의 data 속성을 통해 main.css에 정의된 변수가 적용되게 함
-    if (mode === 'medium') {
+    if (safeMode === 'medium') {
       document.documentElement.removeAttribute('data-font-size');
     } else {
-      document.documentElement.setAttribute('data-font-size', mode);
+      document.documentElement.setAttribute('data-font-size', safeMode);
     }
   };
 
@@ -27,8 +29,10 @@ export const useSettingsStore = defineStore('settings', () => {
    * @param {boolean} enabled
    */
   const setHighContrast = (enabled) => {
-    isHighContrast.value = enabled;
-    if (enabled) {
+    const isEnabled = !!enabled;
+    isHighContrast.value = isEnabled;
+
+    if (isEnabled) {
       document.documentElement.setAttribute('data-high-contrast', 'true');
     } else {
       document.documentElement.removeAttribute('data-high-contrast');

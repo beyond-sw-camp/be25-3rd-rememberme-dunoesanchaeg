@@ -132,7 +132,7 @@ import { showToast, showLoadingToast, closeToast } from 'vant';
 import instance from '@/api/instance.js';
 import { useAuthStore } from '@/store/auth.js';
 import { useSettingsStore } from '@/store/settings.js';
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 
 // 1. 초기화 및 스토어 연결
 const router = useRouter();

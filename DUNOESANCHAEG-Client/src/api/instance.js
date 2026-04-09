@@ -76,7 +76,13 @@ instance.interceptors.response.use(
                 const { accessToken, role, isProfileCompleted } = data.data;
 
                 // 스토어와 로컬 스토리지dp 새 토큰 갱신
-                authStore.setLoginInfo(accessToken, role, isProfileCompleted);
+                authStore.setLoginInfo({
+                    accessToken: accessToken,
+                    role: role,
+                    isProfileCompleted: isProfileCompleted,
+                    isHighContrast: authStore.isHighContrast,
+                    fontSize: authStore.fontSize
+                });
 
                 // 새 토큰 전달 후 재실행
                 processQueue(null, accessToken);
@@ -89,7 +95,7 @@ instance.interceptors.response.use(
                 // 재발급 실패 시  로그아웃
                 processQueue(refreshError, null);
                 authStore.logout();
-                router.replace({ name: 'Login' });
+                await router.replace({name: 'Login'});
                 return Promise.reject(refreshError);
             } finally {
                 isRefreshing = false;

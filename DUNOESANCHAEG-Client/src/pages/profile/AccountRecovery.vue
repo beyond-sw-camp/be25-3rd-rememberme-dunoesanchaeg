@@ -46,7 +46,7 @@ import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth.js';
 import { showToast, showLoadingToast, closeToast } from 'vant';
 import { getRoleFromToken } from '@/utils/jwtUtils.js';
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -80,7 +80,7 @@ const handleRecovery = async () => {
       closeToast();
       showToast('성공적으로 복구되었습니다. 환영합니다!');
 
-      router.replace({ name: 'Home' });
+      await router.replace({ name: 'Home' });
     }
   } catch (error: any) {
     closeToast();
@@ -92,7 +92,7 @@ const handleRecovery = async () => {
       localStorage.clear();
       authStore.logout();
 
-      router.replace({ name: 'Login' });
+      await router.replace({ name: 'Login' });
       return;
     }
 
