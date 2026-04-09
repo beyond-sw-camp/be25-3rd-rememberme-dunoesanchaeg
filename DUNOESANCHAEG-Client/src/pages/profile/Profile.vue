@@ -88,7 +88,7 @@ import { useAuthStore } from '@/store/auth';
 import { useSettingsStore } from '@/store/settings';
 import { showConfirmDialog, showToast } from 'vant';
 
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 import profileDefault from '@/assets/image/profile_default.png';
 
 const router = useRouter();

@@ -46,7 +46,7 @@ import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth.js';
 import { showToast, showLoadingToast, closeToast } from 'vant';
 import { getRoleFromToken } from '@/utils/jwtUtils.js';
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 
 const router = useRouter();
 const authStore = useAuthStore();

@@ -14,18 +14,20 @@ import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import MainLayout from './layouts/MainLayout.vue';
 import { useAuthStore } from '@/store/auth';
+import { useSettingsStore } from '@/store/settings';
 
 const route = useRoute();
 const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 
 onMounted(() => {
-  authStore.applyTheme(authStore.isHighContrast, authStore.fontSize);
+  settingsStore.initSettings(authStore.fontSize, authStore.isHighContrast);
 });
 
 watch(
     () => [authStore.isHighContrast, authStore.fontSize],
     ([newContrast, newSize]) => {
-      authStore.applyTheme(newContrast, newSize);
+      settingsStore.initSettings(newSize, newContrast);
     }
 );
 

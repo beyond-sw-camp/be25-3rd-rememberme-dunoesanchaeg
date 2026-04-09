@@ -124,9 +124,8 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import instance from '@/api/instance.js';
-import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import logoGreen from '../../assets/image/logo_profile.png';
+import logoGreen from '../../assets/image/logo_green1.png';
 
 const router = useRouter();
 

@@ -95,7 +95,7 @@ instance.interceptors.response.use(
                 // 재발급 실패 시  로그아웃
                 processQueue(refreshError, null);
                 authStore.logout();
-                router.replace({ name: 'Login' });
+                await router.replace({name: 'Login'});
                 return Promise.reject(refreshError);
             } finally {
                 isRefreshing = false;
