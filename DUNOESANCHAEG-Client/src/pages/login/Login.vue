@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import logoImage from '../../assets/image/logo_green.png';
+import logoImage from '../../assets/image/logo_green1.png';
 import kakaoLoginBtnImage from '../../assets/image/kakao_login_medium_narrow.png';
 
 const loginWithKakao = () => {

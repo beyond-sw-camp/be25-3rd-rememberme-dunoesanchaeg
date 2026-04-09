@@ -34,7 +34,7 @@ const authStore = useAuthStore();
 onMounted(async () => {
   const code = route.query.code;
   if (!code) {
-    router.replace({ name: 'Login' });
+    await router.replace({ name: 'Login' });
     return;
   }
 
@@ -78,13 +78,13 @@ onMounted(async () => {
       // 2. 분기 처리 및 이동
       if (role === 'WITHDRAWN') {
         showToast('탈퇴 신청 계정입니다.');
-        router.replace({ name: 'AccountRecovery' });
+        await router.replace({ name: 'AccountRecovery' });
       } else if (!isProfileCompleted) {
         showToast('추가 정보 입력이 필요합니다.');
-        router.replace({ name: 'ProfileComplete' });
+        await router.replace({ name: 'ProfileComplete' });
       } else {
         showToast('반갑습니다!');
-        router.replace({ name: 'Home' });
+        await router.replace({ name: 'Home' });
       }
     } else {
       throw new Error("유효하지 않은 토큰 역할입니다.");
@@ -94,7 +94,7 @@ onMounted(async () => {
     const axiosError = error as AxiosError<ApiErrorResponse>;
     const errorMessage = axiosError.response?.data?.message || '로그인 중 오류가 발생했습니다.';
     showToast(errorMessage);
-    router.replace({ name: 'Login' });
+    await router.replace({ name: 'Login' });
   }
 });
 </script>
