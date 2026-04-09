@@ -76,7 +76,13 @@ instance.interceptors.response.use(
                 const { accessToken, role, isProfileCompleted } = data.data;
 
                 // 스토어와 로컬 스토리지dp 새 토큰 갱신
-                authStore.setLoginInfo(accessToken, role, isProfileCompleted);
+                authStore.setLoginInfo({
+                    accessToken: accessToken,
+                    role: role,
+                    isProfileCompleted: isProfileCompleted,
+                    isHighContrast: authStore.isHighContrast,
+                    fontSize: authStore.fontSize
+                });
 
                 // 새 토큰 전달 후 재실행
                 processQueue(null, accessToken);
