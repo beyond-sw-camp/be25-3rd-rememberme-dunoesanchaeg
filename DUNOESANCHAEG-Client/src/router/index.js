@@ -5,7 +5,7 @@ import { isTokenExpired } from '@/utils/jwtUtils.js';
 
 // 컴포넌트 임포트
 import Home from "@/pages/Home.vue";
-import Statistics from "@/pages/Statistics.vue";
+import Statistics from "@/pages/statistics/Statistics.vue";
 import Notice from "@/pages/Notice.vue";
 import Profile from "@/pages/profile/Profile.vue";
 import KakaoCallback from "@/pages/login/KakaoCallback.vue";
