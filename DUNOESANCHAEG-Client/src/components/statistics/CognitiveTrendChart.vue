@@ -1,4 +1,3 @@
-@ -0,0 +1,220 @@
 <template>
   <div class="bg-surface rounded-card p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
     <van-tabs v-model:active="activeTab" color="var(--color-brand-green)" title-active-color="var(--color-brand-green)" swipeable @change="onTabChange">
@@ -46,6 +45,8 @@ import {
   Filler
 } from 'chart.js';
 
+import instance from '@/api/instance';
+
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, Filler);
 
 const cognitiveSkillMap = {
@@ -56,48 +57,18 @@ const cognitiveSkillMap = {
 
 const activeTab = ref('WORD_MEMORY');
 
-// API를 통해 받아왔다고 가정한 통계 데이터
-// JSON 응답 형식 목업:
-const mockApiResponse = {
-  "target_date": "2026-04-01",
-  "stats": [
-    {
-      "game_type": "WORD_MEMORY",
-      "game_name": "기억력",
-      "play_count": 7,
-      "total_questions": 70,
-      "total_correct": 47,
-      "accuracy": 67
-    },
-    {
-      "game_type": "ARITHMETIC",
-      "game_name": "계산력",
-      "play_count": 7,
-      "total_questions": 70,
-      "total_correct": 49,
-      "accuracy": 70
-    },
-    {
-      "game_type": "DESCARTES_RPS",
-      "game_name": "판단력",
-      "play_count": 7,
-      "total_questions": 70,
-      "total_correct": 43,
-      "accuracy": 61
-    }
-  ]
-};
+// API에서 받아올 원본 통계 데이터 상태
+const apiResponseData = ref(null);
 
 // 현재 탭의 단건 요약 데이터
 const currentStatItem = computed(() => {
-  return mockApiResponse.stats.find(s => s.game_type === activeTab.value) || null;
+  if (!apiResponseData.value || !apiResponseData.value.stats) return null;
+  return apiResponseData.value.stats.find(s => s.game_type === activeTab.value) || null;
 });
 
-// 차트 데이터 (임의의 7회차 히스토리 데이터 생성 로직 사용. 실제론 배열 데이터가 필요함)
+// 차트 데이터 (임의의 7회차 히스토리 데이터 생성 로직 사용. 실제로는 배열 데이터가 필요함)
 const trendHistory = ref([]);
 
-// 목업 데이터를 활용한 예시
-// TODO: 나중에 API 적용 후에 바꿔줘야함
 const generateTrendData = (targetAccuracy) => {
   const dummy = [];
   let currentVal = Math.max(0, targetAccuracy - 20); 
@@ -118,8 +89,22 @@ const updateChartData = () => {
   }
 };
 
-onMounted(() => {
-  updateChartData();
+onMounted(async () => {
+  try {
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    
+    const response = await instance.get('/api/v1/statistics/games', {
+      params: { targetDate: formattedDate }
+    });
+    if (response.data && response.data.code === 200) {
+      apiResponseData.value = response.data.data;
+    }
+  } catch (error) {
+    console.error("차트 통계 데이터를 불러오는 데 실패했습니다:", error);
+  } finally {
+    updateChartData();
+  }
 });
 
 const onTabChange = () => {

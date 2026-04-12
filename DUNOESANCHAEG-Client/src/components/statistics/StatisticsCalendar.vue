@@ -1,4 +1,3 @@
-@ -0,0 +1,130 @@
 <template>
   <div class="bg-surface rounded-card p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
     <div class="flex items-center justify-between mb-6">
@@ -48,7 +47,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import instance from '@/api/instance';
 
 const router = useRouter();
 
@@ -85,19 +84,12 @@ const daysInMonth = computed(() => {
   });
 });
 
-// Methods
 const changeMonth = (offset) => {
   currentDate.value = new Date(currentYear.value, currentMonth.value - 1 + offset, 1);
 };
 
-// TODO: 사용자가 요청한 단건 API를 통해 해당 날짜 데이터 요청 및 상세 이동 라우팅 구현
 const handleDateClick = async (date) => {
-  // 
   try {
-    // 1. 실제 서버 요청:
-    // const response = await axios.get(`http://localhost:8080/api/v1/calendar/summary?targetDate=${date.dateStr}`);
-    
-    // 2. 라우터를 통해 상세보기 모달이나, 페이지로 정보를 전달
     router.push({
       path: '/statistics/detail',
       query: { date: date.dateStr }
@@ -107,15 +99,26 @@ const handleDateClick = async (date) => {
   }
 };
 
-// TODO: 이번 달 전체의 기록 여부를 가져와서 records 에 삽입 
 const fetchMonthlyRecords = async () => {
-  // 목업 데이터(예시)
-  const mockDateBase = `${currentYear.value}-${String(currentMonth.value).padStart(2, '0')}`;
-  records.value = {
-    [`${mockDateBase}-11`]: true,
-    [`${mockDateBase}-15`]: true,
-    [`${mockDateBase}-20`]: true,
-  };
+  const targetDateStr = `${currentYear.value}-${String(currentMonth.value).padStart(2, '0')}-01`;
+
+  try {
+    const res = await instance.get('/api/v1/calendar/completed-days', {
+      params: { targetDate: targetDateStr }
+    });
+
+    if (res.data && res.data.code === 200) {
+      const dataMapping = {};
+      const completedList = res.data.data.completed_dates || [];
+      completedList.forEach((dateString) => {
+        dataMapping[dateString] = true;
+      });
+      records.value = dataMapping;
+    }
+  } catch (error) {
+    console.error("월간 루틴 완료 일자 로드 실패:", error);
+    records.value = {};
+  }
 };
 
 watch(currentMonth, () => {

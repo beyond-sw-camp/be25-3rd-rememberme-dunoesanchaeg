@@ -1,4 +1,3 @@
-@ -0,0 +1,205 @@
 <template>
   <div class="min-h-dvh bg-brand-bg flex flex-col">
     <van-nav-bar
@@ -102,7 +101,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-// import axios from 'axios';
+import instance from '@/api/instance';
 
 const route = useRoute();
 const router = useRouter();
@@ -139,30 +138,24 @@ const getLevelText = (level) => {
 };
 
 const fetchDailyDetail = async () => {
-  const targetDate = route.query.date;
-  if (!targetDate) return;
+  // 쿼리 파라미터 유효성 엄격 검사 (YYYY-MM-DD 패턴 강제 맞춤)
+  const rawDate = typeof route.query.date === 'string' ? route.query.date.trim() : String(route.query.date);
+  if (!rawDate) return;
+
+  const match = rawDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (!match) {
+    console.error("잘못된 날짜 형식입니다:", rawDate);
+    return;
+  }
+  const formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
 
   try {
-    // TODO: 백엔드 연동 필요
-    // const res = await axios.get(`http://localhost:8080/api/v1/calendar/summary?targetDate=${targetDate}`);
-    // detailData.value = res.data.data;
-    
-    // 목업 데이터 응답 시뮬레이션
-    setTimeout(() => {
-      detailData.value = {
-        "targetDate": targetDate,
-        "progress_rate": 66,
-        "game_record": { "is_played": true, "play_time_seconds": 120, "correct_count": 8 },
-        "question_record": { "is_answered": false },
-        "daily_record": {
-          "is_written": true,
-          "mood_level": "GOOD", "mood_memo": "기분이 매우 좋습니다.",
-          "sleep_level": "MID", "sleep_memo": "평범하게 잤어요.",
-          "meal_level": "BAD", "meal_memo": "입맛이 없었어요"
-        }
-      };
-    }, 300);
-
+    const res = await instance.get('/api/v1/calendar/summary', {
+      params: { targetDate: formattedDate }
+    });
+    if (res.data && res.data.code === 200) {
+      detailData.value = res.data.data;
+    }
   } catch (error) {
     console.error("데이터 로드 실패:", error);
   }
