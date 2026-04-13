@@ -31,6 +31,19 @@ import HomeHeader from './mainpage/HomeHeader.vue';
 import ProgressRate from './mainpage/ProgressRate.vue';
 import TodayRoutines from './mainpage/TodayRoutines.vue';
 
+import { onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+// 페이지(경로)가 바뀔 때마다(홈으로 돌아올 때마다) 데이터를 다시 불러옵니다.
+watch(
+  () => route.path,
+  () => {
+    initializeHome();
+  }
+);
+
 const {
   // 추가 할 말 할 말 
   userName,

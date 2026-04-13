@@ -4,7 +4,7 @@ import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth.js';
 
 // const PREVIEW_MODE = true; 
-const PREVIEW_MODE = false; 
+const PREVIEW_MODE = false;
 
 export function useHome() {
     const router = useRouter();
@@ -26,33 +26,36 @@ export function useHome() {
 
     const missions = computed(() => {
         if (!routineData.value) return [];
+
+        const d = routineData.value;
+
         return [
             {
                 title: '미니게임',
                 desc: '기억력을 키워요.',
                 icon: '🎮',
                 link: 'GameDekarterps',
-                isCompleted: !!routineData.value.gameFinished
+                isCompleted: d.gameFinished
             },
             {
                 title: '하루 기록',
                 desc: '오늘의 기분을 작성해보세요.',
                 icon: '📝',
-                link: 'GameArithmetic',
-                isCompleted: !!routineData.value.recordFinished
+                link: 'DailyRecord',
+                isCompleted: d.recordFinished
             },
             {
                 title: '질문',
                 desc: '오늘의 질문에 답해보세요.',
                 icon: '❓',
                 link: 'GameWordmemory',
-                isCompleted: !!routineData.value.questionFinished
+                isCompleted: d.questionFinished
             }
         ];
     });
 
 
-// 추가 할 말 할 말.... //
+    // 추가 할 말 할 말.... //
     const userName = computed(() => authStore.userName || '회원');
 
     const formattedDate = computed(() => {
@@ -76,7 +79,6 @@ export function useHome() {
             if (PREVIEW_MODE) {
                 console.log("🛠️ 화면 테스트용 데이터를 사용합니다.");
 
-                if(!authStore.userName) authStore.userName = '웅콕';
 
                 routineData.value = {
                     progressRate: 66,
@@ -84,27 +86,27 @@ export function useHome() {
                     recordFinished: true,
                     questionFinished: false
                 };
-            } 
+            }
             // (PREVIEW_MODE = false)
             else {
-                
-                if (!authStore.accessToken) {
-                routineData.value = {
-                    progressRate: 0,
-                    gameFinished: false,
-                    recordFinished: false,
-                    questionFinished: false
-                };
-                isLoading.value = false;
-                return; 
-            }
 
-            const res = await instance.get('/api/v1/routines/today');
-            routineData.value = res.data.data;
+                if (!authStore.accessToken) {
+                    routineData.value = {
+                        progressRate: 0,
+                        gameFinished: false,
+                        recordFinished: false,
+                        questionFinished: false
+                    };
+                    isLoading.value = false;
+                    return;
+                }
+
+                const res = await instance.get('/api/v1/routines/today');
+                routineData.value = res.data.data;
             }
         } catch (error) {
             console.error('Home 로딩 실패:', error);
-            
+
             if (error.response?.status === 401) {
                 authStore.logout();
                 router.replace({ name: 'Login' });
@@ -121,11 +123,6 @@ export function useHome() {
     onMounted(initializeHome);
 
     return {
-// 논의 필요 !!!!
-        userName,
-        formattedDate,
-// 추가 할 말 할 말 
-
         isLoading,
         routineData,
         errorMessage,
