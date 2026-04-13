@@ -56,8 +56,7 @@ export function useHome() {
                 title: '질문',
                 desc: '오늘의 질문에 답해보세요.',
                 icon: '❓',
-                // link: 'OpenQuestion',
-                link: 'MiniGame',
+                link: 'OpenQuestion',
                 isCompleted: d.questionFinished
             }
         ];
