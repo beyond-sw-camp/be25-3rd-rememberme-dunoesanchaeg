@@ -60,6 +60,11 @@ const routes = [
             {path: 'wordmemory', name: 'GameWordmemory', component: () => import("@/pages/minigame/WordMemory.vue")},
             {path: 'dekarterps', name: 'GameDekarterps', component: () => import("@/pages/minigame/Dekarterps.vue")},
         ]
+    },
+    {
+        path: '/open-question',
+        name: 'OpenQuestion',
+        component: () => import("@/pages/open-question/OpenQuestion.vue"),
     }
 ];
 
