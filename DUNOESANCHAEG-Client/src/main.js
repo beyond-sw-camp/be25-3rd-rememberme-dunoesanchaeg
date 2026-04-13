@@ -21,7 +21,10 @@ import {
     CellGroup,
     Switch,
     Image,
-    Loading
+    Loading,
+    Tab,
+    Tabs,
+    Circle
 } from 'vant';
 // 언어 설정
 import { Locale } from 'vant';
@@ -50,6 +53,9 @@ app.use(CellGroup);
 app.use(Switch);
 app.use(Image);
 app.use(Loading);
+app.use(Tab);
+app.use(Tabs);
+app.use(Circle);
 
 // 4. 플러그인 등록 (순서: Pinia -> Router)
 // Pinia를 먼저 등록해야 라우터 가드에서 스토어를 안전하게 쓸 수 있습니다.

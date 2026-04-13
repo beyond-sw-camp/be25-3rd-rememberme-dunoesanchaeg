@@ -110,7 +110,7 @@
 
 /* 폰트 스케일링 선택자 */
 html[data-font-size="small"] {
-  --font-scale: 0.85;
+  --font-scale: 0.80;
 }
 
 html[data-font-size="medium"] {
@@ -118,7 +118,7 @@ html[data-font-size="medium"] {
 }
 
 html[data-font-size="large"] {
-  --font-scale: 1.15;
+  --font-scale: 1.25;
 }
 
 html[data-font-size="xlarge"] {
@@ -295,3 +295,31 @@ html[data-high-contrast="true"] {
     transition: all 0.2s ease-in-out;
   }
 }
+
+/* 6. 페이지 트랜지션 애니메이션 */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.slide-left-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.slide-left-leave-to {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.slide-right-enter-from {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
