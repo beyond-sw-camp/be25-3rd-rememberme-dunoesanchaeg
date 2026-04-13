@@ -68,10 +68,7 @@
             </p>
 
             <div class="complete-button-group">
-                <button class="primary-btn" @click="goHome">
-                남은 루틴 수행하러 가기
-                </button>
-                <button class="secondary-btn" @click="goHome">
+                <button :style="homeButtonStyle" @click="goHome">
                 홈화면으로 가기
                 </button>
             </div>
@@ -86,6 +83,7 @@
     import { reactive, ref } from 'vue';
     import { useRouter } from 'vue-router';
     import RecordSection from '@/components/daily-record/RecordSection.vue';
+    import { computed } from 'vue';
 
     const router = useRouter();
 
@@ -132,6 +130,18 @@
     const goHome = () => {
     router.push('/');
 };
+const homeButtonStyle = computed(() => ({
+  width: '220px',
+  height: '52px',
+  border: 'none',
+  borderRadius: '16px',
+  background: 'var(--color-brand-green)',
+  color: '#fff',
+  fontSize: 'var(--text-base)',
+  fontWeight: 700,
+  cursor: 'pointer',
+  marginTop: '28px',
+}));
     </script>
 
     <style scoped>
