@@ -3,13 +3,8 @@ import { useRouter } from 'vue-router';
 import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth.js';
 
-/**
- * 💡 모드 설정 (이것만 바꾸면 됩니다!)
- * true  : 로그인/서버 무관하게 화면 UI 테스트용 가짜 데이터 사용
- * false : 실제 백엔드 서버 연동 (로그인 필수)
- */
-const PREVIEW_MODE = true; 
-// const PREVIEW_MODE = false; 
+// const PREVIEW_MODE = true; 
+const PREVIEW_MODE = false; 
 
 export function useHome() {
     const router = useRouter();
@@ -19,7 +14,6 @@ export function useHome() {
     const routineData = ref(null);
     const errorMessage = ref('');
 
-    // --- [1. 가공된 데이터 (화면에서 쓸 것들)] ---
     const progress = computed(() => routineData.value?.progressRate ?? 0);
 
     const message = computed(() => {
@@ -30,7 +24,7 @@ export function useHome() {
         return '🙂 아직 루틴을 시작하지 않았어요. 함께 시작해볼까요?';
     });
 
-    const games = computed(() => {
+    const missions = computed(() => {
         if (!routineData.value) return [];
         return [
             {
@@ -72,13 +66,13 @@ export function useHome() {
         return `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
     });
 
-    // --- [2. 데이터 로드 함수] ---
+    // 
     const initializeHome = async () => {
         isLoading.value = true;
         errorMessage.value = '';
 
         try {
-            // [A] 화면 테스트 모드 (PREVIEW_MODE = true)
+            // (PREVIEW_MODE = true)
             if (PREVIEW_MODE) {
                 console.log("🛠️ 화면 테스트용 데이터를 사용합니다.");
 
@@ -91,21 +85,31 @@ export function useHome() {
                     questionFinished: false
                 };
             } 
-            // [B] 실제 서버 연동 모드 (PREVIEW_MODE = false)
+            // (PREVIEW_MODE = false)
             else {
-                // (주석 처리됨 - 연동 시 해제)
                 
                 if (!authStore.accessToken) {
-                    if (router.hasRoute('Login')) router.replace({ name: 'Login' });
-                    return;
-                }
-                const res = await instance.get('/api/v1/routines/today');
-                routineData.value = res.data.data;
-                
+                routineData.value = {
+                    progressRate: 0,
+                    gameFinished: false,
+                    recordFinished: false,
+                    questionFinished: false
+                };
+                isLoading.value = false;
+                return; 
+            }
+
+            const res = await instance.get('/api/v1/routines/today');
+            routineData.value = res.data.data;
             }
         } catch (error) {
             console.error('Home 로딩 실패:', error);
-            errorMessage.value = '데이터를 가져오지 못했습니다.';
+            
+            if (error.response?.status === 401) {
+                authStore.logout();
+                router.replace({ name: 'Login' });
+            }
+            errorMessage.value = '오늘의 루틴을 불러오지 못했습니다.';
         } finally {
             isLoading.value = false;
         }
@@ -127,7 +131,7 @@ export function useHome() {
         errorMessage,
         progress,
         message,
-        games,
+        missions,
         initializeHome
     };
 }
