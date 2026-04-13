@@ -9,6 +9,7 @@ import Statistics from "@/pages/statistics/Statistics.vue";
 import Notice from "@/pages/Notice.vue";
 import Profile from "@/pages/profile/Profile.vue";
 import KakaoCallback from "@/pages/login/KakaoCallback.vue";
+import DailyRecordPage from '@/pages/daily-record/DailyRecordPage.vue';
 
 
 // meta: {hideLayout: true} 추가시 페이지 및 하단바 안보임
@@ -41,6 +42,11 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home
+    },
+    {
+            path: '/daily-record',
+            name: 'DailyRecord',
+            component: () => import('@/pages/daily-record/DailyRecordPage.vue')
     },
     {path: '/statistics', name: 'Statistics', component: Statistics},
     {path: '/statistics/detail', name: 'StatisticsDetail', component: () => import("@/pages/statistics/DailyDetail.vue"), meta: {hideLayout: true}},
