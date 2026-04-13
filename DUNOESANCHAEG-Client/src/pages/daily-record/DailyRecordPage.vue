@@ -145,11 +145,7 @@ const goHome = () => {
 .page-inner {
     max-width: 760px;
     margin: 0 auto;
-    padding: 28px 24px 32px;
-    background: var(--color-brand-blue);
-    border: 1px solid var(--color-surface-variant);
-    border-radius: var(--radius-card);
-    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+    padding: 8px 0 0;
 }
 
 .page-header {
@@ -264,8 +260,7 @@ const goHome = () => {
 
 @media (max-width: 640px) {
     .page-inner {
-        padding: 24px 16px 28px;
-        border-radius: 1.5rem;
+        padding: 8px 0 0;
     }
 
     .page-title {
