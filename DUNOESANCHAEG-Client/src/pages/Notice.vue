@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import instance from '@/api/instance';
 import { showToast, List as VanList, Icon as VanIcon, Cell as VanCell } from 'vant';
 
 
@@ -62,33 +62,26 @@ const page = ref(0);
 const size = ref(10);
 
 // API 호출 설정
-const api = axios.create({
-  baseURL: '/api/v1',
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-  }
-});
-
 const onLoad = async () => {
   try {
-    const response = await api.get('/notices', {
+    const response = await instance.get('/notices', {
       params: { page: page.value, size: size.value }
     });
 
-    // ApiResponse<List<NoticeListResponse>>
     const data = response.data.data;
 
-    if (data.length > 0) {
+    if (data && data.length > 0) {
       noticeList.value.push(...data);
       page.value++;
     }
 
     loading.value = false;
 
-    if (data.length < size.value) {
+    if (!data || data.length < size.value) {
       finished.value = true;
     }
   } catch (error) {
+    console.error('공지 로드 실패:', error);
     showToast('공지사항을 불러오지 못했습니다.');
     loading.value = false;
     finished.value = true;
@@ -98,11 +91,11 @@ const onLoad = async () => {
 // 상세 내용 가져오기
 const fetchDetail = async (id) => {
   try {
-    const response = await api.get(`/notices/${id}`);
+    const response = await instance.get(`/notices/${id}`);
     selectedNotice.value = response.data.data;
-    window.scrollTo(0, 0); // 상세 페이지 진입 시 상단으로 이동
+    window.scrollTo(0, 0);
   } catch (error) {
-    showToast('공지 상세 내용을 불러올 수 없습니다.');
+    showToast('상세 내용을 불러올 수 없습니다.');
   }
 };
 
