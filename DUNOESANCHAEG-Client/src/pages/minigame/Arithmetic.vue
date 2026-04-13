@@ -1,11 +1,18 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-6 flex flex-col relative pb-24">
-    <div class="absolute top-6 left-6 z-50">
-      
-    </div>
+  <div class="min-h-dvh bg-brand-bg flex flex-col pb-24">
+    <van-nav-bar
+      title="사칙연산"
+      left-arrow
+      @click-left="goBack"
+      fixed
+      placeholder
+      safe-area-inset-top
+      class="shadow-sm font-bold bg-brand-bg z-50"
+    />
 
-    <div class="flex justify-between items-end shrink-0 mt-8 mb-3">
-      <div>
+    <div class="p-6 flex flex-col flex-1 relative">
+      <div class="flex justify-between items-end shrink-0 mt-2 mb-3">
+        <div>
         <span class="text-brand-green font-black text-3xl">{{ currentRound }}</span>
         <span class="text-gray-400 font-bold text-lg"> / {{ TOTAL_ROUNDS }}</span>
       </div>
@@ -30,9 +37,6 @@
       <h2 class="text-2xl font-bold text-gray-900 leading-[1.3]">
         다음 수식을 계산하고<br />정답을 골라주세요
       </h2>
-      <p class="text-gray-400 font-medium text-sm">
-        제한 시간 내에 알맞은 보기를 <br />골라주세요.
-      </p>
     </div>
 
     <div class="flex flex-col w-full mb-auto shrink-0 relative">
@@ -60,6 +64,7 @@
         </div>
       </Transition>
     </div>
+    </div>
   </div>
 </template>
 
@@ -69,6 +74,10 @@ import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useTimer } from '../../composables/useTimer.js';
 
 const router = useRouter();
+
+const goBack = () => {
+    router.go(-1);
+};
 
 const TOTAL_ROUNDS = 3;
 const TIME_LIMIT = 15;
@@ -165,6 +174,23 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+:deep(.van-nav-bar__title) {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 800;
+  color: var(--color-brand-green);
+}
+:deep(.van-nav-bar .van-icon) {
+  color: var(--color-brand-green);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+:deep(.van-nav-bar) {
+  background-color: var(--color-brand-bg);
+}
+:deep(.van-nav-bar::after) {
+  border-bottom-width: 0 !important;
+}
+
 :deep(.van-progress__pivot) {
     display: none;
 }

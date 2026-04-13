@@ -50,9 +50,9 @@ const routes = [
     {
         path: '/minigame',
         children: [
-            {path: 'arithmetic', name: 'GameArithmetic', component: () => import("@/pages/minigame/Arithmetic.vue")},
-            {path: 'wordmemory', name: 'GameWordmemory', component: () => import("@/pages/minigame/WordMemory.vue")},
-            {path: 'dekarterps', name: 'GameDekarterps', component: () => import("@/pages/minigame/Dekarterps.vue")},
+            {path: 'arithmetic', name: 'GameArithmetic', component: () => import("@/pages/minigame/Arithmetic.vue"), meta: {hideLayout: true}},
+            {path: 'wordmemory', name: 'GameWordmemory', component: () => import("@/pages/minigame/WordMemory.vue"), meta: {hideLayout: true}},
+            {path: 'dekarterps', name: 'GameDekarterps', component: () => import("@/pages/minigame/Dekarterps.vue"), meta: {hideLayout: true}},
         ]
     }
 ];

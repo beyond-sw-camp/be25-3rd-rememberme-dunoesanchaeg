@@ -1,7 +1,17 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-6 flex flex-col space-y-6">
-    
-    <div class="flex justify-between items-end shrink-0">
+  <div class="min-h-dvh bg-gray-50 flex flex-col">
+    <van-nav-bar
+      title="단어 연상 게임"
+      left-arrow
+      @click-left="goBack"
+      fixed
+      placeholder
+      safe-area-inset-top
+      class="shadow-sm font-bold bg-gray-50 z-50"
+    />
+
+    <div class="p-6 flex flex-col space-y-6 flex-1 relative">
+      <div class="flex justify-between items-end shrink-0">
       <div>
         <span class="text-brand-green font-black text-3xl">{{ currentRound }}</span>
         <span class="text-gray-400 font-bold text-lg"> / {{ TOTAL_ROUNDS }}</span>
@@ -31,9 +41,6 @@
           </span>
         </transition>
       </h2>
-      <p class="text-gray-400 font-medium">
-        {{ isMemorizing ? '단어가 하나씩 나타납니다.' : '기억하신 순서대로 단어를 터치하세요.' }}
-      </p>
     </div>
 
     <div class="flex-1">
@@ -76,6 +83,7 @@
         제출하기
       </button>
     </div>
+    </div>
   </div>
 </template>
 
@@ -85,6 +93,10 @@ import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useTimer } from '../../composables/useTimer.js';
 
 const router = useRouter();
+
+const goBack = () => {
+  router.go(-1);
+};
 
 // 1. 설정 데이터
 const TOTAL_ROUNDS = 3;
@@ -282,6 +294,23 @@ onUnmounted(() => stopTimer());
 </script>
 
 <style scoped>
+:deep(.van-nav-bar__title) {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 800;
+  color: var(--color-brand-green);
+}
+:deep(.van-nav-bar .van-icon) {
+  color: var(--color-brand-green);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+:deep(.van-nav-bar) {
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+:deep(.van-nav-bar::after) {
+  border-bottom-width: 0 !important;
+}
+
 .card-list-enter-active,
 .card-list-leave-active {
   transition: opacity 0.4s ease, transform 0.4s ease;
