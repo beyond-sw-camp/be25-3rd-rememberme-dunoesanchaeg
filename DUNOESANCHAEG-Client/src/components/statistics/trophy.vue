@@ -1,20 +1,19 @@
 <template>
   <div class="space-y-6 px-1 pb-10">
-    <section class="rounded-[--radius-xl] bg-brand-blue p-6 shadow-sm">
+    <section class="overflow-hidden rounded-3xl bg-brand-blue p-6 shadow-sm">
       <div class="flex flex-col gap-4">
-        <h2 class="text-center text-3xl font-black text-brand-green">트로피 현황</h2>
-
+        
         <div class="w-full">
           <div
             v-if="loading"
-            class="flex min-h-32 items-center justify-center rounded-[--radius-xl] bg-surface px-4 text-center text-text-muted"
+            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted"
           >
             트로피 정보를 불러오는 중입니다.
           </div>
 
           <div
             v-else-if="acquiredTrophies.length === 0"
-            class="flex min-h-32 items-center justify-center rounded-[--radius-xl] bg-surface px-4 text-center text-text-muted"
+            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted"
           >
             획득한 트로피가 없습니다.
           </div>
@@ -24,20 +23,19 @@
               <article
                 v-for="trophy in acquiredTrophies"
                 :key="trophy.trophyId"
-                class="flex aspect-square min-w-0 items-center justify-center overflow-hidden rounded-[--radius-xl] p-1 sm:p-2"
+                class="flex min-w-0 flex-col items-center justify-start overflow-hidden rounded-[--radius-xl] p-1 sm:p-2"
               >
                 <img
                   v-if="trophy.image"
                   :src="trophy.image"
                   :alt="trophy.displayName"
-                  class="max-h-full max-w-full object-contain"
+                  class="aspect-square w-full object-contain"
                 />
 
                 <div
-                  v-else
-                  class="line-clamp-3 text-center text-[10px] font-semibold text-text-default sm:text-xs"
+                  class="mt-1 line-clamp-2 text-center text-[12px] font-semibold text-brand-green sm:text-xs"
                 >
-                  {{ trophy.displayName }}
+                  {{ trophy.caption }}
                 </div>
               </article>
             </div>
@@ -71,6 +69,14 @@ const trophyImageByCount = {
   50: trophy50DaysImage
 };
 
+const trophyCaptionByCount = {
+  10: '루틴 10일 달성',
+  20: '루틴 20일 달성',
+  30: '루틴 30일 달성',
+  40: '루틴 40일 달성',
+  50: '루틴 50일 달성'
+};
+
 // 화면에 그리기 좋게 데이터 가공 (역순 정렬 및 이미지 찾기)
 const acquiredTrophies = computed(() => {
   return trophies.value
@@ -83,7 +89,8 @@ const acquiredTrophies = computed(() => {
       return {
         ...trophy,
         displayName: trophy.trophyName || '이름 없는 트로피',
-        image: threshold ? trophyImageByCount[threshold] : ''
+        image: threshold ? trophyImageByCount[threshold] : '',
+        caption: threshold ? trophyCaptionByCount[threshold] : (trophy.trophyName || '이름 없는 트로피')
       };
     });
 });
