@@ -51,13 +51,22 @@ export const useAuthStore = defineStore('auth', () => {
 
     };
 
+    // 로그인 유도 모달 상태 
+    const isLoginModalVisible = ref(false);
+
+    const openLoginModal = () => { isLoginModalVisible.value = true; };
+    const closeLoginModal = () => { isLoginModalVisible.value = false; };
+
     return {
         accessToken,
         role,
         isProfileCompleted,
         isHighContrast,
         fontSize,
+        isLoginModalVisible,
         setLoginInfo,
-        logout
+        logout,
+        openLoginModal,
+        closeLoginModal
     };
 });

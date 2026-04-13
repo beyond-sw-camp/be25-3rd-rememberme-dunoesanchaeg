@@ -29,13 +29,21 @@ export function useHome() {
 
         const d = routineData.value;
 
+        const gameRouteMap = {
+            'ARITHMETIC': 'GameArithmetic',
+            'WORD_MEMORY': 'GameWordmemory',
+            'DESCARTES_RPS': 'GameDekarterps'
+        };
+
         return [
             {
                 title: '미니게임',
                 desc: '기억력을 키워요.',
                 icon: '🎮',
-                link: 'GameDekarterps',
-                isCompleted: d.gameFinished
+                link: gameRouteMap[d.assignedGameType] || 'MiniGame',
+                isCompleted: d.gameFinished,
+                gameFinished: d.gameFinished,
+                assignedGameType: d.assignedGameType
             },
             {
                 title: '하루 기록',
@@ -48,7 +56,8 @@ export function useHome() {
                 title: '질문',
                 desc: '오늘의 질문에 답해보세요.',
                 icon: '❓',
-                link: 'GameWordmemory',
+                // link: 'OpenQuestion',
+                link: 'MiniGame',
                 isCompleted: d.questionFinished
             }
         ];
@@ -56,6 +65,7 @@ export function useHome() {
 
 
     // 추가 할 말 할 말.... //
+    // [ ]: userName, formattedDate 추가 방법 생각하기 
     const userName = computed(() => authStore.userName || '회원');
 
     const formattedDate = computed(() => {
@@ -101,7 +111,7 @@ export function useHome() {
                     return;
                 }
 
-                const res = await instance.get('/api/v1/routines/today');
+                const res = await instance.get('routines/today');
                 routineData.value = res.data.data;
             }
         } catch (error) {
@@ -134,4 +144,4 @@ export function useHome() {
 }
 
 
-// TODO: 로그인 하지 않은 상태에서 페이지 이동 시 조건문 검사 필요 (로그인이 필요합니다. 문구 필요)
+// [x]: 로그인 하지 않은 상태에서 페이지 이동 시 조건문 검사 필요 (로그인이 필요합니다. 문구 필요)
