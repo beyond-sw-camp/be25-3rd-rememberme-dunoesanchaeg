@@ -110,7 +110,7 @@
 
 /* 폰트 스케일링 선택자 */
 html[data-font-size="small"] {
-  --font-scale: 0.85;
+  --font-scale: 0.80;
 }
 
 html[data-font-size="medium"] {
@@ -118,7 +118,7 @@ html[data-font-size="medium"] {
 }
 
 html[data-font-size="large"] {
-  --font-scale: 1.15;
+  --font-scale: 1.25;
 }
 
 html[data-font-size="xlarge"] {
@@ -322,3 +322,4 @@ html[data-high-contrast="true"] {
   transform: translateX(100%);
   opacity: 0;
 }
+
