@@ -56,22 +56,23 @@
 
     <style scoped>
     .record-card {
-    background: #fff;
-    border-radius: 18px;
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
     padding: 20px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--color-surface-variant);
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.05);
     }
 
     .record-title {
     margin: 0 0 14px;
-    font-size: 20px;
+    font-size: var(--text-xl);
     font-weight: 700;
-    color: #1f2937;
+    color: var(--color-text-main);
+    line-height: var(--text-xl--line-height);
     }
 
     .required {
-    color: #2563eb;
+    color: var(--color-brand-green);
     }
 
     .level-options {
@@ -83,28 +84,38 @@
     .level-btn {
     flex: 1;
     min-height: 52px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--color-surface-variant);
     border-radius: 14px;
-    background: #f8fafc;
-    font-size: 16px;
+    background: var(--color-brand-blue);
+    color: var(--color-text-sub);
+    font-size: var(--text-base);
     font-weight: 700;
     cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .level-btn.active {
-    background: #dbeafe;
-    border-color: #2563eb;
-    color: #1d4ed8;
+    background: var(--color-brand-green);
+    border-color: var(--color-brand-green);
+    color: #ffffff;
+    transform: translateY(-1px);
     }
 
     .memo-textarea {
     width: 100%;
     min-height: 90px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--color-surface-variant);
     border-radius: 14px;
     padding: 12px;
     box-sizing: border-box;
     resize: vertical;
-    font-size: 15px;
+    background: var(--color-surface);
+    color: var(--color-text-main);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    }
+
+    .memo-textarea::placeholder {
+    color: var(--color-text-muted);
     }
 </style>
