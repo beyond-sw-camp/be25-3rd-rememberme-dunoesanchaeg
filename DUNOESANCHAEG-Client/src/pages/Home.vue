@@ -48,6 +48,30 @@ Home.vue
     </div>
 
     <section class="space-y-4">
+
+      <!-- 개방형질문 기능 구현 -->
+      <div class="bg-brand-blue p-6 rounded-[--radius-xl] shadow-sm border border-surface-variant flex flex-col gap-4">
+        <div class="flex justify-between items-start">
+          <div class="size-12 bg-surface-variant rounded-2xl flex items-center justify-center text-2xl">
+            ❓
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xl font-bold text-text-main">개방형질문</h4>
+          <p class="text-text-muted text-sm font-medium">
+            마음에 떠오르는 이야기를 편하게 적어보세요!
+          </p>
+        </div>
+        <button
+            type="button"
+            @click="goToOpenQuestion"
+            class="w-full bg-brand-green text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+        >
+          <span class="text-white">시작하기</span>
+          <van-icon name="play" class="ml-1 text-white" />
+        </button>
+      </div>
+
       <div
           v-for="(game, i) in games" :key="i"
           class="bg-brand-blue p-6 rounded-[--radius-xl] shadow-sm border border-surface-variant flex flex-col gap-4"
@@ -80,6 +104,17 @@ Home.vue
 </template>
 
 <script setup>
+
+// 개방형질문 기능 구현
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const goToOpenQuestion = () => {
+  sessionStorage.setItem('openQuestionEntry', 'allowed');
+  router.push('/open-question');
+};
+
 const games = [
   { icon: '⚙️', title: '미니게임 - 단어 연상', desc: '기억력 향상 게임', link: 'GameWordmemory' },
   { icon: '🧮', title: '미니게임 - 간단 연산', desc: '뇌의 회전 속도를 높여보세요', link: 'GameArithmetic' },
