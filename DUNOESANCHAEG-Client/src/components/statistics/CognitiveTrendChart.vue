@@ -57,35 +57,20 @@ const cognitiveSkillMap = {
 
 const activeTab = ref('WORD_MEMORY');
 
-// API에서 받아올 원본 통계 데이터 상태
 const apiResponseData = ref(null);
 
-// 현재 탭의 단건 요약 데이터
 const currentStatItem = computed(() => {
   if (!apiResponseData.value || !apiResponseData.value.stats) return null;
   return apiResponseData.value.stats.find(s => s.game_type === activeTab.value) || null;
 });
 
-// 차트 데이터 (임의의 7회차 히스토리 데이터 생성 로직 사용. 실제로는 배열 데이터가 필요함)
 const trendHistory = ref([]);
 
-const generateTrendData = (targetAccuracy) => {
-  const dummy = [];
-  let currentVal = Math.max(0, targetAccuracy - 20); 
-  for(let i = 1; i <= 7; i++) {
-    if(i === 7) {
-      dummy.push(targetAccuracy);
-    } else {
-      dummy.push(currentVal);
-      currentVal += Math.floor(Math.random() * 8) - 2; 
-    }
-  }
-  return dummy;
-};
-
 const updateChartData = () => {
-  if (currentStatItem.value) {
-    trendHistory.value = generateTrendData(currentStatItem.value.accuracy);
+  if (currentStatItem.value && currentStatItem.value.scores) {
+    trendHistory.value = currentStatItem.value.scores;
+  } else {
+    trendHistory.value = [];
   }
 };
 
@@ -94,7 +79,7 @@ onMounted(async () => {
     const today = new Date();
     const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     
-    const response = await instance.get('/api/v1/statistics/games', {
+    const response = await instance.get('/api/v1/statistics/games/weekly-types', {
       params: { targetDate: formattedDate }
     });
     if (response.data && response.data.code === 200) {
@@ -130,7 +115,8 @@ const computedChartData = computed(() => {
         pointRadius: 5,
         pointHoverRadius: 7,
         fill: true,
-        tension: 0.4 
+        tension: 0.4,
+        clip: false 
       }
     ]
   };
@@ -161,9 +147,7 @@ const chartOptions = {
       callbacks: {
         label: function(context) {
           const acc = context.parsed.y;
-          // 부가 데이터 표시 로직 (목업 단건이라 정확한 매 회차 문제수는 없으나 계산 식 대입)
-          // 실제로는 백엔드의 상세 배열이 필요
-          return `정답률: ${acc}% (총 질문: ${currentStatItem.value.total_questions}개 중 추정)`;
+          return `정답률: ${acc}%`;
         }
       }
     }
