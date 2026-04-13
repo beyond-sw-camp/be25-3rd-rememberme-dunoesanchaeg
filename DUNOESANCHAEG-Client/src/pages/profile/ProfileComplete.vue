@@ -18,16 +18,16 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일(년, 월, 일)</label>
         <div class="flex gap-2">
           <select v-model="birth.year" class="select-custom text-lg">
-            <option v-for="y in years" :key="y" :value="y">{{ y }}년</option>
+            <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
           </select>
           <select v-model="birth.month" class="select-custom text-lg">
-            <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}월</option>
+            <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}</option>
           </select>
           <select v-model="birth.day" class="select-custom text-lg">
-            <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}일</option>
+            <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}</option>
           </select>
         </div>
       </div>
@@ -132,7 +132,7 @@ import { showToast, showLoadingToast, closeToast } from 'vant';
 import instance from '@/api/instance.js';
 import { useAuthStore } from '@/store/auth.js';
 import { useSettingsStore } from '@/store/settings.js';
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 
 // 1. 초기화 및 스토어 연결
 const router = useRouter();
@@ -266,3 +266,27 @@ const handleComplete = async () => {
   }
 };
 </script>
+<style scoped>
+  .input-custom {
+    height: 3.5rem;
+    min-height: 3.5rem;
+    max-height: 3.5rem;
+
+    /* 글자가 커졌을 때 박스를 뚫고 나가지 않게 조절 */
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* 글자가 박스보다 커질 경우를 대비 */
+  }
+
+  /* 생년월일 input 태그 자체에도 높이 적용 */
+  input[type="date"].input-custom {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  button {
+    font-weight: 600 !important;
+  }
+
+</style>

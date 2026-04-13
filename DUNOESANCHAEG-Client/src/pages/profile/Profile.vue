@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-6 pb-28">
+  <div class="min-h-screen bg-brand-bg p-6">
 
     <header class="flex items-center gap-3 mb-10">
       <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
@@ -12,7 +12,7 @@
           <van-image round :src="profileDefault" class="w-24 h-24 mr-6 border-4 border-white shadow-md" />
         </template>
         <template #title>
-          <div class="text-3xl font-extrabold text-text-main mb-1">
+          <div class="text-2xl font-extrabold text-text-main mb-1">
             {{ userInfo.nickname || '가져오는 중...' }} 님
           </div>
         </template>
@@ -36,7 +36,7 @@
       <van-cell-group inset class="shadow-sm border border-surface-variant">
         <van-cell title="크게 보기" size="large" class="py-5">
           <template #value>
-            <select v-model="fontSize" class="view-mode-select">
+            <select v-model="fontSize" class="view-mode-select text-sm">
               <option value="SMALL">작게</option>
               <option value="MEDIUM">중간</option>
               <option value="LARGE">크게</option>
@@ -88,7 +88,7 @@ import { useAuthStore } from '@/store/auth';
 import { useSettingsStore } from '@/store/settings';
 import { showConfirmDialog, showToast } from 'vant';
 
-import logoGreen from '@/assets/image/logo_profile.png';
+import logoGreen from '@/assets/image/logo_green1.png';
 import profileDefault from '@/assets/image/profile_default.png';
 
 const router = useRouter();
@@ -131,7 +131,7 @@ const fetchUserData = async () => {
       authStore.logout();
 
       // 로그인 페이지로 이동
-      router.replace('/login');
+      await router.replace('/login');
     }
   }
 };
@@ -172,8 +172,8 @@ const handleLogout = async () => {
     title: '로그아웃',
     message: '정말 로그아웃 하시겠습니까?',
   }).then(async () => {
-    await authStore.logout();
-    router.push('/login');
+    authStore.logout();
+    await router.push('/login');
     showToast('로그아웃 되었습니다.');
   }).catch(() => {});
 };
@@ -187,9 +187,9 @@ const handleWithdraw = () => {
   }).then(async () => {
     try {
       await instance.delete('/members/me');
-      await authStore.logout();
+      authStore.logout();
       showToast('탈퇴가 완료되었습니다.');
-      router.push('/login');
+      await router.push('/login');
     } catch (error) {
       showToast('처리 중 오류가 발생했습니다.');
     }
@@ -212,8 +212,14 @@ onMounted(fetchUserData);
   outline: none;
   padding: 0.4rem 1rem;
   border-radius: 9999px;
-  font-size: 1rem;
+  font-size: var(--text-base);
   font-weight: 700;
+}
+
+.view-mode-select option {
+  font-size: var(--text-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
 }
 
 .profile-footer {
@@ -244,5 +250,19 @@ onMounted(fetchUserData);
   background: transparent;
   border: none;
   cursor: pointer;
+}
+
+:deep(.van-cell__title) {
+  font-size: var(--text-lg) !important;
+  line-height: var(--text-lg--line-height) !important;
+  font-weight: 600;
+}
+
+:deep(.van-cell__label) {
+  font-size: var(--text-base) !important;
+}
+
+:deep(.van-cell__value) {
+  font-size: var(--text-base) !important;
 }
 </style>

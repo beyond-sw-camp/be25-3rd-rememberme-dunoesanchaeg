@@ -20,16 +20,16 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일</label>
+        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일(년, 월, 일)</label>
         <div class="flex gap-2">
-          <select v-model="birth.year" class="select-custom text-lg">
-            <option v-for="y in years" :key="y" :value="y">{{ y }}년</option>
+          <select v-model="birth.year" class="select-custom text-base">
+            <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
           </select>
-          <select v-model="birth.month" class="select-custom text-lg">
-            <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}월</option>
+          <select v-model="birth.month" class="select-custom text-base">
+            <option v-for="m in availableMonths" :key="m" :value="m">{{ parseInt(m) }}</option>
           </select>
-          <select v-model="birth.day" class="select-custom text-lg">
-            <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}일</option>
+          <select v-model="birth.day" class="select-custom text-base">
+            <option v-for="d in availableDays" :key="d" :value="d">{{ parseInt(d) }}</option>
           </select>
         </div>
       </div>
@@ -124,9 +124,8 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import instance from '@/api/instance.js';
-import axios from 'axios';
 import { showToast, showLoadingToast, closeToast } from 'vant';
-import logoGreen from '../../assets/image/logo_profile.png';
+import logoGreen from '../../assets/image/logo_green1.png';
 
 const router = useRouter();
 
@@ -268,5 +267,43 @@ onMounted(fetchInitialData);
 <style scoped>
 .transition-all {
   transition: all 0.2s ease-in-out;
+}
+
+/* 1. 부모 컨테이너 정렬 */
+.flex.gap-2 {
+  display: flex;
+  align-items: stretch; /* 자식 요소들의 높이를 동일하게 맞춤 */
+  justify-content: space-between; /* 박스 간 간격을 일정하게 */
+}
+
+/* 2. 셀렉트 박스 개별 정렬 */
+.select-custom {
+  flex: 1; /* 세 박스가 동일한 너비를 가지도록 설정 */
+  height: 3.5rem !important; /* 높이 고정 (글자 크기에 영향 받지 않음) */
+  padding: 0 0.5rem !important; /* 좌우 여백만 부여, 상하는 0 */
+  padding-right: 2.5rem !important; /* 글자 크기에 따라 2~3rem 정도로 조절 */
+
+  /* 글자가 너무 길면 ...으로 생략되게 하여 화살표 침범 방지 */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  vertical-align: middle; /* 박스들끼리 기준선 맞춤 */
+  box-sizing: border-box;
+}
+/* 이름, 전화번호 입력창(input-custom)도 동일하게 적용하고 싶다면 */
+.input-custom {
+  height: 3.5rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box;
+}
+
+button {
+  font-weight: 600 !important;
 }
 </style>

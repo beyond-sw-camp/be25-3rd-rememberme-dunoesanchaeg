@@ -5,10 +5,11 @@ import { isTokenExpired } from '@/utils/jwtUtils.js';
 
 // 컴포넌트 임포트
 import Home from "@/pages/Home.vue";
-import Statistics from "@/pages/Statistics.vue";
+import Statistics from "@/pages/statistics/Statistics.vue";
 import Notice from "@/pages/Notice.vue";
 import Profile from "@/pages/profile/Profile.vue";
 import KakaoCallback from "@/pages/login/KakaoCallback.vue";
+import DailyRecordPage from '@/pages/daily-record/DailyRecordPage.vue';
 
 
 // meta: {hideLayout: true} 추가시 페이지 및 하단바 안보임
@@ -42,7 +43,13 @@ const routes = [
         name: 'Home',
         component: Home
     },
+    {
+            path: '/daily-record',
+            name: 'DailyRecord',
+            component: () => import('@/pages/daily-record/DailyRecordPage.vue')
+    },
     {path: '/statistics', name: 'Statistics', component: Statistics},
+    {path: '/statistics/detail', name: 'StatisticsDetail', component: () => import("@/pages/statistics/DailyDetail.vue"), meta: {hideLayout: true}},
     {path: '/notices', name: 'Notice', component: Notice},
     {path: '/profile', name: 'Profile', component: Profile},
     {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},

@@ -102,13 +102,15 @@
   --tabbar-active: #1B391E;
   --tabbar-inactive: #A8B5AA;
   --tabbar-border: #ebedf0;
+  --tabbar-active-bg: transparent;
+  --color-error: rgba(255, 0, 0, 0.66); /* 회원탈퇴 붉은색 */
 }
 
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
 
 /* 폰트 스케일링 선택자 */
 html[data-font-size="small"] {
-  --font-scale: 0.85;
+  --font-scale: 0.80;
 }
 
 html[data-font-size="medium"] {
@@ -116,7 +118,7 @@ html[data-font-size="medium"] {
 }
 
 html[data-font-size="large"] {
-  --font-scale: 1.15;
+  --font-scale: 1.25;
 }
 
 html[data-font-size="xlarge"] {
@@ -147,6 +149,7 @@ html[data-high-contrast="true"] {
   --tabbar-active: #ffffff;
   --tabbar-inactive: #2D7A36;
   --tabbar-border: #ffffff;
+  --tabbar-active-bg: var(--color-brand-green);
 
   /* 고대비 시 Vant 강제 조정 */
   --van-cell-background: #1a1a1a;
@@ -154,6 +157,7 @@ html[data-high-contrast="true"] {
   --van-button-primary-background: #2D7A36;
   --van-button-primary-color: #000000;
   --van-cell-border-color: #ffffff;
+
 }
 
 /* 3. Tailwind v4 테마 연동 */
@@ -174,9 +178,11 @@ html[data-high-contrast="true"] {
   --color-tabbar-active: var(--tabbar-active);
   --color-tabbar-inactive: var(--tabbar-inactive);
 
+  --color-error: var(--color-error);
+
   --radius-card: var(--radius-card);
 
-  /* 🎯 텍스트 크기 및 line-height 상세 스케일링 */
+  /* 텍스트 크기 및 line-height 상세 스케일링 */
   --text-xs: calc(0.75rem * var(--font-scale));
   --text-xs--line-height: calc(1rem * var(--font-scale));
 
@@ -212,42 +218,108 @@ html[data-high-contrast="true"] {
 }
 
 /* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
-:root {
-  /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
-  --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+@layer base {
+  :root {
+    /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
+    --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
 
-  /* Vant 레이아웃 */
-  --van-nav-bar-height: 64px;
-  --van-nav-bar-title-text-color: var(--color-brand-green);
-  --van-tag-default-color: #8A968D;
-  --van-tag-round-border-radius: 999px;
-  --van-button-primary-background: var(--color-brand-green);
-  --van-button-border-radius: 1rem;
+    /* Vant 레이아웃 */
+    --van-nav-bar-height: 64px;
+    --van-nav-bar-title-text-color: var(--color-brand-green);
+    --van-tag-default-color: #8A968D;
+    --van-tag-round-border-radius: 999px;
+    --van-button-primary-background: var(--color-brand-green);
+    --van-button-border-radius: 1rem;
 
-  /* 🎯 Vant UI 폰트 및 라인헤이트 스케일링 */
-  --van-font-size-xs: calc(10px * var(--font-scale));
-  --van-font-size-sm: calc(12px * var(--font-scale));
-  --van-font-size-md: calc(14px * var(--font-scale));
-  --van-font-size-lg: calc(16px * var(--font-scale));
+    /* Vant UI 폰트 및 라인헤이트 스케일링 */
+    --van-font-size-xs: calc(10px * var(--font-scale));
+    --van-font-size-sm: calc(12px * var(--font-scale));
+    --van-font-size-md: calc(14px * var(--font-scale));
+    --van-font-size-lg: calc(16px * var(--font-scale));
 
-  --van-line-height-xs: calc(14px * var(--font-scale));
-  --van-line-height-sm: calc(18px * var(--font-scale));
-  --van-line-height-md: calc(20px * var(--font-scale));
-  --van-line-height-lg: calc(22px * var(--font-scale));
+    --van-line-height-xs: calc(14px * var(--font-scale));
+    --van-line-height-sm: calc(18px * var(--font-scale));
+    --van-line-height-md: calc(20px * var(--font-scale));
+    --van-line-height-lg: calc(22px * var(--font-scale));
 
-  /* 하단바 맵핑 */
-  --color-tabbar-bg: var(--tabbar-bg);
-  --color-tabbar-active: var(--tabbar-active);
-  --color-tabbar-inactive: var(--tabbar-inactive);
-  --color-tabbar-border: var(--tabbar-border);
+    /* 하단바 맵핑 */
+    --color-tabbar-bg: var(--tabbar-bg);
+    --color-tabbar-active: var(--tabbar-active);
+    --color-tabbar-inactive: var(--tabbar-inactive);
+    --color-tabbar-border: var(--tabbar-border);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+    background-color: var(--color-brand-bg);
+    color: var(--color-text-main);
+    /* 모드 전환 시 부드러운 애니메이션 */
+    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+  }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
-  background-color: var(--color-brand-bg);
-  color: var(--color-text-main);
-  /* 모드 전환 시 부드러운 애니메이션 */
-  transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+/* 5. 커스텀 컴포넌트 클래스 정의 */
+@layer components {
+  /* 입력창 공통 스타일 */
+  .input-custom {
+    @apply w-full p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .input-custom:focus {
+    box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.3);
+    background-color: var(--color-surface);
+  }
+
+  /* 셀렉트 박스: border-none을 지우고 테두리 2px 추가 */
+  .select-custom {
+    @apply flex-1 p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none text-center font-bold appearance-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+
+    /* 화살표 아이콘 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.2em;
+    padding-right: 2rem;
+  }
+
+
+  .transition-standard {
+    transition: all 0.2s ease-in-out;
+  }
 }
+
+/* 6. 페이지 트랜지션 애니메이션 */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.slide-left-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.slide-left-leave-to {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.slide-right-enter-from {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
