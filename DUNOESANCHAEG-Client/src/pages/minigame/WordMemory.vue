@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-dvh bg-gray-50 flex flex-col relative">
-
     <GameGuide
       v-if="!isGameStarted"
       title="단어 기억"
@@ -21,110 +20,136 @@
         class="shadow-sm font-bold bg-gray-50 z-50"
       />
 
-    <div class="p-6 flex flex-col space-y-6 flex-1 relative">
-      <div class="flex justify-between items-end shrink-0">
-      <div>
-        <span class="text-brand-green font-black text-3xl">{{ currentRound }}</span>
-        <span class="text-gray-400 font-bold text-lg"> / {{ TOTAL_ROUNDS }}</span>
-      </div>
-      <div class="text-right">
-        <div class="flex items-center gap-2 text-brand-green font-bold">
-          <span class="text-2xl">{{ timeLeft }}</span>초 남음
-          <van-icon name="stopwatch" size="22" />
-        </div>
-      </div>
-    </div>
-
-    <van-progress 
-      :percentage="(timeLeft / (isMemorizing ? MEMORY_TIME : SELECT_TIME)) * 100" 
-      pivot-text="" 
-      color="#1B391E" 
-      track-color="#E5E7EB"
-      stroke-width="8"
-      class="rounded-full overflow-hidden shrink-0"
-    />
-
-    <div class="text-center space-y-2 py-2 shrink-0">
-      <h2 class="text-2xl font-bold text-gray-900 min-h-[3rem]">
-        <transition name="slide-up" mode="out-in">
-          <span :key="isMemorizing" class="block whitespace-pre-line">
-            {{ isMemorizing ? '나타나는 단어 순서를\n기억하세요' : '기억하신 순서대로\n단어를 선택해 주세요' }}
-          </span>
-        </transition>
-      </h2>
-    </div>
-
-    <div class="flex-1">
-      <TransitionGroup 
-        name="card-list" 
-        tag="div" 
-        class="grid grid-cols-1 gap-4"
-      >
-        <div 
-          v-for="(word) in shownWords" 
-          :key="word.text"
-          @click="handleWordClick(word.text)"
-          :class="[
-            'relative p-8 rounded-[24px] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-4 shadow-sm cursor-pointer',
-            getCardStyle(word.text)
-          ]"
-        >
-          <div class="size-16 bg-gray-50 rounded-full flex items-center justify-center text-4xl">
-            {{ word.icon }}
+      <div class="p-6 flex flex-col space-y-6 flex-1 relative">
+        <div class="flex justify-between items-end shrink-0">
+          <div>
+            <span class="text-brand-green font-black text-3xl">{{
+              currentRound
+            }}</span>
+            <span class="text-gray-400 font-bold text-lg">
+              / {{ TOTAL_ROUNDS }}</span
+            >
           </div>
-          <span class="text-3xl font-bold transition-colors" :class="getTextColor(word.text)">{{ word.text }}</span>
+          <div class="text-right">
+            <div class="flex items-center gap-2 text-brand-green font-bold">
+              <span class="text-2xl">{{ timeLeft }}</span
+              >초 남음
+              <van-icon name="stopwatch" size="22" />
+            </div>
+          </div>
+        </div>
 
-          <div 
-            v-if="!isMemorizing && getSelectionOrder(word.text) > 0"
-            class="absolute top-4 right-4 size-8 bg-brand-green text-white rounded-full flex items-center justify-center font-bold shadow-md"
+        <van-progress
+          :percentage="
+            (timeLeft / (isMemorizing ? MEMORY_TIME : SELECT_TIME)) * 100
+          "
+          pivot-text=""
+          color="#1B391E"
+          track-color="#E5E7EB"
+          stroke-width="8"
+          class="rounded-full overflow-hidden shrink-0"
+        />
+
+        <div class="text-center space-y-2 py-2 shrink-0">
+          <h2 class="text-2xl font-bold text-gray-900 min-h-[3rem]">
+            <transition name="slide-up" mode="out-in">
+              <span :key="isMemorizing" class="block whitespace-pre-line">
+                {{
+                  isMemorizing
+                    ? "나타나는 단어 순서를\n기억하세요"
+                    : "기억하신 순서대로\n단어를 선택해 주세요"
+                }}
+              </span>
+            </transition>
+          </h2>
+        </div>
+
+        <div class="flex-1">
+          <TransitionGroup
+            name="card-list"
+            tag="div"
+            class="grid grid-cols-1 gap-4"
           >
-            {{ getSelectionOrder(word.text) }}
-          </div>
+            <div
+              v-for="word in shownWords"
+              :key="word.text"
+              @click="handleWordClick(word.text)"
+              :class="[
+                'relative p-8 rounded-[24px] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-4 shadow-sm cursor-pointer',
+                getCardStyle(word.text),
+              ]"
+            >
+              <div
+                class="size-16 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
+              >
+                {{ word.icon }}
+              </div>
+              <span
+                class="text-3xl font-bold transition-colors"
+                :class="getTextColor(word.text)"
+                >{{ word.text }}</span
+              >
+
+              <div
+                v-if="!isMemorizing && getSelectionOrder(word.text) > 0"
+                class="absolute top-4 right-4 size-8 bg-brand-green text-white rounded-full flex items-center justify-center font-bold shadow-md"
+              >
+                {{ getSelectionOrder(word.text) }}
+              </div>
+            </div>
+          </TransitionGroup>
         </div>
-      </TransitionGroup>
-    </div>
 
-    <div v-if="!isMemorizing" class="pt-4 pb-6 shrink-0">
-      <button 
-        @click="checkAnswer"
-        :disabled="currentProblem.userSelection.length < currentProblem.displayWords.length"
-        class="w-full py-4 rounded-2xl font-bold text-xl !text-white transition-all shadow-lg"
-        :class="currentProblem.userSelection.length < currentProblem.displayWords.length ? 'bg-gray-300' : 'bg-brand-green active:scale-95 shadow-green-900/20'"
+        <div v-if="!isMemorizing" class="pt-4 pb-6 shrink-0">
+          <button
+            @click="checkAnswer"
+            :disabled="
+              currentProblem.userSelection.length <
+              currentProblem.displayWords.length
+            "
+            class="w-full py-4 rounded-2xl font-bold text-xl !text-white transition-all shadow-lg"
+            :class="
+              currentProblem.userSelection.length <
+              currentProblem.displayWords.length
+                ? 'bg-gray-300'
+                : 'bg-brand-green active:scale-95 shadow-green-900/20'
+            "
+          >
+            제출하기
+          </button>
+        </div>
+      </div>
+
+      <CustomErrorDialog :show="isWrongFlash">
+        틀렸습니다!<br />다시 한번<br />곰곰히 생각해보세요 🤔
+      </CustomErrorDialog>
+
+      <CustomSuccessDialog :show="isCorrectFlash">
+        정답입니다!<br />아주 잘하셨어요 👏
+      </CustomSuccessDialog>
+
+      <CustomConfirmDialog
+        :show="showExitConfirm"
+        @confirm="handleConfirmExit"
+        @cancel="handleCancelExit"
       >
-        제출하기
-      </button>
-    </div>
-    </div>
-
-    <CustomErrorDialog :show="isWrongFlash">
-      틀렸습니다!<br/>다시 한번<br/>곰곰히 생각해보세요 🤔
-    </CustomErrorDialog>
-
-    <CustomSuccessDialog :show="isCorrectFlash">
-      정답입니다!<br/>아주 잘하셨어요 👏
-    </CustomSuccessDialog>
-
-    <CustomConfirmDialog 
-      :show="showExitConfirm" 
-      @confirm="handleConfirmExit" 
-      @cancel="handleCancelExit" 
-    >
-      게임이 아직 진행 중입니다!<br/>지금 나가시면 진행 데이터가<br/>모두 초기화됩니다.<br/>정말 나가시겠습니까?
-    </CustomConfirmDialog>
-
+        게임이 아직 진행 중입니다!<br />지금 나가시면 진행 데이터가<br />모두
+        초기화됩니다.<br />정말 나가시겠습니까?
+      </CustomConfirmDialog>
     </template>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import { useTimer } from '../../composables/useTimer.js';
-import CustomErrorDialog from '../../components/common/CustomErrorDialog.vue';
-import CustomSuccessDialog from '../../components/common/CustomSuccessDialog.vue';
-import CustomConfirmDialog from '../../components/common/CustomConfirmDialog.vue';
-import GameGuide from '../../components/minigame/GameGuide.vue';
-import MASTER_WORD_POOL from '../../data/word_memory_data.json';
+import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+import { useTimer } from "../../composables/useTimer.js";
+import CustomErrorDialog from "../../components/common/CustomErrorDialog.vue";
+import CustomSuccessDialog from "../../components/common/CustomSuccessDialog.vue";
+import CustomConfirmDialog from "../../components/common/CustomConfirmDialog.vue";
+import GameGuide from "../../components/minigame/GameGuide.vue";
+import { saveCognitiveGameResult } from "../../api/minigame.js";
+import MASTER_WORD_POOL from "../../data/word_memory_data.json";
 
 const router = useRouter();
 
@@ -132,14 +157,12 @@ const goBack = () => {
   router.go(-1);
 };
 
-// 1. 설정 데이터
 const TOTAL_ROUNDS = 3;
-const WORD_DISPLAY_TIME = 3; 
-const WORD_COUNT = 3;        
-const MEMORY_TIME = WORD_DISPLAY_TIME * WORD_COUNT; 
-const SELECT_TIME = 15;      
+const WORD_DISPLAY_TIME = 3;
+const WORD_COUNT = 3;
+const MEMORY_TIME = WORD_DISPLAY_TIME * WORD_COUNT;
+const SELECT_TIME = 15;
 
-// 2. 상태 관리
 const currentRound = ref(1);
 const correctCount = ref(0);
 const wrongCount = ref(0);
@@ -147,19 +170,19 @@ const timeoutCount = ref(0);
 const gameStartTime = ref(0);
 const isGameOver = ref(false);
 const isGameStarted = ref(false);
-const isMemorizing = ref(true); 
+const isMemorizing = ref(true);
 const isWrongFlash = ref(false);
 const isCorrectFlash = ref(false);
 const showExitConfirm = ref(false);
 let resolveRouteLeave = null;
-let wordSequenceTimeout = []; 
+let wordSequenceTimeout = [];
 
 const startGame = () => {
   isGameStarted.value = true;
   gameStartTime.value = Date.now();
-  generateNewQuestion(); 
+  generateNewQuestion();
   startTimer(MEMORY_TIME);
-  startWordDisplaySequence(); 
+  startWordDisplaySequence();
 };
 
 const handleTimeoutPhase = () => {
@@ -171,36 +194,34 @@ const {
   timeLeft,
   startTimer: baseStartTimer,
   stopTimer: baseStopTimer,
-  pauseTimer
+  pauseTimer,
 } = useTimer(0, () => {
   isMemorizing.value ? startSelectionPhase() : handleTimeoutPhase();
 });
 
-// 3. 문제 데이터 (매 라운드 동적으로 할당됨)
 const displayList = ref([]);
-const shownWords = ref([]); 
+const shownWords = ref([]);
 
 const currentProblem = reactive({
-  displayWords: [], 
-  userSelection: [] 
+  displayWords: [],
+  userSelection: [],
 });
 
 const gameResults = ref([]);
 
-
 onBeforeRouteLeave(async (to, from) => {
   if (!isGameStarted.value) return true;
-  
+
   if (!isGameOver.value) {
     pauseTimer();
     showExitConfirm.value = true;
-    
+
     const canLeave = await new Promise((resolve) => {
       resolveRouteLeave = resolve;
     });
-    
+
     showExitConfirm.value = false;
-    
+
     if (!canLeave) {
       resumeTimer(timeLeft.value);
     }
@@ -228,22 +249,25 @@ const shuffle = (array) => {
 
 const generateNewQuestion = () => {
   const randomSet = shuffle(MASTER_WORD_POOL).slice(0, WORD_COUNT);
-  
+
   displayList.value = randomSet;
-  currentProblem.displayWords = randomSet.map(item => item.text);
+  currentProblem.displayWords = randomSet.map((item) => item.text);
   currentProblem.userSelection = [];
 };
 
 const startWordDisplaySequence = () => {
   shownWords.value = [];
-  wordSequenceTimeout.forEach(t => clearTimeout(t)); 
+  wordSequenceTimeout.forEach((t) => clearTimeout(t));
   wordSequenceTimeout = [];
 
   displayList.value.forEach((word, index) => {
-    const timeout = setTimeout(() => {
-      if (!isMemorizing.value) return; 
-      shownWords.value.push(word);
-    }, index * WORD_DISPLAY_TIME * 1000);
+    const timeout = setTimeout(
+      () => {
+        if (!isMemorizing.value) return;
+        shownWords.value.push(word);
+      },
+      index * WORD_DISPLAY_TIME * 1000,
+    );
     wordSequenceTimeout.push(timeout);
   });
 };
@@ -259,17 +283,17 @@ const resumeTimer = (remainingTime) => {
 
 const stopTimer = () => {
   baseStopTimer();
-  wordSequenceTimeout.forEach(t => clearTimeout(t)); 
+  wordSequenceTimeout.forEach((t) => clearTimeout(t));
 };
 
 const startSelectionPhase = () => {
   isMemorizing.value = false;
-  stopTimer(); 
-  shownWords.value = []; 
-  
+  stopTimer();
+  shownWords.value = [];
+
   setTimeout(() => {
-    shownWords.value = shuffle(displayList.value); 
-    startTimer(SELECT_TIME); 
+    shownWords.value = shuffle(displayList.value);
+    startTimer(SELECT_TIME);
   }, 400);
 };
 
@@ -284,37 +308,40 @@ const handleWordClick = (wordText) => {
   }
 };
 
-const getSelectionOrder = (wordText) => currentProblem.userSelection.indexOf(wordText) + 1;
+const getSelectionOrder = (wordText) =>
+  currentProblem.userSelection.indexOf(wordText) + 1;
 
 const getCardStyle = (wordText) => {
-  if (isMemorizing.value) return 'bg-white border-transparent';
+  if (isMemorizing.value) return "bg-white border-transparent";
   if (currentProblem.userSelection.includes(wordText)) {
     if (isWrongFlash.value) {
-      return 'border-rose-300 bg-rose-50';
+      return "border-rose-300 bg-rose-50";
     }
-    return 'border-brand-green bg-green-50';
+    return "border-brand-green bg-green-50";
   }
-  return 'border-white bg-white active:bg-gray-100';
+  return "border-white bg-white active:bg-gray-100";
 };
 
 const getTextColor = (wordText) => {
-  if (isMemorizing.value) return 'text-[#1B2B3B]';
+  if (isMemorizing.value) return "text-[#1B2B3B]";
   if (currentProblem.userSelection.includes(wordText)) {
-    if (isWrongFlash.value) return 'text-rose-400';
-    return 'text-brand-green';
+    if (isWrongFlash.value) return "text-rose-400";
+    return "text-brand-green";
   }
-  return 'text-[#1B2B3B]';
+  return "text-[#1B2B3B]";
 };
 
 const checkAnswer = () => {
-  const isCorrect = JSON.stringify(currentProblem.displayWords) === 
-                    JSON.stringify(currentProblem.userSelection);
+  const isCorrect =
+    JSON.stringify(currentProblem.displayWords) ===
+    JSON.stringify(currentProblem.userSelection);
 
   if (isCorrect) {
     gameResults.value.push({
       round: currentRound.value,
       isCorrect,
-      timeSpent: (isMemorizing.value ? MEMORY_TIME : SELECT_TIME) - timeLeft.value
+      timeSpent:
+        (isMemorizing.value ? MEMORY_TIME : SELECT_TIME) - timeLeft.value,
     });
     correctCount.value++;
     isCorrectFlash.value = true;
@@ -325,7 +352,7 @@ const checkAnswer = () => {
   } else {
     isWrongFlash.value = true;
     wrongCount.value++;
-    
+
     setTimeout(() => {
       isWrongFlash.value = false;
       currentProblem.userSelection = [];
@@ -338,38 +365,41 @@ const nextStep = () => {
     currentRound.value++;
     resetRound();
   } else {
-    isGameOver.value = true; 
+    isGameOver.value = true;
     stopTimer();
-    
-    const totalPlayedTime = Math.floor((Date.now() - gameStartTime.value) / 1000);
+
+    const totalPlayedTime = Math.floor(
+      (Date.now() - gameStartTime.value) / 1000,
+    );
     const payload = {
       gameType: "WORD_MEMORY",
       correctCount: correctCount.value,
       wrongCount: wrongCount.value,
       timeoutCount: timeoutCount.value,
-      totalPlayedTime: totalPlayedTime
+      totalTryCount: correctCount.value + wrongCount.value + timeoutCount.value,
+      totalPlayedTime: totalPlayedTime,
     };
 
-    // // 게임 결과 저장 API 호출 하드코딩
-    // fetch('http://localhost:8080/api/v1/cognitive-games/result', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(payload)
-    // }).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));
-    
-    alert(`게임 종료! 맞힌 개수: ${correctCount.value} / ${TOTAL_ROUNDS}`);
-    router.push('/'); 
+    saveCognitiveGameResult(payload)
+      .then(() => {
+        // 결과 저장 성공
+      })
+      .catch((err) => {
+        console.error("게임 결과 저장 중 오류가 발생했습니다:", err);
+      })
+      .finally(() => {
+        // TODO : 결과 출력 모달 추가
+        router.push("/");
+      });
   }
 };
 
 const resetRound = () => {
   isMemorizing.value = true;
-  generateNewQuestion(); 
-  shownWords.value = []; 
-  startTimer(MEMORY_TIME); 
-  startWordDisplaySequence(); 
+  generateNewQuestion();
+  shownWords.value = [];
+  startTimer(MEMORY_TIME);
+  startWordDisplaySequence();
 };
 
 onMounted(() => {
@@ -381,7 +411,7 @@ onUnmounted(() => stopTimer());
 
 <style scoped>
 :deep(.van-nav-bar__title) {
-  font-family: 'Pretendard', sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-weight: 800;
   color: var(--color-brand-green);
 }
@@ -391,7 +421,7 @@ onUnmounted(() => stopTimer());
   font-size: 1.25rem;
 }
 :deep(.van-nav-bar) {
-  background-color: #f9fafb; 
+  background-color: #f9fafb;
 }
 :deep(.van-nav-bar::after) {
   border-bottom-width: 0 !important;
@@ -399,7 +429,9 @@ onUnmounted(() => stopTimer());
 
 .card-list-enter-active,
 .card-list-leave-active {
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 
 .card-list-enter-from {
@@ -416,6 +448,12 @@ onUnmounted(() => stopTimer());
 .slide-up-leave-active {
   transition: all 0.3s ease;
 }
-.slide-up-enter-from { opacity: 0; transform: translateY(10px); }
-.slide-up-leave-to { opacity: 0; transform: translateY(-10px); }
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 </style>

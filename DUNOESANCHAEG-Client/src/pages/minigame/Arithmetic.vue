@@ -135,6 +135,7 @@ import GameGuide from "../../components/minigame/GameGuide.vue";
 import CustomErrorDialog from "../../components/common/CustomErrorDialog.vue";
 import CustomSuccessDialog from "../../components/common/CustomSuccessDialog.vue";
 import CustomConfirmDialog from "../../components/common/CustomConfirmDialog.vue";
+import { saveCognitiveGameResult } from '../../api/minigame.js';
 
 const router = useRouter();
 
@@ -283,20 +284,20 @@ const handleRoundEnd = (isCorrect) => {
       correctCount: correctCount.value,
       wrongCount: wrongCount.value,
       timeoutCount: timeoutCount.value,
+      totalTryCount: correctCount.value + wrongCount.value + timeoutCount.value,
       totalPlayedTime: totalPlayedTime,
     };
 
-    // // 게임 결과 저장 API 호출 하드코딩
-    // fetch('http://localhost:8080/api/v1/cognitive-games/result', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(payload)
-    // }).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));
-
-    alert(`게임 종료! 맞힌 개수: ${correctCount.value} / ${TOTAL_ROUNDS}`);
-    router.push("/");
+    saveCognitiveGameResult(payload)
+      .then(() => {
+      })
+      .catch((err) => {
+        console.error("게임 결과 저장 중 오류가 발생했습니다:", err);
+      })
+      .finally(() => {
+        // TODO : 결과 출력 모달 추가
+        router.push("/");
+      });
   }
 };
 
@@ -329,7 +330,6 @@ const handleCancelExit = () => {
 };
 
 onMounted(() => {
-    // 처음 진입 시에는 explanation 스크린 대기
 });
 
 onUnmounted(() => {
