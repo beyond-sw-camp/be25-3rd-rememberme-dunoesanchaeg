@@ -55,6 +55,7 @@ const routes = [
     {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},
     {
         path: '/minigame',
+        name: 'MiniGame',
         children: [
             {path: 'arithmetic', name: 'GameArithmetic', component: () => import("@/pages/minigame/Arithmetic.vue"), meta: {hideLayout: true}},
             {path: 'wordmemory', name: 'GameWordmemory', component: () => import("@/pages/minigame/WordMemory.vue"), meta: {hideLayout: true}},
@@ -78,42 +79,57 @@ const router = createRouter({
 //   const token = localStorage.getItem('accessToken');
 //   const role = getRoleFromToken(token);
 //   const isProfileCompleted = localStorage.getItem('isProfileCompleted') === 'true';
-//
+
 //   const publicPages = ['Login', 'KakaoCallback'];
 //   const targetName = to.name;
 //   const isPublicPage = publicPages.includes(targetName);
-//
+
 //   if (token && isTokenExpired(token)) {
 //       console.warn("토큰이 만료되었습니다. 세션을 초기화합니다.");
 //       authStore.logout(); // 스토어와 로컬스토리지 모두 삭제
 //       return { name: 'Login' };
 //   }
-//
+
 //   if (!isPublicPage && !token) {
 //     return { name: 'Login' };
 //   }
-//
+
 //   if (token) {
 //     if (isPublicPage) {
 //       return { name: 'Home' };
 //     }
-//
+
 //     if (role === 'WITHDRAWN') {
 //       if (targetName !== 'AccountRecovery') {
 //         return { name: 'AccountRecovery' };
 //       }
 //       return true;
 //     }
-//
+
 //     if (!isProfileCompleted && targetName !== 'ProfileComplete') {
 //       return { name: 'ProfileComplete' };
 //     }
-//
+
 //     if (isProfileCompleted && targetName === 'ProfileComplete') {
 //       return { name: 'Home' };
 //     }
 //   }
 //   return true;
 // });
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const token = localStorage.getItem('accessToken');
+    
+    const publicPages = ['Login', 'KakaoCallback', 'Home']; 
+    const isPublicPage = publicPages.includes(to.name);
+
+    if (!isPublicPage && !token) {
+        authStore.openLoginModal();
+        return;
+    }
+
+    next(); 
+});
 
 export default router;
