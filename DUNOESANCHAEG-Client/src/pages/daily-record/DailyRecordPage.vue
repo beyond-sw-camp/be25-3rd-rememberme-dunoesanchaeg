@@ -21,15 +21,15 @@
                         :required="true"
                         v-model:selectedLevel="form.moodLevel"
                         v-model:memo="form.moodMemo"
-                        placeholder="예시) 오늘은 산책가 좋아서 기분이 좋았어요."
+                        placeholder="예시) 오늘은 산책이 즐거워서 기분이 좋았어요."
                     />
 
                     <RecordSection
-                        title="어제 잘 주무셨나요?"
+                        title="어제 잠은 잘 주무셨나요?"
                         :required="true"
                         v-model:selectedLevel="form.sleepLevel"
                         v-model:memo="form.sleepMemo"
-                        placeholder="예시) 중간중간 몇 번 깼지만 괜찮았어요."
+                        placeholder="예시) 중간에 몇 번 깼지만 괜찮았어요."
                     />
 
                     <RecordSection
@@ -84,6 +84,7 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import RecordSection from '@/components/daily-record/RecordSection.vue';
+import { saveDailyRecord } from '@/api/dailyRecord.js';
 
 const router = useRouter();
 
@@ -103,9 +104,7 @@ const form = reactive({
 const errorMessage = ref('');
 const isSubmitted = ref(false);
 
-const handleSubmit = () => {
-    alert('오늘의 하루기록을 저장하시겠습니까?');
-
+const handleSubmit = async () => {
     errorMessage.value = '';
 
     if (!form.moodLevel) {
@@ -123,8 +122,25 @@ const handleSubmit = () => {
         return;
     }
 
-    console.log('현재 form 상태:', JSON.parse(JSON.stringify(form)));
-    isSubmitted.value = true;
+    try {
+        await saveDailyRecord({
+            moodLevel: form.moodLevel,
+            moodMemo: form.moodMemo,
+            sleepLevel: form.sleepLevel,
+            sleepMemo: form.sleepMemo,
+            mealLevel: form.mealLevel,
+            mealMemo: form.mealMemo,
+            exerciseLevel: form.exerciseLevel || null,
+            exerciseMemo: form.exerciseMemo,
+            socialLevel: form.socialLevel || null,
+            socialMemo: form.socialMemo,
+        });
+
+        isSubmitted.value = true;
+    } catch (error) {
+        errorMessage.value =
+            error.response?.data?.message || '하루 기록 저장 중 오류가 발생했어요.';
+    }
 };
 
 const goHome = () => {
