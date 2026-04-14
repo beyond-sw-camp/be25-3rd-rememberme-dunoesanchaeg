@@ -56,8 +56,6 @@ const routes = [
     {
         path: '/minigame',
         name: 'MiniGame',
-        // [x]: 이름 추가하고 게임 3개 중에서 고르는 로직 추가 -> TodayRoutines.vue
-        // [ ]: 게임, 기록, 질문 데이터 연동 필요
         children: [
             {path: 'arithmetic', name: 'GameArithmetic', component: () => import("@/pages/minigame/Arithmetic.vue")},
             {path: 'wordmemory', name: 'GameWordmemory', component: () => import("@/pages/minigame/WordMemory.vue")},

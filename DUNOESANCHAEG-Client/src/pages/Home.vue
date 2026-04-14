@@ -5,7 +5,6 @@
       <span class="text-3xl font-extrabold text-brand-green">두뇌산책</span>
     </header>
 
-    <!-- // 추가 할 말 할 말 !!!!!!  -->
     <!-- // 사용자 인사, 날짜 컴포넌트 -->
     <HomeHeader :username="username" 
                 :formattedDate="formattedDate" />
@@ -38,10 +37,8 @@ const route = useRoute();
 
 
 const {
-  // 추가 할 말 할 말 
   username,
   formattedDate,
-  // 추가 할 말 할 말 
   isLoading,
   errorMessage,
   progress,

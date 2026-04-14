@@ -72,7 +72,6 @@ export function useHome() {
     });
 
 
-    // [ ]: userName, formattedDate 추가 방법 생각하기 
     const username = computed(() => authStore.username || '회원');
     // 
     const initializeHome = async () => {
@@ -137,6 +136,3 @@ export function useHome() {
         formattedDate
     };
 }
-
-
-// [x]: 로그인 하지 않은 상태에서 페이지 이동 시 조건문 검사 필요 (로그인이 필요합니다. 문구 필요)
