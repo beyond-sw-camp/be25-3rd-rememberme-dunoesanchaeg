@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
     const setLoginInfo = (data) => {
         accessToken.value = data.accessToken;
         role.value = data.role;
-        username.value = data.username;
+        username.value = data.name;
         isProfileCompleted.value = !!data.isProfileCompleted;
         isHighContrast.value = !!data.isHighContrast ?? false;
         fontSize.value = data.fontSize ?? 'medium';
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
         // 라우터 가드 및 API 인스턴스가 참조할 수 있도록 로컬 스토리지 동기화
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('role', data.role);
-        localStorage.setItem('username', data.username || '');
+        localStorage.setItem('username', data.name || '');
         localStorage.setItem('isProfileCompleted', String(data.isProfileCompleted));
         localStorage.setItem('isHighContrast', String(data.isHighContrast));
         localStorage.setItem('fontSize', data.fontSize);
@@ -55,6 +55,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     };
 
+    // 로그인 유도 모달 상태 
+    const isLoginModalVisible = ref(false);
+
+    const openLoginModal = () => { isLoginModalVisible.value = true; };
+    const closeLoginModal = () => { isLoginModalVisible.value = false; };
+
     return {
         accessToken,
         role,
@@ -62,7 +68,10 @@ export const useAuthStore = defineStore('auth', () => {
         isProfileCompleted,
         isHighContrast,
         fontSize,
+        isLoginModalVisible,
         setLoginInfo,
-        logout
+        logout,
+        openLoginModal,
+        closeLoginModal
     };
 });

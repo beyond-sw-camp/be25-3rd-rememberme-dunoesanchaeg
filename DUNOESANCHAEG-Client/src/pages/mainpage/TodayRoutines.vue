@@ -1,0 +1,116 @@
+<template>
+  <div class="flex justify-between items-end px-1 pt-4">
+    <h3 class="text-2xl font-bold text-zinc-800">오늘의 루틴</h3>
+    <span class="text-lg text-zinc-400">
+      {{ missions.length }}개 중
+      <span class="text-zinc-800 font-semibold">
+        {{missions.filter(g => g.isCompleted).length}}개
+      </span> 완료
+    </span>
+  </div>
+
+  <section class="space-y-4">
+    <div v-for="(mission, i) in missions" :key="i"
+      class="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm flex flex-col gap-4">
+
+      <div class="flex items-center gap-3">
+        <div class="size-11 bg-zinc-100 rounded-xl flex items-center justify-center text-lg">
+          {{ getMissionIcon(mission) }}
+        </div>
+        <div>
+          <h4 class="text-base font-bold text-zinc-800">{{ getMissionTitle(mission) }}</h4>
+          <p class="text-zinc-400 text-sm">{{ getMissionDesc(mission) }}</p>
+        </div>
+      </div>
+
+      <template v-if="mission.assignedGameType">
+        <router-link v-if="!mission.gameFinished" :to="getGameLink(mission.assignedGameType)">
+          <button class="start-button">시작하기</button>
+        </router-link>
+        <button v-else class="completed-button">완료됨</button>
+      </template>
+
+      <template v-else>
+        <router-link v-if="!mission.isCompleted" :to="{ name: mission.link }">
+          <button  @click="goToOpenQuestion" class="start-button">시작하기</button>
+        </router-link>
+        <button v-else class="completed-button">완료됨</button>
+      </template>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const props = defineProps({
+  missions: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+});
+
+// 게임 타입에 따른 라우터 링크 반환
+const getGameLink = (type) => {
+  const gameMap = {
+    'ARITHMETIC': { name: 'GameArithmetic' },
+    'WORD_MEMORY': { name: 'GameWordmemory' },
+    'DESCARTES_RPS': { name: 'GameDekarterps' }
+  };
+  return gameMap[type] || { name: 'Home' };
+};
+
+// 미션 제목 동적 처리
+const getMissionTitle = (mission) => {
+  if (mission.assignedGameType) return '오늘의 두뇌 게임';
+  return mission.title;
+};
+
+// 미션 아이콘 동적 처리
+const getMissionIcon = (mission) => {
+  if (mission.assignedGameType) return '🎮';
+  return mission.icon;
+};
+
+const getMissionDesc = (mission) => {
+  if (mission.assignedGameType) return '뇌 건강을 위해 게임 한 판 어때요?';
+  return mission.desc;
+};
+
+const goToOpenQuestion = () => {
+  sessionStorage.setItem('openQuestionEntry', 'allowed');
+  router.push('/open-question');
+};
+</script>
+
+<style scoped>
+.start-button {
+  width: 100%;
+  padding: 0.875rem 0;
+  border-radius: 0.875rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  cursor: pointer;
+  border: none;
+  background-color: var(--color-brand-green);
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.completed-button {
+  width: 100%;
+  padding: 0.875rem 0;
+  border-radius: 0.875rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  cursor: default;
+  border: none;
+  background-color: #f4f4f5;
+  /* zinc-100 */
+  color: #a1a1aa;
+  /* zinc-400 */
+}
+</style>
