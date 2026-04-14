@@ -117,7 +117,7 @@ router.beforeEach((to) => {
   return true;
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
     const authStore = useAuthStore();
     const token = localStorage.getItem('accessToken');
     
@@ -126,10 +126,10 @@ router.beforeEach((to, from, next) => {
 
     if (!isPublicPage && !token) {
         authStore.openLoginModal();
-        return;
+        return false;
     }
 
-    next(); 
+    return true; 
 });
 
 export default router;
