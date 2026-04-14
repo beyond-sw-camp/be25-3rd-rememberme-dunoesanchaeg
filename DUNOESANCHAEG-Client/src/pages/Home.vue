@@ -27,14 +27,13 @@
 
 <script setup>
 import { useHome } from '@/composables/useHome';
+import HomeHeader from '@/pages/mainpage/HomeHeader.vue';
 
 import ProgressRate from './mainpage/ProgressRate.vue';
 import TodayRoutines from './mainpage/TodayRoutines.vue';
-import HomeHeader from './mainpage/HomeHeader.vue';
 
 import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-
 const route = useRoute();
 
 

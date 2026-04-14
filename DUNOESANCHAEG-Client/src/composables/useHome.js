@@ -14,6 +14,15 @@ export function useHome() {
     const routineData = ref(null);
     const errorMessage = ref('');
 
+    const formattedDate = computed(() => {
+        const now = new Date();
+        return new Intl.DateTimeFormat('ko-KR', {
+            month: 'long',
+            day: 'numeric',
+            weekday: 'short'
+        }).format(now);
+    });
+
     const progress = computed(() => routineData.value?.progressRate ?? 0);
 
     const message = computed(() => {
@@ -64,7 +73,7 @@ export function useHome() {
 
 
     // [ ]: userName, formattedDate 추가 방법 생각하기 
-
+    const username = computed(() => authStore.username || '회원');
     // 
     const initializeHome = async () => {
         isLoading.value = true;
@@ -123,7 +132,9 @@ export function useHome() {
         progress,
         message,
         missions,
-        initializeHome
+        initializeHome,
+        username,
+        formattedDate
     };
 }
 
