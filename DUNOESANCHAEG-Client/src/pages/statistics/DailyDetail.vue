@@ -172,7 +172,7 @@ const fetchDailyDetail = async () => {
   try {
     isLoading.value = true;
     isError.value = false;
-    const res = await instance.get('/api/v1/calendar/summary', {
+    const res = await instance.get('/calendar/summary', {
       params: { targetDate: formattedDate }
     });
     if (res.data && res.data.code === 200) {
