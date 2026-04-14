@@ -12,7 +12,14 @@
     <div class="mb-4 px-1">
       <h2 class="text-2xl font-bold text-text-main">최근 7회차 종합 통계</h2>
     </div>
-    <CognitiveTrendChart />
+    <CognitiveTrendChart class="mb-8" />
+
+    <div class="mb-4 px-1">
+      <h2 class="text-2xl font-bold text-text-main">트로피 현황</h2>
+    </div>
+
+    <trophy/>
+
     
     <div class="h-10"></div>
   </div>
@@ -21,6 +28,7 @@
 <script setup>
 import StatisticsCalendar from '@/components/statistics/StatisticsCalendar.vue';
 import CognitiveTrendChart from '@/components/statistics/CognitiveTrendChart.vue';
+import trophy from '@/components/statistics/trophy.vue';
 </script>
 
 <style scoped>
