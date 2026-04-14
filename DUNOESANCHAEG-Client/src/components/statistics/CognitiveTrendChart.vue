@@ -79,7 +79,7 @@ onMounted(async () => {
     const today = new Date();
     const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     
-    const response = await instance.get('/api/v1/statistics/games/weekly-types', {
+    const response = await instance.get('/statistics/games/weekly-types', {
       params: { targetDate: formattedDate }
     });
     if (response.data && response.data.code === 200) {
