@@ -73,12 +73,13 @@ instance.interceptors.response.use(
                     { withCredentials: true }
                 );
 
-                const { accessToken, role, isProfileCompleted } = data.data;
+                const { accessToken, role, name: username, isProfileCompleted } = data.data;
 
                 // 스토어와 로컬 스토리지dp 새 토큰 갱신
                 authStore.setLoginInfo({
                     accessToken: accessToken,
                     role: role,
+                    username: username || authStore.username,
                     isProfileCompleted: isProfileCompleted,
                     isHighContrast: authStore.isHighContrast,
                     fontSize: authStore.fontSize

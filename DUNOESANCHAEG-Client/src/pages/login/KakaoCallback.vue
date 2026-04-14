@@ -51,6 +51,7 @@ onMounted(async () => {
 
     const {
       accessToken,
+      name: username,
       isProfileCompleted,
       isHighContrast,
       fontSize
@@ -65,6 +66,7 @@ onMounted(async () => {
       authStore.setLoginInfo({
         accessToken: accessToken,
         role: role,
+        username: username,
         isProfileCompleted: isProfileCompleted,
         isHighContrast: isHighContrast,
         fontSize: fontSize
