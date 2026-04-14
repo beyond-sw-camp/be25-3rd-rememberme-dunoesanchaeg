@@ -1,14 +1,25 @@
 <template>
-  <div class="min-h-dvh bg-brand-bg flex flex-col pb-24">
-    <van-nav-bar
+  <div class="min-h-dvh bg-brand-bg flex flex-col relative pb-24">
+
+    <GameGuide
+      v-if="!isGameStarted"
       title="판단력 게임"
-      left-arrow
-      @click-left="goBack"
-      fixed
-      placeholder
-      safe-area-inset-top
-      class="shadow-sm font-bold bg-brand-bg z-50"
+      description="나의 미션과 상대방의 카드를 보고<br/>이길지, 질지, 비길지 판단하여<br/>알맞은 카드를 선택하세요."
+      icon-name="friends-o"
+      @start="startGame"
+      @exit="goBack"
     />
+
+    <template v-else>
+      <van-nav-bar
+        title="판단력 게임"
+        left-arrow
+        @click-left="goBack"
+        fixed
+        placeholder
+        safe-area-inset-top
+        class="shadow-sm font-bold bg-brand-bg z-50"
+      />
 
     <div class="p-6 flex flex-col flex-1 relative">
       <div class="flex justify-between items-end shrink-0 mt-2 mb-3">
@@ -54,9 +65,9 @@
             <div v-for="choice in choices" :key="choice.id"
                  @click="selectAnswer(choice.id)"
                  class="bg-white rounded-[24px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-3 sm:py-4 flex flex-col items-center justify-center cursor-pointer transition-all border-[3px]"
-                 :class="selectedAnswer === choice.id ? 'border-brand-green text-brand-green scale-[0.98]' : 'border-transparent active:scale-[0.98] active:bg-gray-50'" >
-                 <img :src="getImgUrl(choice.id)" class="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-1" alt="내 선택지" />
-                 <span class="text-lg sm:text-xl font-black" :class="selectedAnswer === choice.id ? 'text-brand-green' : 'text-[#1B2B3B]'">
+                 :class="getChoiceClass(choice.id)" >
+                 <img :src="getImgUrl(choice.id)" class="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-1 transition-transform" :class="isWrongFlash && selectedAnswer === choice.id ? 'scale-90 opacity-70' : ''" alt="내 선택지" />
+                 <span class="text-lg sm:text-xl font-black transition-colors" :class="getTextColor(choice.id)">
                    {{ choice.name }}
                  </span>
             </div>
@@ -65,8 +76,29 @@
         </div>
       </Transition>
     </div>
-    
     </div>
+    
+    <!-- 오답 커스텀 다일로그 -->
+    <CustomErrorDialog :show="isWrongFlash">
+      틀렸습니다!<br/>다시 한번<br/>곰곰히 생각해보세요 🤔
+    </CustomErrorDialog>
+
+    <!-- 정답 커스텀 다일로그 -->
+    <CustomSuccessDialog :show="isCorrectFlash">
+      정답입니다!<br/>아주 잘하셨어요 👏
+    </CustomSuccessDialog>
+
+    <!-- 나가기 확인 다일로그 -->
+    <CustomConfirmDialog 
+      :show="showExitConfirm" 
+      @confirm="handleConfirmExit" 
+      @cancel="handleCancelExit" 
+    >
+    게임이 아직 진행 중입니다!<br />지금 나가시면 진행 데이터가<br />모두
+      초기화됩니다.<br />정말 나가시겠습니까?
+    </CustomConfirmDialog>
+
+    </template>
   </div>
 </template>
 
@@ -75,6 +107,10 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useTimer } from '../../composables/useTimer.js';
 import problemsData from '../../data/rps_problems.json';
+import CustomErrorDialog from '../../components/common/CustomErrorDialog.vue';
+import CustomSuccessDialog from '../../components/common/CustomSuccessDialog.vue';
+import CustomConfirmDialog from '../../components/common/CustomConfirmDialog.vue';
+import GameGuide from '../../components/minigame/GameGuide.vue';
 
 import imgRock from '../../assets/rps/rock.png';
 import imgScissors from '../../assets/rps/scissors.png';
@@ -99,8 +135,23 @@ const TIME_LIMIT = 15;
 
 const currentRound = ref(1);
 const correctCount = ref(0);
+const wrongCount = ref(0);
+const timeoutCount = ref(0);
+const gameStartTime = ref(0);
 const isGameOver = ref(false);
+const isGameStarted = ref(false);
 const selectedAnswer = ref(null);
+const isWrongFlash = ref(false);
+const isCorrectFlash = ref(false);
+const showExitConfirm = ref(false);
+let resolveRouteLeave = null;
+
+const startGame = () => {
+    isGameStarted.value = true;
+    gameStartTime.value = Date.now();
+    generateProblems();
+    startTimer(TIME_LIMIT);
+};
 
 const problems = ref([]);
 const choices = [
@@ -109,7 +160,12 @@ const choices = [
   { id: 'paper', name: '보' }
 ];
 
-const { timeLeft, startTimer, stopTimer, pauseTimer } = useTimer(TIME_LIMIT, () => handleRoundEnd(false));
+const handleTimeoutPhase = () => {
+    timeoutCount.value++;
+    handleRoundEnd(false);
+};
+
+const { timeLeft, startTimer, stopTimer, pauseTimer } = useTimer(TIME_LIMIT, () => handleTimeoutPhase());
 
 const generateProblems = () => {
     problems.value = [];
@@ -121,17 +177,47 @@ const generateProblems = () => {
 
 const currentProblem = computed(() => problems.value[currentRound.value - 1] || {});
 
+const getChoiceClass = (choiceId) => {
+    if (selectedAnswer.value === choiceId) {
+        if (isWrongFlash.value) {
+            return 'border-rose-300 bg-rose-50 scale-[0.98]';
+        }
+        return 'border-brand-green text-brand-green scale-[0.98]';
+    }
+    return 'border-transparent active:scale-[0.98] active:bg-gray-50';
+};
+
+const getTextColor = (choiceId) => {
+    if (selectedAnswer.value === choiceId) {
+        if (isWrongFlash.value) return 'text-rose-400';
+        return 'text-brand-green';
+    }
+    return 'text-[#1B2B3B]';
+};
+
 const selectAnswer = (choiceId) => {
     if (selectedAnswer.value !== null) return;
     selectedAnswer.value = choiceId;
     stopTimer();
     
     const isCorrect = choiceId === currentProblem.value.correctAnswer;
-    if (isCorrect) correctCount.value++;
-    
-    setTimeout(() => {
-        handleRoundEnd(isCorrect);
-    }, 1000);
+    if (isCorrect) {
+        correctCount.value++;
+        isCorrectFlash.value = true;
+        setTimeout(() => {
+            isCorrectFlash.value = false;
+            handleRoundEnd(true);
+        }, 1200);
+    } else {
+        isWrongFlash.value = true;
+        wrongCount.value++;
+        
+        setTimeout(() => {
+            isWrongFlash.value = false;
+            selectedAnswer.value = null;
+            startTimer(timeLeft.value);
+        }, 1500);
+    }
 };
 
 const handleRoundEnd = (isCorrect) => {
@@ -142,26 +228,59 @@ const handleRoundEnd = (isCorrect) => {
     } else {
         isGameOver.value = true;
         stopTimer();
+        
+        const totalPlayedTime = Math.floor((Date.now() - gameStartTime.value) / 1000);
+        const payload = {
+            gameType: "DEKARTERPS",
+            correctCount: correctCount.value,
+            wrongCount: wrongCount.value,
+            timeoutCount: timeoutCount.value,
+            totalPlayedTime: totalPlayedTime
+        };
+
+        // // 게임 결과 저장 API 호출 하드코딩
+        // fetch('http://localhost:8080/api/v1/cognitive-games/result', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(payload)
+        // }).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));
+
         alert(`게임 종료! 맞힌 개수: ${correctCount.value} / ${TOTAL_ROUNDS}`);
         router.push('/');
     }
 };
 
-onBeforeRouteLeave((to, from) => {
+onBeforeRouteLeave(async (to, from) => {
+  if (!isGameStarted.value) return true;
   if (!isGameOver.value) {
     pauseTimer();
-    const confirmLeave = window.confirm("게임이 진행 중입니다.\n정말 나가시겠습니까?");
-    if (!confirmLeave) {
+    showExitConfirm.value = true;
+    
+    const canLeave = await new Promise((resolve) => {
+      resolveRouteLeave = resolve;
+    });
+    
+    showExitConfirm.value = false;
+    if (!canLeave) {
         startTimer(timeLeft.value);
-        return false;
     }
+    return canLeave;
   }
   return true;
 });
 
+const handleConfirmExit = () => {
+  if (resolveRouteLeave) resolveRouteLeave(true);
+};
+
+const handleCancelExit = () => {
+  if (resolveRouteLeave) resolveRouteLeave(false);
+};
+
 onMounted(() => {
-    generateProblems();
-    startTimer(TIME_LIMIT);
+    // 처음 진입 시에는 explanation 스크린 대기
 });
 
 onUnmounted(() => {

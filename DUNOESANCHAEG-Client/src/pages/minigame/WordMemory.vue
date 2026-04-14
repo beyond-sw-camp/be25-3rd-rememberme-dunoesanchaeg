@@ -1,14 +1,25 @@
 <template>
-  <div class="min-h-dvh bg-gray-50 flex flex-col">
-    <van-nav-bar
-      title="단어 연상 게임"
-      left-arrow
-      @click-left="goBack"
-      fixed
-      placeholder
-      safe-area-inset-top
-      class="shadow-sm font-bold bg-gray-50 z-50"
+  <div class="min-h-dvh bg-gray-50 flex flex-col relative">
+
+    <GameGuide
+      v-if="!isGameStarted"
+      title="단어 기억"
+      description="처음에 보여드리는 단어의 순서를<br/>기억해서 순서대로 선택하세요."
+      icon-name="apps-o"
+      @start="startGame"
+      @exit="goBack"
     />
+
+    <template v-else>
+      <van-nav-bar
+        title="단어 연상 게임"
+        left-arrow
+        @click-left="goBack"
+        fixed
+        placeholder
+        safe-area-inset-top
+        class="shadow-sm font-bold bg-gray-50 z-50"
+      />
 
     <div class="p-6 flex flex-col space-y-6 flex-1 relative">
       <div class="flex justify-between items-end shrink-0">
@@ -61,7 +72,7 @@
           <div class="size-16 bg-gray-50 rounded-full flex items-center justify-center text-4xl">
             {{ word.icon }}
           </div>
-          <span class="text-3xl font-bold text-brand-green">{{ word.text }}</span>
+          <span class="text-3xl font-bold transition-colors" :class="getTextColor(word.text)">{{ word.text }}</span>
 
           <div 
             v-if="!isMemorizing && getSelectionOrder(word.text) > 0"
@@ -84,6 +95,24 @@
       </button>
     </div>
     </div>
+
+    <CustomErrorDialog :show="isWrongFlash">
+      틀렸습니다!<br/>다시 한번<br/>곰곰히 생각해보세요 🤔
+    </CustomErrorDialog>
+
+    <CustomSuccessDialog :show="isCorrectFlash">
+      정답입니다!<br/>아주 잘하셨어요 👏
+    </CustomSuccessDialog>
+
+    <CustomConfirmDialog 
+      :show="showExitConfirm" 
+      @confirm="handleConfirmExit" 
+      @cancel="handleCancelExit" 
+    >
+      게임이 아직 진행 중입니다!<br/>지금 나가시면 진행 데이터가<br/>모두 초기화됩니다.<br/>정말 나가시겠습니까?
+    </CustomConfirmDialog>
+
+    </template>
   </div>
 </template>
 
@@ -91,6 +120,11 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useTimer } from '../../composables/useTimer.js';
+import CustomErrorDialog from '../../components/common/CustomErrorDialog.vue';
+import CustomSuccessDialog from '../../components/common/CustomSuccessDialog.vue';
+import CustomConfirmDialog from '../../components/common/CustomConfirmDialog.vue';
+import GameGuide from '../../components/minigame/GameGuide.vue';
+import MASTER_WORD_POOL from '../../data/word_memory_data.json';
 
 const router = useRouter();
 
@@ -105,23 +139,33 @@ const WORD_COUNT = 3;
 const MEMORY_TIME = WORD_DISPLAY_TIME * WORD_COUNT; 
 const SELECT_TIME = 15;      
 
-// [확장] 마스터 단어 데이터 풀
-const MASTER_WORD_POOL = [
-  { text: '사과', icon: '🍎' }, { text: '나무', icon: '🌲' }, { text: '강아지', icon: '🐶' },
-  { text: '우주선', icon: '🚀' }, { text: '피자', icon: '🍕' }, { text: '축구공', icon: '⚽' },
-  { text: '고양이', icon: '🐱' }, { text: '자동차', icon: '🚗' }, { text: '무지개', icon: '🌈' },
-  { text: '컴퓨터', icon: '💻' }, { text: '기타', icon: '🎸' }, { text: '아이스크림', icon: '🍦' },
-  { text: '카메라', icon: '📷' }, { text: '비행기', icon: '✈️' }, { text: '선물', icon: '🎁' },
-  { text: '물고기', icon: '🐟' }, { text: '모자', icon: '🧢' }, { text: '전화기', icon: '📞' },
-  { text: '책', icon: '📚' }, { text: '시계', icon: '⏰' }
-];
-
 // 2. 상태 관리
 const currentRound = ref(1);
 const correctCount = ref(0);
+const wrongCount = ref(0);
+const timeoutCount = ref(0);
+const gameStartTime = ref(0);
 const isGameOver = ref(false);
+const isGameStarted = ref(false);
 const isMemorizing = ref(true); 
-let wordSequenceTimeout = []; // 여러 타임아웃 관리를 위해 배열로 변경
+const isWrongFlash = ref(false);
+const isCorrectFlash = ref(false);
+const showExitConfirm = ref(false);
+let resolveRouteLeave = null;
+let wordSequenceTimeout = []; 
+
+const startGame = () => {
+  isGameStarted.value = true;
+  gameStartTime.value = Date.now();
+  generateNewQuestion(); 
+  startTimer(MEMORY_TIME);
+  startWordDisplaySequence(); 
+};
+
+const handleTimeoutPhase = () => {
+  timeoutCount.value++;
+  nextStep();
+};
 
 const {
   timeLeft,
@@ -129,7 +173,7 @@ const {
   stopTimer: baseStopTimer,
   pauseTimer
 } = useTimer(0, () => {
-  isMemorizing.value ? startSelectionPhase() : checkAnswer();
+  isMemorizing.value ? startSelectionPhase() : handleTimeoutPhase();
 });
 
 // 3. 문제 데이터 (매 라운드 동적으로 할당됨)
@@ -144,30 +188,34 @@ const currentProblem = reactive({
 const gameResults = ref([]);
 
 
-onBeforeRouteLeave((to, from) => {
-  // 게임이 종료되지 않은 상태에서 페이지를 떠나려 할 때
+onBeforeRouteLeave(async (to, from) => {
+  if (!isGameStarted.value) return true;
+  
   if (!isGameOver.value) {
-    // 1. 타이머 일시 정지
     pauseTimer();
-
-    // 2. 사용자 확인
-    const confirmLeave = window.confirm(
-      "게임이 아직 진행 중입니다!\n지금 나가시면 진행 데이터가 초기화됩니다. 정말 나가시겠습니까?"
-    );
-
-    if (confirmLeave) {
-      // 나가는 것에 동의하면 이동 허용 (true 반환)
-      return true;
-    } else {
-      // 취소하면 이동 차단 (false 반환)하고 타이머 재개
+    showExitConfirm.value = true;
+    
+    const canLeave = await new Promise((resolve) => {
+      resolveRouteLeave = resolve;
+    });
+    
+    showExitConfirm.value = false;
+    
+    if (!canLeave) {
       resumeTimer(timeLeft.value);
-      return false;
     }
+    return canLeave;
   }
-
-  // 게임 종료 상태라면 이동 허용
   return true;
 });
+
+const handleConfirmExit = () => {
+  if (resolveRouteLeave) resolveRouteLeave(true);
+};
+
+const handleCancelExit = () => {
+  if (resolveRouteLeave) resolveRouteLeave(false);
+};
 
 const shuffle = (array) => {
   const newArray = [...array];
@@ -178,12 +226,9 @@ const shuffle = (array) => {
   return newArray;
 };
 
-// 새로운 문제 생성
 const generateNewQuestion = () => {
-  // 1. 전체 풀에서 랜덤하게 섞고 WORD_COUNT만큼 추출
   const randomSet = shuffle(MASTER_WORD_POOL).slice(0, WORD_COUNT);
   
-  // 2. 현재 라운드 데이터 세팅
   displayList.value = randomSet;
   currentProblem.displayWords = randomSet.map(item => item.text);
   currentProblem.userSelection = [];
@@ -191,7 +236,7 @@ const generateNewQuestion = () => {
 
 const startWordDisplaySequence = () => {
   shownWords.value = [];
-  wordSequenceTimeout.forEach(t => clearTimeout(t)); // 기존 타임아웃 청소
+  wordSequenceTimeout.forEach(t => clearTimeout(t)); 
   wordSequenceTimeout = [];
 
   displayList.value.forEach((word, index) => {
@@ -223,7 +268,6 @@ const startSelectionPhase = () => {
   shownWords.value = []; 
   
   setTimeout(() => {
-    // 유저가 선택할 때는 단어 순서를 섞어서 보여줌
     shownWords.value = shuffle(displayList.value); 
     startTimer(SELECT_TIME); 
   }, 400);
@@ -244,23 +288,49 @@ const getSelectionOrder = (wordText) => currentProblem.userSelection.indexOf(wor
 
 const getCardStyle = (wordText) => {
   if (isMemorizing.value) return 'bg-white border-transparent';
-  return currentProblem.userSelection.includes(wordText)
-    ? 'border-brand-green bg-green-50'
-    : 'border-white bg-white active:bg-gray-100';
+  if (currentProblem.userSelection.includes(wordText)) {
+    if (isWrongFlash.value) {
+      return 'border-rose-300 bg-rose-50';
+    }
+    return 'border-brand-green bg-green-50';
+  }
+  return 'border-white bg-white active:bg-gray-100';
+};
+
+const getTextColor = (wordText) => {
+  if (isMemorizing.value) return 'text-[#1B2B3B]';
+  if (currentProblem.userSelection.includes(wordText)) {
+    if (isWrongFlash.value) return 'text-rose-400';
+    return 'text-brand-green';
+  }
+  return 'text-[#1B2B3B]';
 };
 
 const checkAnswer = () => {
   const isCorrect = JSON.stringify(currentProblem.displayWords) === 
                     JSON.stringify(currentProblem.userSelection);
 
-  gameResults.value.push({
-    round: currentRound.value,
-    isCorrect,
-    timeSpent: (isMemorizing.value ? MEMORY_TIME : SELECT_TIME) - timeLeft.value
-  });
-
-  if (isCorrect) correctCount.value++;
-  nextStep();
+  if (isCorrect) {
+    gameResults.value.push({
+      round: currentRound.value,
+      isCorrect,
+      timeSpent: (isMemorizing.value ? MEMORY_TIME : SELECT_TIME) - timeLeft.value
+    });
+    correctCount.value++;
+    isCorrectFlash.value = true;
+    setTimeout(() => {
+      isCorrectFlash.value = false;
+      nextStep();
+    }, 1200);
+  } else {
+    isWrongFlash.value = true;
+    wrongCount.value++;
+    
+    setTimeout(() => {
+      isWrongFlash.value = false;
+      currentProblem.userSelection = [];
+    }, 1500);
+  }
 };
 
 const nextStep = () => {
@@ -268,9 +338,27 @@ const nextStep = () => {
     currentRound.value++;
     resetRound();
   } else {
-    // 모든 라운드 종료 시 이탈 방지 가드를 통과시키기 위해 true 설정
     isGameOver.value = true; 
     stopTimer();
+    
+    const totalPlayedTime = Math.floor((Date.now() - gameStartTime.value) / 1000);
+    const payload = {
+      gameType: "WORD_MEMORY",
+      correctCount: correctCount.value,
+      wrongCount: wrongCount.value,
+      timeoutCount: timeoutCount.value,
+      totalPlayedTime: totalPlayedTime
+    };
+
+    // // 게임 결과 저장 API 호출 하드코딩
+    // fetch('http://localhost:8080/api/v1/cognitive-games/result', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(payload)
+    // }).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));
+    
     alert(`게임 종료! 맞힌 개수: ${correctCount.value} / ${TOTAL_ROUNDS}`);
     router.push('/'); 
   }
@@ -278,16 +366,14 @@ const nextStep = () => {
 
 const resetRound = () => {
   isMemorizing.value = true;
-  generateNewQuestion(); // 매 라운드마다 새로운 문제 생성
+  generateNewQuestion(); 
   shownWords.value = []; 
   startTimer(MEMORY_TIME); 
   startWordDisplaySequence(); 
 };
 
 onMounted(() => {
-  generateNewQuestion(); // 첫 시작 시 문제 생성
-  startTimer(MEMORY_TIME);
-  startWordDisplaySequence(); 
+  // 처음 진입 시에는 explanation 스크린 대기
 });
 
 onUnmounted(() => stopTimer());
@@ -305,7 +391,7 @@ onUnmounted(() => stopTimer());
   font-size: 1.25rem;
 }
 :deep(.van-nav-bar) {
-  background-color: #f9fafb; /* bg-gray-50 */
+  background-color: #f9fafb; 
 }
 :deep(.van-nav-bar::after) {
   border-bottom-width: 0 !important;
