@@ -7,7 +7,7 @@
 
     <!-- // 추가 할 말 할 말 !!!!!!  -->
     <!-- // 사용자 인사, 날짜 컴포넌트 -->
-    <HomeHeader :userName="userName" 
+    <HomeHeader :username="username" 
                 :formattedDate="formattedDate" />
 
     <!-- // 진행률 표시 컴포넌트 -->
@@ -40,7 +40,7 @@ const route = useRoute();
 
 const {
   // 추가 할 말 할 말 
-  userName,
+  username,
   formattedDate,
   // 추가 할 말 할 말 
   isLoading,

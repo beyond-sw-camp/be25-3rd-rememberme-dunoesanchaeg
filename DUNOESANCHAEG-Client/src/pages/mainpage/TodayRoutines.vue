@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between items-end px-1 pt-4">
     <h3 class="text-2xl font-bold text-zinc-800">오늘의 루틴</h3>
-    <span class="text-l text-zinc-400">
+    <span class="text-lg text-zinc-400">
       {{ missions.length }}개 중
       <span class="text-zinc-800 font-semibold">
         {{missions.filter(g => g.isCompleted).length}}개
@@ -32,7 +32,7 @@
 
       <template v-else>
         <router-link v-if="!mission.isCompleted" :to="{ name: mission.link }">
-          <button class="start-button">시작하기</button>
+          <button  @click="goToOpenQuestion" class="start-button">시작하기</button>
         </router-link>
         <button v-else class="completed-button">완료됨</button>
       </template>
@@ -41,7 +41,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = defineProps({
   missions: {
@@ -76,6 +78,11 @@ const getMissionIcon = (mission) => {
 const getMissionDesc = (mission) => {
   if (mission.assignedGameType) return '뇌 건강을 위해 게임 한 판 어때요?';
   return mission.desc;
+};
+
+const goToOpenQuestion = () => {
+  sessionStorage.setItem('openQuestionEntry', 'allowed');
+  router.push('/open-question');
 };
 </script>
 

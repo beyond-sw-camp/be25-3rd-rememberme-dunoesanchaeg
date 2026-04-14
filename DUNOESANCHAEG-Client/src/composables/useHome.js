@@ -53,8 +53,8 @@ export function useHome() {
                 isCompleted: d.recordFinished
             },
             {
-                title: '질문',
-                desc: '오늘의 질문에 답해보세요.',
+                title: '개방형 질문',
+                desc: '마음에 떠오르는 이야기를 편하게 적어보세요!',
                 icon: '❓',
                 link: 'OpenQuestion',
                 isCompleted: d.questionFinished
@@ -63,9 +63,8 @@ export function useHome() {
     });
 
 
-    // 추가 할 말 할 말.... //
     // [ ]: userName, formattedDate 추가 방법 생각하기 
-    const userName = computed(() => authStore.userName || '회원');
+    const username = computed(() => authStore.username || '회원');
 
     const formattedDate = computed(() => {
         const now = new Date();
@@ -127,11 +126,10 @@ export function useHome() {
     };
 
 
-
-
     onMounted(initializeHome);
 
     return {
+        username,
         isLoading,
         routineData,
         errorMessage,
