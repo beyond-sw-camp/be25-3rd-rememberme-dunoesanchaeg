@@ -64,18 +64,6 @@ export function useHome() {
 
 
     // [ ]: userName, formattedDate 추가 방법 생각하기 
-    const username = computed(() => authStore.username || '회원');
-
-    const formattedDate = computed(() => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1;
-        const date = now.getDate();
-        const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
-        const dayOfWeek = weekDays[now.getDay()];
-
-        return `${year}년 ${month}월 ${date}일 (${dayOfWeek})`;
-    });
 
     // 
     const initializeHome = async () => {
@@ -129,7 +117,6 @@ export function useHome() {
     onMounted(initializeHome);
 
     return {
-        username,
         isLoading,
         routineData,
         errorMessage,
