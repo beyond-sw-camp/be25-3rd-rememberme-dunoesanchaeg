@@ -1,7 +1,6 @@
 <template>
-  <div class="min-h-screen bg-brand-bg transition-all">
+  <div class="p-7 min-h-screen bg-brand-bg transition-all">
     <header class="flex items-center gap-3 mb-8">
-      <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
       <h1 class="text-2xl font-black text-brand-green tracking-tight">회원 정보 수정</h1>
     </header>
 

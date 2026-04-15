@@ -28,7 +28,7 @@
       <div class="menu-card">
         <router-link to="/profile/edit" class="menu-item">
           <span>회원 정보 수정</span>
-          <span>›</span>
+          <span class="text-2xl">›</span>
         </router-link>
       </div>
     </section>
@@ -299,6 +299,8 @@ onMounted(fetchUserData);
 .menu-card {
   background: white;
   overflow: hidden;
+
+  align-items: center;
 
   background-color: var(--color-surface, #ffffff);
 
