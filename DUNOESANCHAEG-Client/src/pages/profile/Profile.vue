@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-6">
+  <div class="min-h-screen bg-brand-bg p-2">
 
     <header class="flex items-center gap-3 mb-10">
       <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />

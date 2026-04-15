@@ -63,7 +63,6 @@ const loginWithKakao = () => {
 
   if (!clientId || !redirectUri) {
     console.error("Kakao Login Error: 환경 변수가 누락되었습니다.");
-    alert("로그인 설정을 확인해주세요 (.env)");
     return;
   }
 

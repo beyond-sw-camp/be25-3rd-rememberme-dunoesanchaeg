@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-dvh bg-brand-bg relative w-full h-full">
-    <main class="p-5 pb-20">
+  <div class="min-h-dvh bg-brand-bg relative w-full h-full mb-4">
+    <main class="p-7 pb-20">
       <slot />
     </main>
     <BottomNav />

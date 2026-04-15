@@ -127,7 +127,7 @@ const formatDate = (dateString) => {
   gap: 4px;
   color: var(--color-brand-green);
   font-weight: bold;
-  font-size: var(--van-font-size-md);
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale)*1.3);
 }
 
 .notice-item {
