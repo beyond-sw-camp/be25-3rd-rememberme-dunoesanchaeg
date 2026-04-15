@@ -1,21 +1,18 @@
 <template>
-  <Transition name="dialog-fade">
-    <div v-if="show" class="fixed inset-0 z-[100] flex items-center justify-center p-6">
-      <div class="absolute inset-0 bg-black/20" @click="$emit('cancel')"></div>
-      <div class="relative bg-white/95 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-[32px] px-8 py-8 flex flex-col items-center justify-center transform transition-all border border-white w-full max-w-[320px]">
-        <div class="size-24 bg-amber-50 rounded-full flex items-center justify-center mb-6 border-2 border-amber-100">
-          <van-icon name="warning-o" size="4.5rem" class="text-amber-500 font-bold" />
+  <Transition name="fade">
+    <div v-if="show" class="modal-overlay" @click.self="$emit('cancel')">
+      <div class="modal-card">
+        <div class="modal-body">
+          <div class="icon">
+            <van-icon name="warning-o" color="#f59e0b" />
+          </div>
+          <div class="text-content">
+            <slot></slot>
+          </div>
         </div>
-        <span class="text-[1.2rem] font-black text-[#1B2B3B] text-center leading-[1.5] mb-8">
-          <slot></slot>
-        </span>
-        <div class="flex gap-3 w-full">
-          <button @click="$emit('cancel')" class="flex-1 py-4 bg-gray-100 text-gray-500 rounded-2xl font-bold text-lg active:bg-gray-200 transition-colors">
-            아니오
-          </button>
-          <button @click="$emit('confirm')" class="flex-1 py-4 bg-amber-500 !text-white rounded-2xl font-bold text-lg active:bg-amber-600 transition-colors shadow-[0_4px_12px_rgba(245,158,11,0.2)]">
-            예
-          </button>
+        <div class="modal-footer">
+          <button class="btn-close" @click="$emit('cancel')">아니오</button>
+          <button class="btn-confirm" @click="$emit('confirm')">예</button>
         </div>
       </div>
     </div>
@@ -34,14 +31,29 @@ defineEmits(['confirm', 'cancel']);
 </script>
 
 <style scoped>
-.dialog-fade-enter-active,
-.dialog-fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 9999;
+  padding: 20px;
 }
+.modal-card {
+  background: white; border-radius: 24px; width: 100%; max-width: 320px; overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1); animation: slideUp 0.3s ease-out;
+}
+.modal-body { padding: 32px 24px; text-align: center; }
+.icon { font-size: 50px; margin-bottom: 16px; }
+.text-content { font-size: 1.25rem; font-weight: 800; color: #18181b; line-height: 1.5; }
+.modal-footer { display: flex; border-top: 1px solid #f4f4f5; gap: 1px; background: #f4f4f5; }
+.modal-footer button { flex: 1; padding: 16px; border: none; font-size: 1.25rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease, background-color 0.1s ease; }
+.btn-close { background: white; color: #a1a1aa; border-radius: 0 0 0 24px; }
+.btn-close:active { background: #f0f0f0; transform: scale(0.95); }
+.btn-confirm { background: #f59e0b; color: white; border-radius: 0 0 24px 0; }
+.btn-confirm:active { background: #d97706; transform: scale(0.95); }
 
-.dialog-fade-enter-from,
-.dialog-fade-leave-to {
-  opacity: 0;
-  transform: scale(0.9);
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
+.fade-enter-active, .fade-leave-active { transition: opacity 0.2s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>
