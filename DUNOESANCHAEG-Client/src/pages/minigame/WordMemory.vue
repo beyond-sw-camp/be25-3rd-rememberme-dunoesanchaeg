@@ -10,15 +10,7 @@
     />
 
     <template v-else>
-      <van-nav-bar
-        title="단어 연상 게임"
-        left-arrow
-        @click-left="goBack"
-        fixed
-        placeholder
-        safe-area-inset-top
-        class="shadow-sm font-bold bg-gray-50 z-50"
-      />
+      <AppNavBar title="단어 연상 게임" />
 
       <div class="p-6 flex flex-col space-y-6 flex-1 relative">
         <div class="flex justify-between items-end shrink-0">
@@ -148,6 +140,7 @@ import CustomErrorDialog from "../../components/common/CustomErrorDialog.vue";
 import CustomSuccessDialog from "../../components/common/CustomSuccessDialog.vue";
 import CustomConfirmDialog from "../../components/common/CustomConfirmDialog.vue";
 import GameGuide from "../../components/minigame/GameGuide.vue";
+import AppNavBar from "../../components/common/AppNavBar.vue";
 import { saveCognitiveGameResult } from "../../api/minigame.js";
 import MASTER_WORD_POOL from "../../data/word_memory_data.json";
 
@@ -410,23 +403,7 @@ onUnmounted(() => stopTimer());
 </script>
 
 <style scoped>
-:deep(.van-nav-bar__title) {
-  font-family: "Pretendard", sans-serif;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--color-brand-green);
-}
-:deep(.van-nav-bar .van-icon) {
-  color: var(--color-brand-green);
-  font-weight: 900;
-  font-size: 1.25rem;
-}
-:deep(.van-nav-bar) {
-  background-color: #f9fafb;
-}
-:deep(.van-nav-bar::after) {
-  border-bottom-width: 0 !important;
-}
+
 
 .card-list-enter-active,
 .card-list-leave-active {

@@ -1,14 +1,11 @@
 <template>
   <div class="absolute inset-0 z-[60] bg-brand-bg flex flex-col pb-safe">
-    <!-- Header -->
-    <div class="flex justify-between items-center p-4 pt-6">
-      <span class="text-xl font-extrabold text-text-muted opacity-80">{{ title }}</span>
+    <div class="flex justify-end items-center p-4 pt-6">
       <button @click="$emit('exit')" class="w-10 h-10 flex items-center justify-center bg-surface-variant rounded-full text-text-sub active:bg-gray-200 transition-colors shadow-sm">
         <van-icon name="cross" size="1.25rem" class="font-bold" />
       </button>
     </div>
 
-    <!-- Content -->
     <div class="flex-1 flex flex-col items-center justify-center px-6 text-center -mt-8">
       <div class="size-24 bg-brand-blue rounded-[28px] flex items-center justify-center mb-6 shadow-sm border border-white">
         <van-icon :name="iconName" class="text-brand-green" size="4rem" />
@@ -26,7 +23,7 @@
     </div>
 
     <div class="p-6 pt-2">
-      <button @click="$emit('start')" class="w-full py-4 bg-brand-green !text-white text-surface rounded-[24px] font-extrabold text-xl shadow-[0_8px_24px_rgba(45,122,54,0.3)] active:scale-[0.98] transition-all">
+      <button @click="$emit('start')" class="w-full py-4 bg-brand-green !text-white text-surface rounded-[0.875rem] !font-bold !text-xl shadow-[0_8px_24px_rgba(45,122,54,0.3)] active:scale-[0.98] transition-all">
         게임 시작하기
       </button>
     </div>
