@@ -40,6 +40,9 @@ onMounted(async () => {
 
   console.log("카카오 인가 코드 확인됨");
 
+  authStore.logout(); // Pinia 스토어 및 localStorage 초기화
+  delete instance.defaults.headers.common['Authorization']; // Axios 글로벌 헤더 초기화
+
   try {
     // 1. 백엔드에 인가 코드 전달 및 토큰 발급 요청
     const response = await instance.post('/auth/kakao-auth', { code });
