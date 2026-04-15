@@ -172,10 +172,23 @@ const handleLogout = async () => {
     title: '로그아웃',
     message: '정말 로그아웃 하시겠습니까?',
   }).then(async () => {
-    authStore.logout();
-    await router.push('/login');
-    showToast('로그아웃 되었습니다.');
-  }).catch(() => {});
+    try {
+      // 1. 백엔드에 로그아웃 요청 (브라우저의 Refresh Token 쿠키 삭제)
+      await instance.post('/auth/logout');
+    } catch (error) {
+      console.error('서버 로그아웃 처리 중 오류:', error);
+      // 서버 오류가 발생하더라도 프론트엔드 데이터는 무조건 지워야 하므로 throw하지 않습니다.
+    } finally {
+      // 2. 프론트엔드 상태 및 로컬 스토리지 초기화 (Access Token 삭제)
+      authStore.logout();
+      showToast('로그아웃 되었습니다.');
+
+      // 3. 로그인 페이지로 이동 (히스토리에 남지 않도록 replace 사용)
+      await router.replace('/home');
+    }
+  }).catch(() => {
+    // 취소 버튼 클릭 시 실행됨
+  });
 };
 
 // 회원 탈퇴
