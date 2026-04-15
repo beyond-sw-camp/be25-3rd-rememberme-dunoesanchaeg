@@ -27,7 +27,7 @@
         🔗 <a href="https://github.com/horolo1234">horolo1234</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지3.png" style="width:120px; height:140px; object-fit:contain;"<br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지3.png" style="width:120px; height:140px; object-fit:contain;"><br><br>
         🔗 <a href="https://github.com/heejudy">heejudy</a>
       </td>
       <td>
