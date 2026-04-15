@@ -1,14 +1,8 @@
 <template>
     <div class="daily-record-page">
-        <div class="page-inner">
-            <template v-if="!isSubmitted">
-                <div class="page-header">
-                    <button class="exit-btn" type="button" @click="goHome" aria-label="홈으로 돌아가기">
-                        <van-icon name="arrow-left" size="18" />
-                    </button>
-                </div>
+        <AppNavBar title="하루 기록" />
 
-                <h1 class="page-title">하루 기록</h1>
+        <div class="page-inner">
                 <p class="page-subtitle">오늘 하루 상태를 간단하게 기록해보세요.</p>
 
                 <p v-if="errorMessage" class="error-message">
@@ -58,24 +52,6 @@
                 <button class="submit-btn" @click="handleSubmit">
                     저장하기
                 </button>
-            </template>
-
-            <template v-else>
-                <div class="complete-wrap">
-                    <div class="complete-icon">😊</div>
-                    <h1 class="complete-title">하루기록 등록이 완료되었습니다</h1>
-                    <p class="complete-subtitle">
-                        오늘의 하루를 잘 기록했어요.<br />
-                        다음 루틴도 이어서 수행해보세요.
-                    </p>
-
-                    <div class="complete-button-group">
-                        <button class="home-btn" @click="goHome">
-                            홈화면으로 가기
-                        </button>
-                    </div>
-                </div>
-            </template>
         </div>
     </div>
 </template>
@@ -84,6 +60,7 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import RecordSection from '@/components/daily-record/RecordSection.vue';
+import AppNavBar from '@/components/common/AppNavBar.vue';
 import { saveDailyRecord } from '@/api/dailyRecord.js';
 
 const router = useRouter();
@@ -102,7 +79,6 @@ const form = reactive({
 });
 
 const errorMessage = ref('');
-const isSubmitted = ref(false);
 
 const handleSubmit = async () => {
     errorMessage.value = '';
@@ -136,15 +112,11 @@ const handleSubmit = async () => {
             socialMemo: form.socialMemo,
         });
 
-        isSubmitted.value = true;
+        router.push('/');
     } catch (error) {
         errorMessage.value =
             error.response?.data?.message || '하루 기록 저장 중 오류가 발생했어요.';
     }
-};
-
-const goHome = () => {
-    router.push('/');
 };
 </script>
 
@@ -155,42 +127,13 @@ const goHome = () => {
     --daily-record-error-text: #b91c1c;
     min-height: 100vh;
     background: var(--color-brand-bg);
-    padding: 24px 16px 40px;
+    padding: 0 16px 40px;
 }
 
 .page-inner {
-    max-width: 760px;
+    max-width: 480px;
     margin: 0 auto;
     padding: 8px 0 0;
-}
-
-.page-header {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 16px;
-}
-
-.exit-btn {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--color-surface-variant);
-    border-radius: 9999px;
-    background: var(--color-surface);
-    color: var(--color-text-sub);
-    font-size: var(--text-sm);
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(17, 24, 39, 0.04);
-}
-
-.page-title {
-    margin: 0;
-    font-size: var(--text-3xl);
-    font-weight: 800;
-    color: var(--color-brand-green);
-    line-height: var(--text-3xl--line-height);
 }
 
 .page-subtitle {
@@ -231,57 +174,11 @@ const goHome = () => {
     box-shadow: 0 10px 18px rgba(45, 122, 54, 0.2);
 }
 
-.home-btn {
-    width: 220px;
-    height: 52px;
-    border: none;
-    border-radius: 16px;
-    background: var(--color-brand-green);
-    color: #ffffff;
-    font-size: var(--text-base);
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 28px;
-    box-shadow: 0 10px 18px rgba(45, 122, 54, 0.2);
-}
 
-.complete-wrap {
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.complete-icon {
-    font-size: var(--text-6xl);
-    margin-bottom: 18px;
-}
-
-.complete-title {
-    margin: 0;
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: var(--color-brand-green);
-    line-height: var(--text-2xl--line-height);
-}
-
-.complete-subtitle {
-    margin: 12px 0 0;
-    font-size: var(--text-base);
-    color: var(--color-text-muted);
-    line-height: var(--text-base--line-height);
-}
 
 @media (max-width: 640px) {
     .page-inner {
         padding: 8px 0 0;
-    }
-
-    .page-title {
-        font-size: var(--text-2xl);
-        line-height: var(--text-2xl--line-height);
     }
 }
 </style>
