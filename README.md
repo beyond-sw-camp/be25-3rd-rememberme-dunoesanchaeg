@@ -2,7 +2,6 @@
 
 <img width="1000" alt="두뇌산책_썸네일" src="https://github.com/beyond-sw-camp/be25-2nd-rememberme-dunoesanchaeg/raw/docs/images/%EB%91%90%EB%87%8C%EC%82%B0%EC%B1%85.png" />
 
-## 👥 팀원 소개
 
 ## 👥 팀원 소개
 
