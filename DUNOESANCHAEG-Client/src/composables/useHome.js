@@ -72,6 +72,7 @@ export function useHome() {
     });
 
 
+
     const username = computed(() => routineData.value?.username || '...');
     // 
     const initializeHome = async () => {
@@ -135,4 +136,3 @@ export function useHome() {
         username,
         formattedDate
     };
-}

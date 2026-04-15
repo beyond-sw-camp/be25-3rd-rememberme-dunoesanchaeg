@@ -258,6 +258,15 @@ html[data-high-contrast="true"] {
     /* 모드 전환 시 부드러운 애니메이션 */
     transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
   }
+
+  /* 모든 버튼 공통 active(누르기) 효과 */
+  button {
+    transition: transform 0.1s ease, background-color 0.1s ease, opacity 0.1s ease;
+  }
+  button:active {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
 }
 
 /* 5. 커스텀 컴포넌트 클래스 정의 */

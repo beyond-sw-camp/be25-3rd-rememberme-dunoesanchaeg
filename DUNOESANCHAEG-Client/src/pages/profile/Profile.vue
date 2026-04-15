@@ -1,4 +1,5 @@
 <template>
+
   <!-- 헤더 -->
   <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
   </header>
@@ -13,6 +14,7 @@
 
         <div class="profile-info">
           <div class="profile-name">
+
             {{ userInfo.nickname || '가져오는 중...' }} 님
           </div>
           <div class="profile-email">
