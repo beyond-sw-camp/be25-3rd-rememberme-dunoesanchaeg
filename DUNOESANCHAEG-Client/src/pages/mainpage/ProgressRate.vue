@@ -13,7 +13,7 @@
         </div>
 
         <template v-else>
-            <section class="bg-white p-6 rounded-2xl shadow-md">
+            <section class="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                 <div class="flex justify-between items-center">
                     <p class="routine_progress text-2xl font-semibold text-zinc-800">오늘의 루틴 진행률</p>
                     <p class="text-2xl font-bold text-brand-green">{{ progress }}%</p>

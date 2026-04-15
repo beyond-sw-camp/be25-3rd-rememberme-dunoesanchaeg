@@ -3,9 +3,6 @@ import { useRouter } from 'vue-router';
 import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth.js';
 
-// const PREVIEW_MODE = true; 
-const PREVIEW_MODE = false;
-
 export function useHome() {
     const router = useRouter();
     const authStore = useAuthStore();
@@ -79,35 +76,19 @@ export function useHome() {
         errorMessage.value = '';
 
         try {
-            // (PREVIEW_MODE = true)
-            if (PREVIEW_MODE) {
-                console.log("🛠️ 화면 테스트용 데이터를 사용합니다.");
-
-
+            if (!authStore.accessToken) {
                 routineData.value = {
-                    progressRate: 66,
-                    gameFinished: true,
-                    recordFinished: true,
+                    progressRate: 0,
+                    gameFinished: false,
+                    recordFinished: false,
                     questionFinished: false
                 };
+                isLoading.value = false;
+                return;
             }
-            // (PREVIEW_MODE = false)
-            else {
 
-                if (!authStore.accessToken) {
-                    routineData.value = {
-                        progressRate: 0,
-                        gameFinished: false,
-                        recordFinished: false,
-                        questionFinished: false
-                    };
-                    isLoading.value = false;
-                    return;
-                }
-
-                const res = await instance.get('routines/today');
-                routineData.value = res.data.data;
-            }
+            const res = await instance.get('routines/today');
+            routineData.value = res.data.data;
         } catch (error) {
             console.error('Home 로딩 실패:', error);
 
