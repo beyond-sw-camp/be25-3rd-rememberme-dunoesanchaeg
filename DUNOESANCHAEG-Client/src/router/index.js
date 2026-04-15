@@ -46,7 +46,8 @@ const routes = [
     {
             path: '/daily-record',
             name: 'DailyRecord',
-            component: () => import('@/pages/daily-record/DailyRecordPage.vue')
+            component: () => import('@/pages/daily-record/DailyRecordPage.vue'),
+            meta: {hideLayout: true}
     },
     {path: '/statistics', name: 'Statistics', component: Statistics},
     {path: '/statistics/detail', name: 'StatisticsDetail', component: () => import("@/pages/statistics/DailyDetail.vue"), meta: {hideLayout: true}},
@@ -66,6 +67,7 @@ const routes = [
         path: '/open-question',
         name: 'OpenQuestion',
         component: () => import("@/pages/open-question/OpenQuestion.vue"),
+        meta: {hideLayout: true}
     }
 ];
 

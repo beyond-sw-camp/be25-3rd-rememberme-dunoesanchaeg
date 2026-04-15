@@ -1,30 +1,34 @@
 <template>
-  <div class="bg-surface rounded-card p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-    <van-tabs v-model:active="activeTab" color="var(--color-brand-green)" title-active-color="var(--color-brand-green)" swipeable @change="onTabChange">
-      <van-tab name="WORD_MEMORY" title="단어 연상" />
-      <van-tab name="ARITHMETIC" title="사칙연산" />
-      <van-tab name="DESCARTES_RPS" title="데카르트" />
-    </van-tabs>
-
-    <div class="mt-5 p-4 bg-brand-blue rounded-2xl flex items-center sm:items-center justify-center gap-2">
-      <div class="bg-brand-green text-surface w-6 h-6 rounded-full flex-shrink-0 flex justify-center items-center text-sm shadow-md font-bold">i</div>
-      <p class="text-brand-green font-extrabold text-base leading-snug break-keep text-left">
-        이 게임은 <span class="text-text-main underline decoration-brand-green decoration-4 underline-offset-4 break-keep">{{ cognitiveSkillMap[activeTab] }}</span> 발달에 도움을 줍니다.
-      </p>
+  <div class="bg-surface rounded-[24px] shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden">
+    <div class="pt-1 bg-surface">
+      <van-tabs v-model:active="activeTab" color="var(--color-brand-green)" title-active-color="var(--color-brand-green)" swipeable @change="onTabChange" background="transparent">
+        <van-tab name="WORD_MEMORY" title="단어 연상" />
+        <van-tab name="ARITHMETIC" title="사칙연산" />
+        <van-tab name="DESCARTES_RPS" title="데카르트" />
+      </van-tabs>
     </div>
 
-    <div class="mt-6 relative w-full h-64">
-      <Line :data="computedChartData" :options="chartOptions" />
-    </div>
-
-    <div v-if="currentStatItem" class="mt-4 grid grid-cols-2 gap-4 text-center text-sm font-semibold text-text-sub">
-      <div class="bg-surface-variant p-3 rounded-xl border border-gray-100">
-        <div class="text-text-muted mb-1 text-xs">총 플레이 횟수</div>
-        <div class="text-lg text-text-main font-bold">{{ currentStatItem.play_count }}회</div>
+    <div class="px-4 pb-4">
+      <div class="mt-3 p-3 bg-brand-blue rounded-2xl flex items-center sm:items-center justify-center gap-2">
+        <div class="bg-brand-green text-surface w-5 h-5 rounded-full flex-shrink-0 flex justify-center items-center text-xs shadow-md font-bold">i</div>
+        <p class="text-brand-green font-extrabold text-sm leading-snug break-keep text-left">
+          이 게임은 <span class="text-text-main underline decoration-brand-green decoration-2 underline-offset-4 break-keep">{{ cognitiveSkillMap[activeTab] }}</span> 발달에 도움을 줍니다.
+        </p>
       </div>
-      <div class="bg-surface-variant p-3 rounded-xl border border-gray-100">
-        <div class="text-text-muted mb-1 text-xs">최근 정답률</div>
-        <div class="text-lg text-brand-green font-extrabold">{{ currentStatItem.accuracy }}%</div>
+
+      <div class="mt-4 relative w-full h-48">
+        <Line :data="computedChartData" :options="chartOptions" />
+      </div>
+
+      <div v-if="currentStatItem" class="mt-4 grid grid-cols-2 gap-3 text-center text-sm font-semibold text-text-sub">
+        <div class="bg-surface-variant p-2.5 rounded-xl border border-gray-100 flex flex-col justify-center">
+          <div class="text-text-muted mb-0.5 text-xs">총 플레이 횟수</div>
+          <div class="text-base text-text-main font-bold">{{ currentStatItem.play_count }}회</div>
+        </div>
+        <div class="bg-surface-variant p-2.5 rounded-xl border border-gray-100 flex flex-col justify-center">
+          <div class="text-text-muted mb-0.5 text-xs">최근 정답률</div>
+          <div class="text-base text-brand-green font-extrabold">{{ currentStatItem.accuracy }}%</div>
+        </div>
       </div>
     </div>
   </div>
