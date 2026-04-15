@@ -1,11 +1,10 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-6 pb-20 transition-all">
+  <div class="p-7 min-h-screen bg-brand-bg transition-all">
     <header class="flex items-center gap-3 mb-8">
-      <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
       <h1 class="text-2xl font-black text-brand-green tracking-tight">회원 정보 수정</h1>
     </header>
 
-    <div class="bg-brand-blue rounded-card p-8 shadow-inner transition-all">
+    <div class="bg-white rounded-card p-8 shadow-inner transition-all">
 
       <div class="mb-6">
         <label class="block text-lg font-bold text-text-main mb-2 ml-2">이름</label>
@@ -56,7 +55,7 @@
               type="button"
               :class="[
                 form.guardianConsent
-                  ? 'bg-brand-green text-surface'
+                  ? 'bg-brand-green !text-white'
                   : 'bg-surface text-text-muted'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
@@ -68,7 +67,7 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? 'bg-text-sub text-surface'
+                  ? 'bg-gray-400! !text-white'
                   : 'bg-surface text-text-muted'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
