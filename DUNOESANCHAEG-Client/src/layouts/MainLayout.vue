@@ -10,6 +10,5 @@
 </template>
 
 <script setup>
-import LoginModal from "@/components/mainPage/LoginModal.vue";
 import BottomNav from "../components/BottomNav.vue";
 </script>

@@ -413,6 +413,7 @@ onUnmounted(() => stopTimer());
 :deep(.van-nav-bar__title) {
   font-family: "Pretendard", sans-serif;
   font-weight: 800;
+  font-size: 1.2rem;
   color: var(--color-brand-green);
 }
 :deep(.van-nav-bar .van-icon) {
