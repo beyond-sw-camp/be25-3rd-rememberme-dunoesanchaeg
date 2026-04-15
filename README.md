@@ -307,11 +307,12 @@ src/
 ## <a id="9-기능-테스트-결과서"></a> 9. 기능 테스트 결과서(스프레드 시트)
 
 <details>
- <a href="https://docs.google.com/spreadsheets/d/1cGxKolGeDWGtzUYxWShYSNCS0KK_gclYAco5hxDQDqI/edit?gid=687771753#gid=687771753">기능 테스트 결과서</a>
+ <summary>기능 테스트 결과서</summary>
 </div>
   <img width="1351" height="731" alt="image" src="" />
 </details>
 <br>
+
 
 ## <a id="10-회고"></a> 10. 회고
 
