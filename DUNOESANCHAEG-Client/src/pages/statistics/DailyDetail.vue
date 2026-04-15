@@ -95,6 +95,18 @@
       
       <div class="h-[env(safe-area-inset-bottom)]"></div>
     </div>
+
+    <!-- 데이터가 없을 때의 Empty State -->
+    <div v-else-if="!isLoading && (isError || !detailData)" class="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
+      <div class="size-32 bg-surface-variant rounded-full flex items-center justify-center mb-8 shadow-sm">
+        <van-icon name="warning-o" size="4.5rem" class="text-brand-green/40" />
+      </div>
+      <h2 class="text-2xl font-extrabold text-text-main mb-3">기록된 데이터가 없습니다</h2>
+      <p class="text-text-muted text-lg leading-relaxed break-keep">
+        선택하신 날짜의 기록을 불러올 수 없거나,<br/>아직 진행된 내용이 없는 날입니다.
+      </p>
+    </div>
+
   </div>
 </template>
 
@@ -108,6 +120,8 @@ const router = useRouter();
 
 const currentRate = ref(0);
 const detailData = ref(null);
+const isLoading = ref(true);
+const isError = ref(false);
 
 const pageTitle = computed(() => {
   const tDate = route.query.date || '기록 상세';
@@ -140,24 +154,41 @@ const getLevelText = (level) => {
 const fetchDailyDetail = async () => {
   // 쿼리 파라미터 유효성 엄격 검사 (YYYY-MM-DD 패턴 강제 맞춤)
   const rawDate = typeof route.query.date === 'string' ? route.query.date.trim() : String(route.query.date);
-  if (!rawDate) return;
+  if (!rawDate) {
+    isLoading.value = false;
+    isError.value = true;
+    return;
+  }
 
   const match = rawDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
   if (!match) {
     console.error("잘못된 날짜 형식입니다:", rawDate);
+    isLoading.value = false;
+    isError.value = true;
     return;
   }
   const formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
 
   try {
-    const res = await instance.get('/api/v1/calendar/summary', {
+    isLoading.value = true;
+    isError.value = false;
+    const res = await instance.get('/calendar/summary', {
       params: { targetDate: formattedDate }
     });
     if (res.data && res.data.code === 200) {
-      detailData.value = res.data.data;
+      if (res.data.data) {
+        detailData.value = res.data.data;
+      } else {
+        isError.value = true;
+      }
+    } else {
+      isError.value = true;
     }
   } catch (error) {
     console.error("데이터 로드 실패:", error);
+    isError.value = true;
+  } finally {
+    isLoading.value = false;
   }
 };
 

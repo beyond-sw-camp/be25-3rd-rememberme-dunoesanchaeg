@@ -103,7 +103,7 @@ const fetchMonthlyRecords = async () => {
   const targetDateStr = `${currentYear.value}-${String(currentMonth.value).padStart(2, '0')}-01`;
 
   try {
-    const res = await instance.get('/api/v1/calendar/completed-days', {
+    const res = await instance.get('/calendar/completed-days', {
       params: { targetDate: targetDateStr }
     });
 
