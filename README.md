@@ -19,27 +19,27 @@
   <tbody>
     <tr>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지1.jpg" width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지1.jpg" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/YJunSuk">YSunSuk</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지2.png" width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지2.png" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/horolo1234">horolo1234</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지3.png" width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지3.png" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/heejudy">heejudy</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지4.png" width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지4.png" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/wnstkd704">wnstkd704</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지5.png width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지5.png" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/0lthree">01three</a>
       </td>
       <td>
-        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지6.jpg" width="120"><br><br>
+        <img src="DUNOESANCHAEG-Client\src\assets\profile\이미지6.jpg" width="120" height="140"><br><br>
         🔗 <a href="https://github.com/haeuniiii">haeuniiii</a>
       </td>
     </tr>
