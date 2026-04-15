@@ -269,7 +269,7 @@ const handleRoundEnd = (isCorrect) => {
       (Date.now() - gameStartTime.value) / 1000,
     );
     const payload = {
-      gameType: "DEKARTERPS",
+      gameType: "DESCARTES_RPS",
       correctCount: correctCount.value,
       wrongCount: wrongCount.value,
       timeoutCount: timeoutCount.value,
