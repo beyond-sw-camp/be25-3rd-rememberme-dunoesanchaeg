@@ -27,10 +27,10 @@ export function useHome() {
 
     const message = computed(() => {
         const val = progress.value;
-        if (val >= 100) return '🔥 오늘의 루틴을 모두 완료했어요. 수고했어요!';
-        if (val >= 66) return '🔥 거의 다 왔어요! 하나만 더 하면 완벽해요!';
-        if (val >= 33) return '💪 조금만 더 힘내세요! 5분이면 충분합니다.';
-        return '🙂 아직 루틴을 시작하지 않았어요. 함께 시작해볼까요?';
+        if (val >= 100) return `🔥 오늘의 루틴을 모두 완료했어요. \n수고했어요!`;
+        if (val >= 66) return '🔥 거의 다 왔어요! \n하나만 더 하면 완벽해요!';
+        if (val >= 33) return '💪 조금만 더 힘내세요! \n5분이면 충분합니다.';
+        return '🙂 아직 루틴을 시작하지 않았어요. \n함께 시작해볼까요?';
     });
 
     const missions = computed(() => {

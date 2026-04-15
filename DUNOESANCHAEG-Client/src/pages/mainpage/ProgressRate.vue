@@ -15,7 +15,7 @@
         <template v-else>
             <section class="bg-white p-6 rounded-2xl shadow-md">
                 <div class="flex justify-between items-center">
-                    <p class="text-2xl font-semibold text-zinc-800">오늘의 루틴 진행률</p>
+                    <p class="routine_progress text-2xl font-semibold text-zinc-800">오늘의 루틴 진행률</p>
                     <p class="text-2xl font-bold text-brand-green">{{ progress }}%</p>
                 </div>
 
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center text-l font-semibold text-zinc-600">
+                <div class="fighting_message">
                     {{ message }}
                 </div>
             </section>
@@ -45,4 +45,20 @@ const props = defineProps({
 defineEmits(['retry']);
 </script>
 
-<style scoped></style>
+<style scoped>
+.routine_progress{
+    font-size: calc(var(--van-font-size-lg) * var(--font-scale)* 1.3);
+}
+
+.fighting_message {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+    font-weight: 600; /* font-semibold */
+    color: #52525b; /* text-zinc-600 */
+    letter-spacing: -0.025em; /* tracking-tighter */
+    word-break: keep-all; /* break-keep */
+    white-space: pre-line; /* whitespace-pre-line */
+}
+</style>

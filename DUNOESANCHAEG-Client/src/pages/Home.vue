@@ -1,11 +1,12 @@
 <template>
-  <div class="space-y-8 px-5 pb-24 min-h-screen bg-brand-white">
+  <div class="space-y-8 min-h-screen bg-brand-white">
 
-    <header class="pt-2">
-      <span class="text-3xl font-extrabold text-brand-green">두뇌산책</span>
+    <header class="flex items-center gap-3 mb-10">
+      <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
+      <h1 @click="showConfetti" 
+        class="text-3xl font-extrabold text-brand-green tracking-tight">두뇌산책</h1>
     </header>
 
-    <h1 @click="showConfetti"></h1>
 
     <!-- // 사용자 인사, 날짜 컴포넌트 -->
     <HomeHeader :username="username" 
@@ -24,9 +25,9 @@
   </div>
 </template>
 
-
-
 <script setup>
+import logoGreen from '@/assets/image/logo_green1.png';
+
 import { useHome } from '@/composables/useHome';
 import HomeHeader from '@/pages/mainpage/HomeHeader.vue';
 
@@ -40,7 +41,6 @@ import JSConfetti from 'js-confetti';
 
 const route = useRoute();
 
-
 const {
   username,
   formattedDate,
@@ -52,9 +52,9 @@ const {
   initializeHome
 } = useHome();
 
-// 1. 인스턴스를 하나만 생성 (메모리 효율)
 const confetti = new JSConfetti();
 
+const hasCelebrated = localStorage.getItem('confettiShown');
 function showConfetti() {
   confetti.addConfetti({
     // confettiColors: ['#ff0000', '#00ff00', '#0000ff'], // 브랜드 컬러에 맞게 조정 가능
@@ -65,29 +65,28 @@ function showConfetti() {
   });
 }
 
-// 2. 진행률이 100이 되었을 때만 감지해서 실행
-watch(progress, (newProgress) => {
-  if (newProgress === 100) {
-    showConfetti();
-  }
-});
+watch(
+  progress,
+  (newProgress) => {
+    if (
+      newProgress === 100 &&
+      !localStorage.getItem('confettiShown')
+    ) {
+      showConfetti();
+      localStorage.setItem('confettiShown', 'true');
+    }
+  },
+  { immediate: true } 
+);
 
 onMounted(() => {
   initializeHome();
-})
-
-watch(
-  () => route.path,
-  () => {
-    initializeHome();
-  }
-);
+});
 
 onBeforeUnmount(() => {
   const canvas = document.getElementById('confetti-canvas');
   if (canvas) canvas.remove();
 });
-
 </script>
 
 <style scoped>
