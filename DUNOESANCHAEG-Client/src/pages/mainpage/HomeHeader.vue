@@ -17,7 +17,7 @@
 defineProps({
   username: {
     type: String,
-    default: '회원'
+    default: ''
   },
   formattedDate: {
     type: String,

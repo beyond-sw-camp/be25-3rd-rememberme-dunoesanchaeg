@@ -72,7 +72,7 @@ export function useHome() {
     });
 
 
-    const username = computed(() => routineData.value?.username || '회원');
+    const username = computed(() => routineData.value?.username || '...');
     // 
     const initializeHome = async () => {
         isLoading.value = true;

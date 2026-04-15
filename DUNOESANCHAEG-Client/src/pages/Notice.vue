@@ -18,20 +18,20 @@
     </div>
 
     <div v-else class="list-view">
-      <h1 class="text-3xl font-bold text-brand-green mb-6">공지사항</h1>
+      <h1 class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">공지사항</h1>
 
-      <van-list
-          v-model:loading="loading"
-          :finished="finished"
-          finished-text="모든 공지를 확인했습니다"
-          @load="onLoad"
+      <van-list 
+            v-model:loading="loading" 
+            :finished="finished" 
+            finished-text="모든 공지를 확인했습니다" 
+            @load="onLoad"
       >
-        <div
-            v-for="item in noticeList"
-            :key="item.noticeId"
-            class="notice-item bg-surface p-5 mb-4 rounded-card border-2 border-brand-blue flex justify-between items-center transition-standard active:scale-[0.98]"
-            @click="fetchDetail(item.noticeId)"
-        >
+        <div 
+          v-for="item in noticeList" 
+          :key="item.noticeId"
+          class="notice-item bg-surface p-5 mb-6 flex items-center justify-between rounded-card border-2 border-brand-blue flex justify-between items-center transition-standard active:scale-[0.98]"
+          @click="fetchDetail(item.noticeId)"
+          >
           <div class="flex-1">
             <h3 class="text-lg font-bold text-main line-clamp-1">{{ item.title }}</h3>
             <p class="text-sm text-muted mt-1">{{ formatDate(item.createdAt) }}</p>
@@ -116,10 +116,21 @@ const formatDate = (dateString) => {
 }
 
 /* main.css 변수 활용 */
-.text-main { color: var(--color-text-main); }
-.text-muted { color: var(--color-text-muted); }
-.bg-surface { background-color: var(--color-surface); }
-.rounded-card { border-radius: var(--radius-card); }
+.text-main {
+  color: var(--color-text-main);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.rounded-card {
+  border-radius: 24px;
+}
 
 .back-button {
   display: flex;
@@ -127,7 +138,7 @@ const formatDate = (dateString) => {
   gap: 4px;
   color: var(--color-brand-green);
   font-weight: bold;
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale)*1.3);
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale)*1.2);
 }
 
 .notice-item {
