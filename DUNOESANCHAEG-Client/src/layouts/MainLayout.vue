@@ -10,5 +10,5 @@
 </template>
 
 <script setup>
-import BottomNav from "../components/BottomNav.vue";
+import BottomNav from "../components/common/BottomNav.vue";
 </script>

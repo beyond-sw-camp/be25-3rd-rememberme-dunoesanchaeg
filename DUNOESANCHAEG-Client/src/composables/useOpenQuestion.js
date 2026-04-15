@@ -6,9 +6,6 @@ import {
     exitOpenQuestion,
 } from '@/api/openQuestion';
 
-// PREVIEW_MODE = true (화면 테스트)
-// PREVIEW_MODE = false (백엔드 연동)
-const PREVIEW_MODE = false;
 const ENTRY_KEY = 'openQuestionEntry';
 
 export function useOpenQuestion() {
@@ -26,12 +23,21 @@ export function useOpenQuestion() {
     const answerText = ref('');
     const seconds = ref(0);
 
-    // 명시적 이탈 시 라우트 가드가 다시 개입하지 않도록 막는 플래그
     const isLeavingByAction = ref(false);
+
+    const showExitConfirm = ref(false);
+    const showErrorDialog = ref(false);
+    const errorDialogMessage = ref('');
+    let resolveExitConfirm = null;
 
     let timerId = null;
 
     const canComplete = computed(() => seconds.value >= 10);
+
+    const remainingCountdown = computed(() => {
+        const remaining = 10 - seconds.value;
+        return remaining > 0 ? remaining : 0;
+    });
 
     const formattedTime = computed(() => {
         const minutes = Math.floor(seconds.value / 60);
@@ -65,11 +71,35 @@ export function useOpenQuestion() {
         seconds.value = 0;
     };
 
+    const showError = (msg) => {
+        errorDialogMessage.value = msg;
+        showErrorDialog.value = true;
+        setTimeout(() => {
+            showErrorDialog.value = false;
+        }, 2000);
+    };
+
+    const requestExitConfirm = () => {
+        return new Promise((resolve) => {
+            resolveExitConfirm = resolve;
+            showExitConfirm.value = true;
+        });
+    };
+
+    const handleConfirmExit = () => {
+        showExitConfirm.value = false;
+        if (resolveExitConfirm) resolveExitConfirm(true);
+    };
+
+    const handleCancelExit = () => {
+        showExitConfirm.value = false;
+        if (resolveExitConfirm) resolveExitConfirm(false);
+    };
+
     const validateEntry = () => {
         const entry = sessionStorage.getItem(ENTRY_KEY);
 
         if (entry !== 'allowed') {
-            alert('홈 화면의 [시작하기 ▸] 버튼을 통해 이용할 수 있습니다.');
             router.replace('/');
             return false;
         }
@@ -82,21 +112,21 @@ export function useOpenQuestion() {
         resetState();
 
         try {
-            if (PREVIEW_MODE) {
-                // 화면 테스트용 더미데이터
-                dailyQuestionLogId.value = 1;
-                questionId.value = 1;
-                questionText.value = '오늘 가장 기억에 남는 일은 무엇인가요?';
-                status.value = 'STARTED';
-            } else {
-                // 실제 백엔드 연동
-                const data = await startOpenQuestion();
+            const data = await startOpenQuestion();
 
-                dailyQuestionLogId.value = data.dailyQuestionLogId;
-                questionId.value = data.questionId;
-                questionText.value = data.questionText;
-                status.value = data.status;
+            if (data.status === 'EXITED') {
+                showError('오늘은 개방형질문을 할 수 없습니다.');
+                isLeavingByAction.value = true;
+                setTimeout(() => {
+                    router.replace('/');
+                }, 2000);
+                return;
             }
+
+            dailyQuestionLogId.value = data.dailyQuestionLogId;
+            questionId.value = data.questionId;
+            questionText.value = data.questionText;
+            status.value = data.status;
 
             startTimer();
         } catch (error) {
@@ -112,7 +142,7 @@ export function useOpenQuestion() {
     const performExit = async () => {
         stopTimer();
 
-        if (!PREVIEW_MODE && dailyQuestionLogId.value) {
+        if (dailyQuestionLogId.value) {
             await exitOpenQuestion(dailyQuestionLogId.value);
         }
     };
@@ -121,7 +151,7 @@ export function useOpenQuestion() {
     const handleExit = async () => {
         if (isSubmitting.value) return;
 
-        const confirmed = window.confirm('지금 나가면 오늘은 다시 참여할 수 없습니다.\n그래도 나가시겠습니까? 😭 ');
+        const confirmed = await requestExitConfirm();
         if (!confirmed) return;
 
         isSubmitting.value = true;
@@ -130,14 +160,13 @@ export function useOpenQuestion() {
         try {
             await performExit();
             isLeavingByAction.value = true;
-            alert('개방형질문이 종료되었습니다.');
             router.replace('/');
         } catch (error) {
             console.error('개방형질문 이탈 실패:', error);
             startTimer();
-            alert(
+            showError(
                 error?.response?.data?.message ||
-                '잠시 후 다시 시도해주세요.'
+                '이탈 처리 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.'
             );
         } finally {
             isSubmitting.value = false;
@@ -148,7 +177,6 @@ export function useOpenQuestion() {
         if (isSubmitting.value) return;
 
         if (seconds.value < 10) {
-            alert('10초 이상 생각한 후 완료할 수 있습니다.');
             return;
         }
 
@@ -156,19 +184,16 @@ export function useOpenQuestion() {
         stopTimer();
 
         try {
-            if (!PREVIEW_MODE) {
-                await completeOpenQuestion(dailyQuestionLogId.value, seconds.value);
-            }
+            await completeOpenQuestion(dailyQuestionLogId.value, seconds.value);
 
             isLeavingByAction.value = true;
-            alert('개방형질문이 완료되었습니다.');
             router.replace('/');
         } catch (error) {
             console.error('개방형질문 완료 실패:', error);
             startTimer();
-            alert(
+            showError(
                 error?.response?.data?.message ||
-                '잠시 후 다시 시도해주세요.'
+                '완료 처리 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.'
             );
         } finally {
             isSubmitting.value = false;
@@ -188,10 +213,17 @@ export function useOpenQuestion() {
         answerText,
         formattedTime,
         canComplete,
+        remainingCountdown,
         isLeavingByAction,
+        showExitConfirm,
+        showErrorDialog,
+        errorDialogMessage,
         validateEntry,
         initializePage,
         performExit,
+        requestExitConfirm,
+        handleConfirmExit,
+        handleCancelExit,
         handleComplete,
         handleExit,
     };

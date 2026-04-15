@@ -1,7 +1,7 @@
 <template>
     <section class="record-card">
         <h3 class="record-title">
-        {{ title }} <span v-if="required" class="required">*</span>
+        {{ title }} <span v-if="required" class="required">(필수)</span>
         </h3>
 
         <div class="level-options">
@@ -111,7 +111,7 @@
     resize: vertical;
     background: var(--color-surface);
     color: var(--color-text-main);
-    font-size: var(--text-sm);
+    font-size: var(--text-m );
     line-height: var(--text-sm--line-height);
     }
 
