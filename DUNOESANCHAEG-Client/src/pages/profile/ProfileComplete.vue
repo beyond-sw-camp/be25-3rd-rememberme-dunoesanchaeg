@@ -47,10 +47,10 @@
               type="button"
               :class="[
                 form.guardianConsent
-                  ? 'bg-brand-green text-[var(--color-button-text)] border-2 border-brand-green'
-                  : 'bg-surface text-text-muted border-2 border-brand-green'
+                  ? 'bg-brand-green border-2 border-brand-green !text-[var(--color-button-text)]'
+                  : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border-2 border-[var(--color-border)] opacity-40'
               ]"
-              class="w-full p-4 rounded-2xl font-bold transition-standard active:scale-95 cursor-pointer shadow-sm"
+              class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
           >
             동의
           </button>
@@ -59,8 +59,8 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? 'bg-text-sub text-[var(--color-button-text)] border-2 border-text-sub'
-                  : 'bg-surface text-text-muted border-2 border-brand-green'
+                  ? 'bg-[var(--color-text-main)] border-2 border-[var(--color-text-main)] !text-[var(--color-surface)]'
+                  : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border-2 border-[var(--color-border)] opacity-40'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-standard active:scale-95 cursor-pointer shadow-sm"
           >
@@ -97,7 +97,7 @@
               type="button"
               :class="[
                 form.fontSize === size
-                  ? 'bg-brand-green text-[var(--color-button-text)] font-black border-2 border-brand-green'
+                  ? 'bg-brand-green !text-[var(--color-surface)] border-2 border-brand-green'
                   : 'bg-surface text-text-muted font-medium border-2 border-brand-green'
               ]"
               class="py-4 rounded-2xl text-lg shadow-sm transition-standard cursor-pointer flex items-center justify-center"
@@ -117,7 +117,7 @@
       <button
           @click="handleComplete"
           type="button"
-          class="w-full py-5 bg-brand-green text-[var(--color-button-text)] font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-standard flex items-center justify-center cursor-pointer border-none"
+          class="w-full py-5 bg-brand-green !text-[var(--color-surface)] text-2xl rounded-2xl shadow-lg active:scale-95 transition-standard flex items-center justify-center cursor-pointer border-none"
       >
         시작하기
       </button>

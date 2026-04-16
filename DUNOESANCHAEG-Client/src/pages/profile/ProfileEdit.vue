@@ -4,10 +4,10 @@
       <h1 class="text-2xl font-black text-brand-green tracking-tight">회원 정보 수정</h1>
     </header>
 
-    <div class="bg-white rounded-card p-8 shadow-inner transition-all">
+    <div class="bg-[var(--color-surface)] border-2 border-[var(--color-border)] rounded-card p-8 shadow-inner transition-all">
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-main mb-2 ml-2">이름</label>
+        <label class="block text-lg font-bold text-[var(--color-text-sub)] mb-2 ml-2">이름</label>
         <input
             v-model="form.name"
             type="text"
@@ -19,7 +19,7 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-lg font-bold text-text-main mb-2 ml-2">생년월일(년, 월, 일)</label>
+        <label class="block text-lg font-bold text-[var(--color-text-sub)] mb-2 ml-2">생년월일(년, 월, 일)</label>
         <div class="flex gap-2">
           <select v-model="birth.year" class="select-custom text-base">
             <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="mb-8">
-        <label class="block text-lg font-bold text-text-main mb-2 ml-2">전화번호</label>
+        <label class="block text-lg font-bold text-[var(--color-text-sub)] mb-2 ml-2">전화번호</label>
         <input
             v-model="form.phone"
             type="tel"
@@ -47,7 +47,7 @@
       <hr class="border-text-muted/30 mb-8" />
 
       <div class="mb-8 w-full">
-        <label class="block! text-lg font-bold text-text-main mb-4 ml-2">보호자 활동 공유 동의</label>
+        <label class="block! text-lg font-bold text-[var(--color-text-sub)] mb-4 ml-2">보호자 활동 공유 동의</label>
 
         <div class="grid grid-cols-2 gap-2 w-full">
           <button
@@ -55,8 +55,8 @@
               type="button"
               :class="[
                 form.guardianConsent
-                  ? 'bg-brand-green !text-[var(--color-button-text)]'
-                  : 'bg-surface text-text-muted'
+                  ? 'bg-brand-green border-2 border-brand-green !text-[var(--color-button-text)]'
+                  : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border-2 border-[var(--color-border)] opacity-40'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
           >
@@ -67,8 +67,8 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? 'bg-[var(--color-surface-variant)] !text-[var(--color-text-muted)]'
-                  : 'bg-surface text-text-muted'
+                  ? 'bg-[var(--color-text-main)] border-2 border-[var(--color-text-main)] !text-[var(--color-surface)]'
+                  : 'bg-[var(--color-surface)] text-[var(--color-text-muted)] border-2 border-[var(--color-border)] opacity-40'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
           >
@@ -79,7 +79,7 @@
 
       <div :class="{'opacity-20 pointer-events-none': !form.guardianConsent}" class="transition-all duration-500">
         <div class="mb-6">
-          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 이메일(선택)</label>
+          <label class="block text-lg font-bold text-[var(--color-text-sub)] mb-2 ml-2">보호자 이메일(선택)</label>
           <input
               v-model="form.guardianEmail"
               type="email"
@@ -88,7 +88,7 @@
           />
         </div>
         <div class="mb-2">
-          <label class="block text-lg font-bold text-text-main mb-2 ml-2">보호자 전화번호(선택)</label>
+          <label class="block text-lg font-bold text-[var(--color-text-sub)] mb-2 ml-2">보호자 전화번호(선택)</label>
           <input
               v-model="form.guardianPhone"
               type="tel"

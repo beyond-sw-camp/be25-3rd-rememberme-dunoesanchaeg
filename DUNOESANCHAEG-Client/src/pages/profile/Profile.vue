@@ -61,31 +61,6 @@
       </div>
     </section>
 
-    <!-- 알림 설정 -->
-    <section class="section">
-      <div class="section-title">알림 설정</div>
-
-      <div class="menu-card">
-
-        <div class="menu-item">
-          <span>게임 리마인더</span>
-          <label class="switch">
-            <input type="checkbox" v-model="gameReminder" />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="menu-item">
-          <span>일일 루틴 알림</span>
-          <label class="switch">
-            <input type="checkbox" v-model="dailyRoutine" />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-      </div>
-    </section>
-
     <!-- 하단 -->
     <footer class="footer">
       <button @click="handleLogout" class="btn-logout">
