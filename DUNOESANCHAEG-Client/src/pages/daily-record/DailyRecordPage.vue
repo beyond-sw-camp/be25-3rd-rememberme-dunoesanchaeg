@@ -5,10 +5,6 @@
         <div class="page-inner">
                 <p class="page-subtitle">오늘 하루 상태를 간단하게 기록해보세요.</p>
 
-                <p v-if="errorMessage" class="error-message">
-                    {{ errorMessage }}
-                </p>
-
                 <div class="record-list">
                     <RecordSection
                         title="오늘 기분은 어떠셨나요?"
@@ -53,6 +49,10 @@
                     저장하기
                 </button>
         </div>
+
+        <CustomErrorDialog :show="showErrorDialog">
+            {{ errorMessage }}
+        </CustomErrorDialog>
     </div>
 </template>
 
@@ -61,6 +61,7 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import RecordSection from '@/components/daily-record/RecordSection.vue';
 import AppNavBar from '@/components/common/AppNavBar.vue';
+import CustomErrorDialog from '@/components/common/CustomErrorDialog.vue';
 import { saveDailyRecord } from '@/api/dailyRecord.js';
 
 const router = useRouter();
@@ -79,22 +80,32 @@ const form = reactive({
 });
 
 const errorMessage = ref('');
+const showErrorDialog = ref(false);
+
+let errorTimer = null;
+const flashError = (msg) => {
+    errorMessage.value = msg;
+    showErrorDialog.value = true;
+    if (errorTimer) clearTimeout(errorTimer);
+    errorTimer = setTimeout(() => {
+        showErrorDialog.value = false;
+    }, 2000);
+};
 
 const handleSubmit = async () => {
-    errorMessage.value = '';
 
     if (!form.moodLevel) {
-        errorMessage.value = '기분 항목은 필수로 선택해야 해요.';
+        flashError('기분 항목은 필수로 선택해야 해요.');
         return;
     }
 
     if (!form.sleepLevel) {
-        errorMessage.value = '수면 항목은 필수로 선택해야 해요.';
+        flashError('수면 항목은 필수로 선택해야 해요.');
         return;
     }
 
     if (!form.mealLevel) {
-        errorMessage.value = '식사 항목은 필수로 선택해야 해요.';
+        flashError('식사 항목은 필수로 선택해야 해요.');
         return;
     }
 
@@ -114,8 +125,7 @@ const handleSubmit = async () => {
 
         router.push('/');
     } catch (error) {
-        errorMessage.value =
-            error.response?.data?.message || '하루 기록 저장 중 오류가 발생했어요.';
+        flashError(error.response?.data?.message || '하루 기록 저장 중 오류가 발생했어요.');
     }
 };
 </script>
@@ -143,16 +153,6 @@ const handleSubmit = async () => {
     line-height: var(--text-base--line-height);
 }
 
-.error-message {
-    margin: 0 0 16px;
-    padding: 14px 16px;
-    border-radius: 14px;
-    background: var(--daily-record-error-bg);
-    border: 1px solid var(--daily-record-error-border);
-    color: var(--daily-record-error-text);
-    font-size: var(--text-sm);
-    font-weight: 700;
-}
 
 .record-list {
     display: flex;
