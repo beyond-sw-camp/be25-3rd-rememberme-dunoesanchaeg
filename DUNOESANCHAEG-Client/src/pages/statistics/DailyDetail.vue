@@ -34,11 +34,11 @@
             🎮 게임 기록
           </h3>
           <div v-if="detailData.game_record.is_played" class="flex flex-col gap-3">
-            <div class="flex justify-between items-center bg-surface-variant p-3 rounded-2xl border border-gray-100">
+            <div class="flex justify-between items-center bg-surface-tinted p-3 rounded-2xl border-2 border-brand-green">
               <span class="text-text-sub font-bold text-sm">플레이 시간</span>
-              <span class="text-text-main font-extrabold">{{ Math.floor(detailData.game_record.play_time_seconds / 60) }}분 {{ detailData.game_record.play_time_seconds % 60 }}초</span>
+              <span class="text-brand-green font-bold">{{ Math.floor(detailData.game_record.play_time_seconds / 60) }}분 {{ detailData.game_record.play_time_seconds % 60 }}초</span>
             </div>
-            <div class="flex justify-between items-center bg-surface-variant p-3 rounded-2xl border border-gray-100">
+            <div class="flex justify-between items-center bg-surface-tinted p-3 rounded-2xl border-2 border-brand-green">
               <span class="text-text-sub font-bold text-sm">달성 정답 수</span>
               <span class="text-brand-green font-extrabold">{{ detailData.game_record.correct_count }}회</span>
             </div>
@@ -52,8 +52,8 @@
           <h3 class="text-lg font-extrabold text-text-main mb-3 flex items-center gap-2">
             💬 오늘의 질문
           </h3>
-          <div v-if="detailData.question_record.is_answered" class="p-4 bg-brand-blue rounded-2xl text-center border-2 border-brand-green">
-            <p class="text-brand-green font-extrabold text-lg break-keep">답변을 성공적으로 완료하셨습니다 👏</p>
+          <div v-if="detailData.question_record.is_answered" class="p-4 bg-surface-tinted rounded-2xl text-center border-2 border-brand-green">
+            <p class="text-brand-green font-bold text-lg break-keep">답변을 성공적으로 완료하셨습니다 👏</p>
           </div>
           <div v-else class="py-6 bg-surface-variant rounded-2xl border border-gray-100 text-center">
             <p class="text-text-muted font-bold">기록이 없습니다</p>
@@ -65,25 +65,25 @@
             📝 데일리 컨디션
           </h3>
           <div v-if="detailData.daily_record.is_written" class="flex flex-col gap-3">
-            <div class="flex items-center gap-4 bg-surface-variant p-4 rounded-2xl border border-gray-100">
+            <div class="flex items-center gap-4 bg-surface-tinted border-2 border-brand-green p-4 rounded-2xl">
               <div class="text-3xl">{{ getLevelIcon(detailData.daily_record.sleep_level) }}</div>
               <div class="flex-1">
-                <p class="text-sm text-text-sub font-bold mb-1">수면</p>
-                <p class="text-text-main font-medium break-keep">{{ detailData.daily_record.sleep_memo || getLevelText(detailData.daily_record.sleep_level) }}</p>
+                <p class="text-l text-text-sub font-bold mb-1">수면</p>
+                <p class="text-brand-green font-bold break-keep">{{ detailData.daily_record.sleep_memo || getLevelText(detailData.daily_record.sleep_level) }}</p>
               </div>
             </div>
-            <div class="flex items-center gap-4 bg-surface-variant p-4 rounded-2xl border border-gray-100">
+            <div class="flex items-center gap-4 bg-surface-tinted p-4 rounded-2xl border-2 border-brand-green">
               <div class="text-3xl">{{ getLevelIcon(detailData.daily_record.meal_level) }}</div>
               <div class="flex-1">
-                <p class="text-sm text-text-sub font-bold mb-1">식사</p>
-                <p class="text-text-main font-medium break-keep">{{ detailData.daily_record.meal_memo || getLevelText(detailData.daily_record.meal_level) }}</p>
+                <p class="text-l text-text-sub font-bold mb-1">식사</p>
+                <p class="text-brand-green font-bold break-keep">{{ detailData.daily_record.meal_memo || getLevelText(detailData.daily_record.meal_level) }}</p>
               </div>
             </div>
-            <div class="flex items-center gap-4 bg-surface-variant p-4 rounded-2xl border border-gray-100">
+            <div class="flex items-center gap-4 bg-surface-tinted p-4 rounded-2xl border-2 border-brand-green">
               <div class="text-3xl">{{ getLevelIcon(detailData.daily_record.mood_level) }}</div>
               <div class="flex-1">
-                <p class="text-sm text-text-sub font-bold mb-1">기분</p>
-                <p class="text-text-main font-medium break-keep">{{ detailData.daily_record.mood_memo || getLevelText(detailData.daily_record.mood_level) }}</p>
+                <p class="text-l text-text-sub font-bold mb-1">기분</p>
+                <p class="text-brand-green font-bold break-keep">{{ detailData.daily_record.mood_memo || getLevelText(detailData.daily_record.mood_level) }}</p>
               </div>
             </div>
           </div>

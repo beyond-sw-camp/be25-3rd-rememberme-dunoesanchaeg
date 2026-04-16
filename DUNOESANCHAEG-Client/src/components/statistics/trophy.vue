@@ -148,13 +148,13 @@ onMounted(fetchTrophies);
 }
 
 .trophy-slider-container::before {
-  left: -1px;
-  background: linear-gradient(to right, #ffffff 20%, rgba(255, 255, 255, 0));
+  left: -2px;
+  background: linear-gradient(to right, var(--color-surface, #ffffff) 10%, transparent);
 }
 
 .trophy-slider-container::after {
   right: -2px;
-  background: linear-gradient(to left, #ffffff 20%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to left, var(--color-surface, #ffffff) 10%, rgba(255, 255, 255, 0));
 }
 
 /* 서브픽셀 렌더링 보정 */

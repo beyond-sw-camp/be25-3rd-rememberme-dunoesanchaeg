@@ -25,7 +25,7 @@
 <script setup>
 import StatisticsCalendar from '@/components/statistics/StatisticsCalendar.vue';
 import CognitiveTrendChart from '@/components/statistics/CognitiveTrendChart.vue';
-import trophy from '@/components/statistics/trophy.vue';
+import trophy from '@/components/statistics/Trophy.vue';
 </script>
 
 <style scoped>

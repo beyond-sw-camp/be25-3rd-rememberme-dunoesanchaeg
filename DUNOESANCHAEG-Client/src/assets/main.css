@@ -96,6 +96,8 @@
   /* bg-white */
   --color-surface-variant: #f3f4f6;
   /* gray-100 */
+  --color-surface-tinted: #ebf5e0;
+  /* 연한 연두색 배경 */
 
   /* --- 하단바 색상 --- */
   --tabbar-bg: #ffffff;
@@ -145,6 +147,7 @@ html[data-high-contrast="true"] {
   --color-surface: #000000;
   /* 블랙 배경 */
   --color-surface-variant: #1a1a1a;
+  --color-surface-tinted: #000000;
 
   /* 하단바 고대비 */
   --tabbar-bg: #000000;
@@ -180,6 +183,7 @@ html[data-high-contrast="true"] {
   --color-text-muted: var(--color-text-muted);
   --color-surface: var(--color-surface);
   --color-surface-variant: var(--color-surface-variant);
+  --color-surface-tinted: var(--color-surface-tinted);
 
   --color-tabbar-bg: var(--tabbar-bg);
   --color-tabbar-active: var(--tabbar-active);
