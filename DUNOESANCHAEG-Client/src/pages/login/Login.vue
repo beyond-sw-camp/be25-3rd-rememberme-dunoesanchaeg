@@ -35,7 +35,7 @@
           <img
               :src="kakaoLoginBtnImage"
               alt="카카오 로그인"
-              class="w-auto h-12 mx-auto shadow-md rounded-xl"
+              class="w-auto h-9.5 mx-auto shadow-md rounded-xl"
           />
         </a>
       </div>
@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import logoImage from '../../assets/image/logo_green1.png';
-import kakaoLoginBtnImage from '../../assets/image/kakao_login_medium_narrow.png';
+import kakaoLoginBtnImage from '../../assets/image/kakao_login_large_wide.png';
 
 const loginWithKakao = () => {
   const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
