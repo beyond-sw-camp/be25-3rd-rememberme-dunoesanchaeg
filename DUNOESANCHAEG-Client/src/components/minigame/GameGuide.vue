@@ -23,7 +23,7 @@
     </div>
 
     <div class="p-6 pt-2">
-      <button @click="$emit('start')" class="w-full py-4 bg-brand-green !text-white text-surface rounded-[0.875rem] !font-bold !text-xl shadow-[0_8px_24px_rgba(45,122,54,0.3)] active:scale-[0.98] transition-all">
+      <button @click="$emit('start')" class="w-full py-4 bg-brand-green text-[var(--color-button-text)]! rounded-[0.875rem] !font-bold !text-xl flex items-center justify-center shadow-[0_8px_24px_rgba(45,122,54,0.3)] active:scale-[0.98] transition-all">
         게임 시작하기
       </button>
     </div>

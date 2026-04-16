@@ -103,7 +103,12 @@
   --tabbar-inactive: #A8B5AA;
   --tabbar-border: #ebedf0;
   --tabbar-active-bg: transparent;
-  --color-error: rgba(255, 0, 0, 0.66); /* 회원탈퇴 붉은색 */
+  --color-error: rgba(255, 0, 0, 0.66);
+  /* 회원탈퇴 붉은색 */
+
+  /* 컨포넌트 커스텀용 */
+  --color-button-text: #ffffff;
+  --color-border: var(--color-brand-blue);
 }
 
 /* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
@@ -128,36 +133,38 @@ html[data-font-size="xlarge"] {
 /* 고대비 모드 선택자 */
 html[data-high-contrast="true"] {
   --color-brand-bg: #000000;
-  /* 배경: 검정 */
-  --color-brand-blue: #1a1a1a;
-  /* 카드/셀 배경: 어두운 회색 */
-  --color-brand-green: #2D7A36;
-  /* 강조색 */
+  --color-brand-blue: #000000;
+  --color-brand-green: #ccff00;
+  /* 노란색에 초록빛이 조금 섞인 형광색(Chartreuse) */
 
-  --color-text-main: #ffffff;
-  /* 메인 글자: 흰색 */
-  --color-text-sub: #2D7A36;
-  /* 서브 글자: 초록 */
-  --color-text-muted: #e5e7eb;
-  /* 부가 정보: 연한 회색 */
+  --color-text-main: #FFFFFF;
+  /* 완전한 흰색 */
+  --color-text-sub: #CCFF00;
+  --color-text-muted: #E5E7EB;
 
   --color-surface: #000000;
-  --color-surface-variant: #2D7A36;
+  /* 블랙 배경 */
+  --color-surface-variant: #1a1a1a;
 
   /* 하단바 고대비 */
   --tabbar-bg: #000000;
-  --tabbar-active: #ffffff;
-  --tabbar-inactive: #2D7A36;
-  --tabbar-border: #ffffff;
-  --tabbar-active-bg: var(--color-brand-green);
+  --tabbar-active: #000000;
+  --tabbar-inactive: #FFFFFF;
+  --tabbar-border: #FFFFFF;
+  --tabbar-active-bg: #CCFF00;
+
+  /* 컴포넌트 커스텀용 */
+  --color-button-text: #000000;
+  /* 형광 배경에 검은 글자 */
+  --color-border: #FFFFFF;
+  /* 검은 배경에 흰색 테두리로 카드 구분 */
 
   /* 고대비 시 Vant 강제 조정 */
-  --van-cell-background: #1a1a1a;
-  --van-cell-text-color: #ffffff;
-  --van-button-primary-background: #2D7A36;
+  --van-cell-background: #000000;
+  --van-cell-text-color: #FFFFFF;
+  --van-button-primary-background: #CCFF00;
   --van-button-primary-color: #000000;
-  --van-cell-border-color: #ffffff;
-
+  --van-cell-border-color: #FFFFFF;
 }
 
 /* 3. Tailwind v4 테마 연동 */
@@ -263,6 +270,7 @@ html[data-high-contrast="true"] {
   button {
     transition: transform 0.1s ease, background-color 0.1s ease, opacity 0.1s ease;
   }
+
   button:active {
     transform: scale(0.95);
     opacity: 0.85;
@@ -271,6 +279,7 @@ html[data-high-contrast="true"] {
 
 /* 5. 커스텀 컴포넌트 클래스 정의 */
 @layer components {
+
   /* 입력창 공통 스타일 */
   .input-custom {
     @apply w-full p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none;
@@ -310,10 +319,12 @@ html[data-high-contrast="true"] {
 .slide-left-leave-active {
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
+
 .slide-left-enter-from {
   transform: translateX(100%);
   opacity: 0;
 }
+
 .slide-left-leave-to {
   transform: translateX(-30%);
   opacity: 0;
@@ -323,12 +334,13 @@ html[data-high-contrast="true"] {
 .slide-right-leave-active {
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
+
 .slide-right-enter-from {
   transform: translateX(-30%);
   opacity: 0;
 }
+
 .slide-right-leave-to {
   transform: translateX(100%);
   opacity: 0;
 }
-

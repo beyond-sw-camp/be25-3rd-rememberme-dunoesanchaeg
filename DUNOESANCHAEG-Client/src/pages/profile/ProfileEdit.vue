@@ -55,7 +55,7 @@
               type="button"
               :class="[
                 form.guardianConsent
-                  ? 'bg-brand-green !text-white'
+                  ? 'bg-brand-green !text-[var(--color-button-text)]'
                   : 'bg-surface text-text-muted'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
@@ -67,7 +67,7 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? 'bg-gray-400! !text-white'
+                  ? 'bg-[var(--color-surface-variant)] !text-[var(--color-text-muted)]'
                   : 'bg-surface text-text-muted'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-all active:scale-95 cursor-pointer shadow-sm"
@@ -104,14 +104,14 @@
       <button
           @click="handleSave"
           type="button"
-          class="flex-1 py-5 bg-brand-green text-white! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+          class="flex-1 py-5 bg-brand-green text-[var(--color-button-text)]! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         확인
       </button>
       <button
           @click="router.back()"
           type="button"
-          class="flex-1 py-5 bg-gray-400! text-white! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
+          class="flex-1 py-5 bg-[var(--color-surface-variant)] text-[var(--color-text-muted)]! font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer"
       >
         취소
       </button>
@@ -124,9 +124,12 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import instance from '@/api/instance.js';
 import { showToast, showLoadingToast, closeToast } from 'vant';
+import { useAuthStore } from '@/store/auth';
+import { useSettingsStore } from '@/store/settings';
 import logoGreen from '../../assets/image/logo_green1.png';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -249,6 +252,17 @@ const handleSave = async () => {
     const response = await instance.patch('/members/me', requestData);
 
     if (response.data.code === 200) {
+      // 로컬 환경 동기화
+      const sizeLower = requestData.fontSize ? requestData.fontSize.toLowerCase() : 'medium';
+      
+      authStore.fontSize = sizeLower;
+      authStore.isHighContrast = requestData.isHighContrast;
+      localStorage.setItem('fontSize', sizeLower);
+      localStorage.setItem('isHighContrast', String(requestData.isHighContrast));
+      
+      const settingsStore = useSettingsStore();
+      settingsStore.initSettings(sizeLower, requestData.isHighContrast);
+
       closeToast();
       showToast('성공적으로 수정되었습니다.');
 

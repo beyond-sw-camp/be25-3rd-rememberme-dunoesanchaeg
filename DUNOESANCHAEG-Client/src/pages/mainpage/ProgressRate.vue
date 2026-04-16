@@ -2,7 +2,7 @@
     <section>
         <div v-if="isLoading" class="flex flex-col justify-center items-center py-20">
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-green mb-4"></div>
-            <p class="text-zinc-500">루틴을 불러오고 있어요...</p>
+            <p class="text-[var(--color-text-sub)]">루틴을 불러오고 있어요...</p>
         </div>
 
         <div v-else-if="errorMessage" class="bg-red-50 p-6 rounded-2xl text-center">
@@ -13,14 +13,14 @@
         </div>
 
         <template v-else>
-            <section class="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+            <section class="bg-[var(--color-surface)] p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                 <div class="flex justify-between items-center">
-                    <p class="routine_progress text-2xl font-semibold text-zinc-800">오늘의 루틴 진행률</p>
+                    <p class="routine_progress text-2xl font-semibold text-[var(--color-text-main)]">오늘의 루틴 진행률</p>
                     <p class="text-2xl font-bold text-brand-green">{{ progress }}%</p>
                 </div>
 
                 <div class="w-full pt-6 pb-4">
-                    <div class="w-full h-10 bg-zinc-200 rounded-full overflow-hidden">
+                    <div class="w-full h-10 bg-[var(--color-surface-variant)] rounded-full overflow-hidden">
                         <div class="h-full bg-brand-green rounded-full transition-all duration-700"
                             :style="{ width: progress + '%' }"></div>
                     </div>
@@ -56,7 +56,7 @@ defineEmits(['retry']);
     text-align: center;
     font-size: calc(var(--van-font-size-lg) * var(--font-scale));
     font-weight: 600; /* font-semibold */
-    color: #52525b; /* text-zinc-600 */
+    color: var(--color-text-sub); /* text-zinc-600 */
     letter-spacing: -0.025em; /* tracking-tighter */
     word-break: keep-all; /* break-keep */
     white-space: pre-line; /* whitespace-pre-line */

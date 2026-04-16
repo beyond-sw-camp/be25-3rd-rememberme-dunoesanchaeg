@@ -47,7 +47,7 @@ defineEmits(['confirm', 'cancel']);
 .modal-footer button { flex: 1; padding: 16px; border: none; font-size: 1.25rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease, background-color 0.1s ease; }
 .btn-close { background: white; color: #a1a1aa; border-radius: 0 0 0 24px; }
 .btn-close:active { background: #f0f0f0; transform: scale(0.95); }
-.btn-confirm { background: #f59e0b; color: white; border-radius: 0 0 24px 0; }
+.btn-confirm { background: #f59e0b; color: var(--color-button-text); border-radius: 0 0 24px 0; }
 .btn-confirm:active { background: #d97706; transform: scale(0.95); }
 
 @keyframes slideUp {

@@ -24,7 +24,7 @@
       <button
           @click="handleRecovery"
           type="button"
-          class="w-full py-5! bg-brand-green! text-white! font-black! text-2xl! rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
+          class="w-full py-5! bg-brand-green! text-[var(--color-button-text)]! font-black! text-2xl! rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
       >
         계정 복구하기
       </button>
@@ -32,7 +32,7 @@
       <button
           @click="handleLogout"
           type="button"
-          class="w-full py-5! bg-gray-400! text-white! font-black! text-2xl! rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
+          class="w-full py-5! bg-[var(--color-surface-variant)]! text-[var(--color-text-muted)]! font-black! text-2xl! rounded-2xl shadow-lg active:scale-95 transition-all border-none cursor-pointer"
       >
         나중에 하기 (로그아웃)
       </button>

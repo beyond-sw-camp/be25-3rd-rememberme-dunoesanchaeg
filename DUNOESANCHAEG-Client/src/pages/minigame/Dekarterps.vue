@@ -47,7 +47,7 @@
               class="w-full flex flex-col shrink-0 relative"
             >
               <div
-                class="bg-[#184825] rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-white"
+                class="bg-[var(--color-brand-green)] rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-[var(--color-button-text)]"
               >
                 <span class="text-sm font-bold opacity-90 mb-2">미션</span>
                 <span class="text-[2.5rem] font-black tracking-tight">{{
@@ -56,15 +56,15 @@
               </div>
 
               <div
-                class="bg-gradient-to-br from-white to-green-50 rounded-[32px] shadow-sm py-8 sm:py-12 min-h-[140px] sm:min-h-[180px] flex flex-col justify-center items-center mb-6 shrink-0 border border-white transition-all overflow-visible px-4 w-full box-border"
+                class="bg-white from-white to-green-50 rounded-[32px] shadow-sm py-8 sm:py-12 min-h-[140px] sm:min-h-[180px] flex flex-col justify-center items-center mt-4 mb-6 shrink-0 border border-white transition-all overflow-visible px-4 w-full box-border"
               >
-                <span class="text-gray-500 font-bold mb-4">상대의 손</span>
+                <span class="text-gray-700 font-bold mb-4 text-2xl">상대의 손</span>
                 <div
                   class="size-20 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm border border-gray-50"
                 >
                   <img
                     :src="getImgUrl(currentProblem.opponentImg)"
-                    class="w-12 h-12 object-contain"
+                    class="w-15 h-15 object-contain"
                     alt="상대방 손"
                   />
                 </div>
@@ -83,7 +83,7 @@
                 >
                   <img
                     :src="getImgUrl(choice.id)"
-                    class="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-1 transition-transform"
+                    class="w-13 h-13 sm:w-14 sm:h-14 object-contain mb-1 transition-transform"
                     :class="
                       isWrongFlash && selectedAnswer === choice.id
                         ? 'scale-90 opacity-70'

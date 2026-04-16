@@ -6,9 +6,9 @@
 
       <div
           v-if="isLoading"
-          class="w-full rounded-3xl border border-gray-100 bg-white px-6 py-10 shadow-sm mt-4"
+          class="w-full rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-10 shadow-sm mt-4"
       >
-        <p class="text-base text-gray-500 font-medium">
+        <p class="text-base text-[var(--color-text-main)] font-medium">
           페이지를 준비하고 있어요! 😊
         </p>
       </div>
@@ -25,7 +25,7 @@
         <button
             type="button"
             @click="initializePage"
-            class="w-full h-12 rounded-2xl bg-brand-green text-white! font-bold hover:opacity-90 active:scale-[0.98] transition-all"
+            class="w-full h-12 rounded-2xl bg-brand-green text-[var(--color-button-text)]! font-bold hover:opacity-90 active:scale-[0.98] transition-all"
         >
           다시 시도
         </button>
@@ -47,10 +47,10 @@
 
           <div class="answer-card">
             <div class="flex items-center justify-between mb-3">
-              <p class="text-lg font-bold text-gray-700 flex items-center gap-1.5">
+              <p class="text-lg font-bold text-[var(--color-text-main)] flex items-center gap-1.5">
                 <span class="text-base">📝</span> 나의 답변
               </p>
-              <p class="text-xs font-medium text-gray-400 bg-gray-100 rounded-full px-2.5 py-1">{{ answerText.length }}/300</p>
+              <p class="text-xs font-medium text-[var(--color-text-muted)] bg-[var(--color-surface-variant)] rounded-full px-2.5 py-1">{{ answerText.length }}/300</p>
             </div>
 
             <textarea
@@ -58,10 +58,10 @@
                 maxlength="300"
                 rows="5"
                 placeholder="떠오르는 생각을 편하게 적어보세요 ^^"
-                class="w-full resize-none rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 text-base text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                class="w-full resize-none rounded-2xl border border-[var(--color-surface-variant)] bg-[var(--color-surface-variant)] px-4 py-4 text-base text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
             />
 
-            <p class="mt-3 text-sm text-amber-600 font-medium flex items-start gap-1">
+            <p class="mt-3 text-sm text-[var(--color-text-sub)] font-medium flex items-start gap-1">
               <span class="shrink-0">💡</span>
               <span>입력한 내용은 저장되지 않습니다. 기억을 상기시키는 것을 목표로 기록해보세요!</span>
             </p>
@@ -75,8 +75,8 @@
                 @click="handleComplete"
                 class="w-full h-14 rounded-2xl font-bold shadow-md transition-all disabled:cursor-not-allowed disabled:active:scale-100"
                 :class="canComplete
-                  ? 'bg-brand-green text-white! hover:opacity-90 active:scale-[0.98]'
-                  : 'bg-gray-300 text-white!'"
+                  ? 'bg-brand-green text-[var(--color-button-text)]! hover:opacity-90 active:scale-[0.98]'
+                  : 'bg-[var(--color-surface-variant)] text-[var(--color-text-muted)]!'"
             >
               <template v-if="isSubmitting">처리 중...</template>
               <template v-else-if="!canComplete">{{ remainingCountdown }}초 후 제출 가능</template>
@@ -87,7 +87,7 @@
                 type="button"
                 :disabled="isSubmitting"
                 @click="handleExit"
-                class="w-full h-14 rounded-2xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+                class="w-full h-14 rounded-2xl bg-[var(--color-surface-variant)] text-[var(--color-text-muted)] font-bold hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
             >
               나가기
             </button>
@@ -173,8 +173,8 @@ onBeforeRouteLeave(async (to, from, next) => {
 
 <style scoped>
 .question-card {
-  background: #ffffff;
-  border: 1px solid #d1e7dd;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 24px;
   padding: 28px 24px 24px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
@@ -200,7 +200,7 @@ onBeforeRouteLeave(async (to, from, next) => {
 .question-text {
   font-size: 1.75rem;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--color-text-main);
   line-height: 1.55;
   word-break: keep-all;
   letter-spacing: -0.02em;
@@ -209,13 +209,13 @@ onBeforeRouteLeave(async (to, from, next) => {
 .question-hint {
   margin-top: 18px;
   font-size: 1.1rem;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
 .answer-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
