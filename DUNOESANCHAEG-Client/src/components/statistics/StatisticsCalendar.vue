@@ -1,43 +1,43 @@
 <template>
-  <div class="bg-surface rounded-card p-5 border-2! border-brand-blue! shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-    <div class="flex items-center justify-between mb-6">
-      <button @click="changeMonth(-1)" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-blue transition-colors text-brand-green">
-        <span class="text-2xl font-bold">&lt;</span>
+  <div class="bg-surface rounded-[24px] px-4 py-3 border-2! border-brand-blue! shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+    <div class="flex items-center justify-between mb-2">
+      <button @click="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-brand-blue transition-colors text-brand-green">
+        <span class="text-xl font-bold">&lt;</span>
       </button>
-      <h2 class="text-2xl font-extrabold text-text-main">
+      <h2 class="text-xl font-extrabold text-text-main">
         {{ currentYear }}년 {{ currentMonth }}월
       </h2>
-      <button @click="changeMonth(1)" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-blue transition-colors text-brand-green">
-        <span class="text-2xl font-bold">&gt;</span>
+      <button @click="changeMonth(1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-brand-blue transition-colors text-brand-green">
+        <span class="text-xl font-bold">&gt;</span>
       </button>
     </div>
 
-    <div class="grid grid-cols-7 gap-2 mb-4 text-center">
+    <div class="grid grid-cols-7 gap-1 mb-1 text-center">
       <div v-for="(day, index) in weekDays" :key="day" 
-           class="text-base font-bold" 
+           class="text-sm font-bold" 
            :class="{'text-red-500': index === 0, 'text-blue-500': index === 6, 'text-text-sub': index > 0 && index < 6}">
         {{ day }}
       </div>
     </div>
 
-    <div class="grid grid-cols-7 gap-y-4 gap-x-2 text-center">
-      <div v-for="blank in blankDays" :key="'blank-' + blank" class="h-12 border-transparent"></div>
+    <div class="grid grid-cols-7 gap-y-1 gap-x-1 text-center">
+      <div v-for="blank in blankDays" :key="'blank-' + blank" class="h-10 border-transparent"></div>
 
       <div v-for="date in daysInMonth" :key="date.day"
            @click="handleDateClick(date)"
-           class="relative h-12 flex flex-col items-center justify-center rounded-2xl cursor-pointer transition-standard"
+           class="relative h-10 flex flex-col items-center justify-center rounded-xl cursor-pointer transition-standard"
            :class="[
              date.isToday ? 'bg-brand-green text-surface shadow-md' : 'hover:bg-brand-blue text-text-main'
            ]">
-        <span class="text-lg font-bold z-10" :class="{'text-red-500': !date.isToday && date.weekDay === 0, 'text-blue-500': !date.isToday && date.weekDay === 6}">
+        <span class="text-base font-bold z-10" :class="{'text-red-500': !date.isToday && date.weekDay === 0, 'text-blue-500': !date.isToday && date.weekDay === 6}">
           {{ date.day }}
         </span>
         
         <span v-if="date.hasRecord && !date.isToday" 
-              class="absolute bottom-1 w-2 h-2 rounded-full bg-brand-green">
+              class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-brand-green">
         </span>
         <span v-else-if="date.hasRecord && date.isToday" 
-              class="absolute bottom-1 w-2 h-2 rounded-full bg-surface">
+              class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-surface">
         </span>
       </div>
     </div>

@@ -99,6 +99,25 @@
       </button>
     </footer>
 
+    <CustomConfirmDialog
+      :show="showLogoutDialog"
+      @confirm="onLogoutConfirm"
+      @cancel="onLogoutCancel"
+    >
+      정말 로그아웃 하시겠습니까?
+    </CustomConfirmDialog>
+
+    <CustomConfirmDialog
+      :show="showWithdrawDialog"
+      @confirm="onWithdrawConfirm"
+      @cancel="onWithdrawCancel"
+    >
+      탈퇴 시 30일 이내에만<br/>복구 가능합니다.<br/>계속하시겠습니까?
+    </CustomConfirmDialog>
+
+    <CustomErrorDialog :show="showErrorDialog">
+      {{ errorMessage }}
+    </CustomErrorDialog>
   </div>
 </template>
 
@@ -108,7 +127,10 @@ import { useRouter } from 'vue-router';
 import instance from '@/api/instance';
 import { useAuthStore } from '@/store/auth';
 import { useSettingsStore } from '@/store/settings';
-import { showConfirmDialog, showToast } from 'vant';
+import { showToast } from 'vant';
+
+import CustomConfirmDialog from '@/components/common/CustomConfirmDialog.vue';
+import CustomErrorDialog from '@/components/common/CustomErrorDialog.vue';
 
 import logoGreen from '@/assets/image/logo_green1.png';
 import profileDefault from '@/assets/image/profile_default.png';
@@ -122,6 +144,28 @@ const fontSize = ref('MEDIUM');
 const contrastMode = ref(false); // 로컬 UI용
 const gameReminder = ref(true);
 const dailyRoutine = ref(true);
+
+const showLogoutDialog = ref(false);
+const showWithdrawDialog = ref(false);
+const showErrorDialog = ref(false);
+const errorMessage = ref('');
+
+let resolveLogout = null;
+let resolveWithdraw = null;
+
+const requestLogoutConfirm = () => new Promise(resolve => {
+  resolveLogout = resolve;
+  showLogoutDialog.value = true;
+});
+const onLogoutConfirm = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(true); };
+const onLogoutCancel = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(false); };
+
+const requestWithdrawConfirm = () => new Promise(resolve => {
+  resolveWithdraw = resolve;
+  showWithdrawDialog.value = true;
+});
+const onWithdrawConfirm = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(true); };
+const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(false); };
 
 /*
  * 데이터 로드
@@ -186,44 +230,40 @@ watch([gameReminder, dailyRoutine], () => {
 });
 
 const handleLogout = async () => {
-  showConfirmDialog({
-    title: '로그아웃',
-    message: '정말 로그아웃 하시겠습니까?',
-  }).then(async () => {
-    try {
-      // 1. 백엔드에 로그아웃 요청 (브라우저의 Refresh Token 쿠키 삭제)
-      await instance.post('/auth/logout');
-    } catch (error) {
-      console.error('서버 로그아웃 처리 중 오류:', error);
-      // 서버 오류가 발생하더라도 프론트엔드 데이터는 무조건 지워야 하므로 throw하지 않습니다.
-    } finally {
-      // 2. 프론트엔드 상태 및 로컬 스토리지 초기화 (Access Token 삭제)
-      authStore.logout();
-      showToast('로그아웃 되었습니다.');
+  const confirmed = await requestLogoutConfirm();
+  if (!confirmed) return;
 
-      // 3. 로그인 페이지로 이동 (히스토리에 남지 않도록 replace 사용)
-      await router.replace('/home');
-    }
-  }).catch(() => {
-    // 취소 버튼 클릭 시 실행됨
-  });
+  try {
+    // 1. 백엔드에 로그아웃 요청 (브라우저의 Refresh Token 쿠키 삭제)
+    await instance.post('/auth/logout');
+  } catch (error) {
+    console.error('서버 로그아웃 처리 중 오류:', error);
+    // 서버 오류가 발생하더라도 프론트엔드 데이터는 무조건 지워야 하므로 throw하지 않습니다.
+  } finally {
+    // 2. 프론트엔드 상태 및 로컬 스토리지 초기화 (Access Token 삭제)
+    authStore.logout();
+    showToast('로그아웃 되었습니다.');
+
+    // 3. 로그인 페이지로 이동 (히스토리에 남지 않도록 replace 사용)
+    await router.replace('/home');
+  }
 };
 
-const handleWithdraw = () => {
-  showConfirmDialog({
-    title: '회원 탈퇴',
-    message: '탈퇴 시 30일 이내 복구 가능합니다.\n 계속하시겠습니까?',
-    confirmButtonColor: '#ef4444',
-  }).then(async () => {
-    try {
-      await instance.delete('/members/me');
-      authStore.logout();
-      showToast('탈퇴가 완료되었습니다.');
-      await router.push('/login');
-    } catch (error) {
-      showToast('처리 중 오류가 발생했습니다.');
-    }
-  }).catch(() => { });
+// 회원 탈퇴
+const handleWithdraw = async () => {
+  const confirmed = await requestWithdrawConfirm();
+  if (!confirmed) return;
+
+  try {
+    await instance.delete('/members/me');
+    authStore.logout();
+    showToast('탈퇴가 완료되었습니다.');
+    await router.push('/login');
+  } catch (error) {
+    errorMessage.value = '처리 중 오류가 발생했습니다.';
+    showErrorDialog.value = true;
+    setTimeout(() => { showErrorDialog.value = false; }, 2000);
+  }
 };
 
 onMounted(fetchUserData);

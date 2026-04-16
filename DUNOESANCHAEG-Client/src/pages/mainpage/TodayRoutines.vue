@@ -11,7 +11,7 @@
 
   <section class="space-y-4">
     <div v-for="(mission, i) in missions" :key="i"
-      class="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm flex flex-col gap-4">
+      class="bg-white p-5 rounded-[24px] border-2 border-brand-blue shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col gap-4">
 
       <div class="flex items-center gap-3">
         <div class="size-11 bg-zinc-100 rounded-xl flex items-center justify-center text-lg">
@@ -30,18 +30,30 @@
         <button v-else class="completed-button">완료됨</button>
       </template>
 
+      <template v-else-if="mission.link === 'OpenQuestion'">
+        <button v-if="!mission.isCompleted" @click="goToOpenQuestion" class="start-button">시작하기</button>
+        <button v-else class="completed-button">완료됨</button>
+      </template>
+
       <template v-else>
         <router-link v-if="!mission.isCompleted" :to="{ name: mission.link }">
-          <button  @click="goToOpenQuestion" class="start-button">시작하기</button>
+          <button class="start-button">시작하기</button>
         </router-link>
         <button v-else class="completed-button">완료됨</button>
       </template>
     </div>
   </section>
+
+  <CustomErrorDialog :show="showExitedError">
+    오늘은 개방형질문을<br/>할 수 없습니다. 😢
+  </CustomErrorDialog>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { startOpenQuestion } from '@/api/openQuestion';
+import CustomErrorDialog from '@/components/common/CustomErrorDialog.vue';
 
 const router = useRouter();
 
@@ -52,6 +64,8 @@ const props = defineProps({
     default: () => []
   }
 });
+
+const showExitedError = ref(false);
 
 // 게임 타입에 따른 라우터 링크 반환
 const getGameLink = (type) => {
@@ -80,9 +94,27 @@ const getMissionDesc = (mission) => {
   return mission.desc;
 };
 
-const goToOpenQuestion = () => {
-  sessionStorage.setItem('openQuestionEntry', 'allowed');
-  router.push('/open-question');
+const goToOpenQuestion = async () => {
+  try {
+    const data = await startOpenQuestion();
+
+    if (data.status === 'EXITED') {
+      showExitedError.value = true;
+      setTimeout(() => {
+        showExitedError.value = false;
+      }, 2000);
+      return;
+    }
+
+    sessionStorage.setItem('openQuestionEntry', 'allowed');
+    router.push('/open-question');
+  } catch (error) {
+    console.error('개방형질문 시작 확인 실패:', error);
+    showExitedError.value = true;
+    setTimeout(() => {
+      showExitedError.value = false;
+    }, 2000);
+  }
 };
 </script>
 
