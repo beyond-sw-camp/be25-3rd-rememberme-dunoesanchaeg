@@ -90,9 +90,15 @@ function showConfetti() {
 watch(
   progress,
   (newProgress) => {
-    if (newProgress === 100 && !localStorage.getItem("confettiShown")) {
-      fireConfetti();
-      localStorage.setItem("confettiShown", "true");
+    if (newProgress === 100) {
+      // 아직 컨페티를 안 터뜨렸다면 발사합니다
+      if (!localStorage.getItem("confettiShown")) {
+        fireConfetti();
+        localStorage.setItem("confettiShown", "true");
+      }
+    } else if (newProgress >= 0 && newProgress < 100) {
+      // 100%가 아닐 경우 컨페티 상태를 초기화하여, 100% 달성 시 다시 터지도록 합니다
+      localStorage.removeItem("confettiShown");
     }
   },
   { immediate: true },
