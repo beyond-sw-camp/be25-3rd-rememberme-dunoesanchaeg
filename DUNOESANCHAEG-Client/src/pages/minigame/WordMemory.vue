@@ -12,7 +12,7 @@
     <template v-else>
       <AppNavBar title="단어 연상 게임" />
 
-      <div class="p-6 flex flex-col space-y-6 flex-1 relative">
+      <div class="p-6 flex flex-col space-y-4 flex-1 relative">
         <div class="flex justify-between items-end shrink-0">
           <div>
             <span class="text-brand-green font-black text-3xl">{{
@@ -42,7 +42,7 @@
           class="rounded-full overflow-hidden shrink-0"
         />
 
-        <div class="text-center space-y-2 py-2 shrink-0">
+        <div class="text-center py-1 shrink-0">
           <h2 class="text-2xl font-bold text-gray-900 min-h-[3rem]">
             <transition name="slide-up" mode="out-in">
               <span :key="isMemorizing" class="block whitespace-pre-line">
@@ -72,12 +72,12 @@
               ]"
             >
               <div
-                class="size-13 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
+                class="size-12 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
               >
                 {{ word.icon }}
               </div>
               <span
-                class="text-2xl font-bold transition-colors"
+                class="text-xl font-bold transition-colors"
                 :class="getTextColor(word.text)"
                 >{{ word.text }}</span
               >
@@ -92,7 +92,7 @@
           </TransitionGroup>
         </div>
 
-        <div v-if="!isMemorizing" class="pt-4 pb-6 shrink-0">
+        <div v-if="!isMemorizing" class="pt-2 pb-6 shrink-0">
           <button
             @click="checkAnswer"
             :disabled="
