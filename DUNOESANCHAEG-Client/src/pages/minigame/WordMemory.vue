@@ -113,7 +113,7 @@
       </div>
 
       <CustomErrorDialog :show="isWrongFlash">
-        틀렸습니다!<br />다시 한번<br />곰곰히 생각해보세요 🤔
+        틀렸습니다!<br />다시 한번<br />곰곰이 생각해보세요 🤔
       </CustomErrorDialog>
 
       <CustomSuccessDialog :show="isCorrectFlash">

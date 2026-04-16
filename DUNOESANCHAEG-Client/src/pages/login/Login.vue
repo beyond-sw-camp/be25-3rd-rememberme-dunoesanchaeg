@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-brand-bg flex items-center justify-center p-6 text-center pb-safe">
-    <section class="w-full max-w-sm bg-white p-10 rounded-[--radius-card] shadow-lg border border-gray-100 flex flex-col items-center space-y-12">
-
+    <section class="w-full max-w-sm bg-white p-10 py-20 rounded-[24px] shadow-lg border border-gray-100 flex flex-col items-center space-y-12">
       <div class="space-y-4">
         <img
             :src="logoImage"
@@ -40,15 +39,6 @@
           />
         </a>
       </div>
-
-      <footer class="pt-6 w-full border-t border-gray-100">
-        <p class="text-xs text-gray-400 font-bold mb-4">로그인에 문제가 있나요?</p>
-        <div class="flex justify-center items-center gap-4 text-xs text-gray-400 font-bold">
-          <a href="#" class="hover:text-brand-green">고객센터 문의</a>
-          <span class="text-gray-200">|</span>
-          <a href="#" class="hover:text-brand-green">도움말</a>
-        </div>
-      </footer>
     </section>
   </div>
 </template>
