@@ -167,7 +167,7 @@ const handleSubmit = async () => {
     border: none;
     border-radius: 16px;
     background: var(--color-brand-green);
-    color: #ffffff;
+    color: var(--color-button-text);
     font-size: var(--text-lg);
     font-weight: 800;
     cursor: pointer;

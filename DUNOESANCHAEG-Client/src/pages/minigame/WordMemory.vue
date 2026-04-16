@@ -84,7 +84,7 @@
 
               <div
                 v-if="!isMemorizing && getSelectionOrder(word.text) > 0"
-                class="absolute top-4 right-4 size-8 bg-brand-green text-white rounded-full flex items-center justify-center font-bold shadow-md"
+                class="absolute top-4 right-4 size-8 bg-brand-green text-[var(--color-button-text)] rounded-full flex items-center justify-center font-bold shadow-md"
               >
                 {{ getSelectionOrder(word.text) }}
               </div>
@@ -99,7 +99,7 @@
               currentProblem.userSelection.length <
               currentProblem.displayWords.length
             "
-            class="w-full py-4 rounded-2xl font-bold text-xl !text-white transition-all shadow-lg"
+            class="w-full py-4 rounded-2xl font-bold text-xl !text-[var(--color-button-text)] transition-all shadow-lg"
             :class="
               currentProblem.userSelection.length <
               currentProblem.displayWords.length

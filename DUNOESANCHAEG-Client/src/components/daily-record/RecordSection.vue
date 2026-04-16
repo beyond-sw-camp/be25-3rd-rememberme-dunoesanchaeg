@@ -97,7 +97,7 @@
     .level-btn.active {
     background: var(--color-brand-green);
     border-color: var(--color-brand-green);
-    color: #ffffff;
+    color: var(--color-button-text);
     transform: translateY(-1px);
     }
 

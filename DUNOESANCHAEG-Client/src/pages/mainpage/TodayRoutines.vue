@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-between items-end px-1 pt-4">
-    <h3 class="text-2xl font-bold text-zinc-800">오늘의 루틴</h3>
-    <span class="text-lg text-zinc-400">
+    <h3 class="text-2xl font-bold text-[var(--color-text-main)]">오늘의 루틴</h3>
+    <span class="text-lg text-[var(--color-text-muted)]">
       {{ missions.length }}개 중
-      <span class="text-zinc-800 font-semibold">
+      <span class="text-[var(--color-text-main)] font-semibold">
         {{missions.filter(g => g.isCompleted).length}}개
       </span> 완료
     </span>
@@ -11,15 +11,15 @@
 
   <section class="space-y-4">
     <div v-for="(mission, i) in missions" :key="i"
-      class="bg-white p-5 rounded-[24px] border-2 border-brand-blue shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col gap-4">
+      class="bg-[var(--color-surface)] p-5 rounded-[24px] border-2 border-[var(--color-border)] shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col gap-4">
 
       <div class="flex items-center gap-3">
-        <div class="size-11 bg-zinc-100 rounded-xl flex items-center justify-center text-lg">
+        <div class="size-11 bg-[var(--color-surface-variant)] rounded-xl flex items-center justify-center text-lg">
           {{ getMissionIcon(mission) }}
         </div>
         <div>
-          <h4 class="text-base font-bold text-zinc-800">{{ getMissionTitle(mission) }}</h4>
-          <p class="text-zinc-400 text-sm">{{ getMissionDesc(mission) }}</p>
+          <h4 class="text-base font-bold text-[var(--color-text-main)]">{{ getMissionTitle(mission) }}</h4>
+          <p class="text-[var(--color-text-muted)] text-sm">{{ getMissionDesc(mission) }}</p>
         </div>
       </div>
 
@@ -128,7 +128,7 @@ const goToOpenQuestion = async () => {
   cursor: pointer;
   border: none;
   background-color: var(--color-brand-green);
-  color: #ffffff;
+  color: var(--color-button-text);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -140,9 +140,7 @@ const goToOpenQuestion = async () => {
   font-size: 1.125rem;
   cursor: default;
   border: none;
-  background-color: #f4f4f5;
-  /* zinc-100 */
-  color: #a1a1aa;
-  /* zinc-400 */
+  background-color: var(--color-surface-variant);
+  color: var(--color-text-muted);
 }
 </style>

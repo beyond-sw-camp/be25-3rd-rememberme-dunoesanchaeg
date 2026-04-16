@@ -47,7 +47,7 @@
               class="w-full flex flex-col shrink-0 relative"
             >
               <div
-                class="bg-[#184825] rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-white"
+                class="bg-[var(--color-brand-green)] rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-[var(--color-button-text)]"
               >
                 <span class="text-sm font-bold opacity-90 mb-2">미션</span>
                 <span class="text-[2.5rem] font-black tracking-tight">{{

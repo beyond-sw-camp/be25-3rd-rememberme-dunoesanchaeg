@@ -8,7 +8,7 @@
 
     <section class="bg-surface border-2 border-brand-green rounded-card p-8 mb-10 transition-standard">
       <h2 class="text-xl font-black text-brand-green mb-8 flex items-center gap-2">
-        <span class="w-8 h-8 bg-brand-green text-white rounded-full flex items-center justify-center text-sm">1</span>
+        <span class="w-8 h-8 bg-brand-green text-[var(--color-button-text)] rounded-full flex items-center justify-center text-sm">1</span>
         기본 정보 입력
       </h2>
 
@@ -47,7 +47,7 @@
               type="button"
               :class="[
                 form.guardianConsent
-                  ? 'bg-brand-green text-white border-2 border-brand-green'
+                  ? 'bg-brand-green text-[var(--color-button-text)] border-2 border-brand-green'
                   : 'bg-surface text-text-muted border-2 border-brand-green'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-standard active:scale-95 cursor-pointer shadow-sm"
@@ -59,7 +59,7 @@
               type="button"
               :class="[
                 !form.guardianConsent
-                  ? 'bg-text-sub text-white border-2 border-text-sub'
+                  ? 'bg-text-sub text-[var(--color-button-text)] border-2 border-text-sub'
                   : 'bg-surface text-text-muted border-2 border-brand-green'
               ]"
               class="w-full p-4 rounded-2xl font-bold transition-standard active:scale-95 cursor-pointer shadow-sm"
@@ -83,7 +83,7 @@
 
     <section class="bg-surface border-2 border-brand-green rounded-card p-8 mb-12 transition-standard">
       <h2 class="text-xl font-black text-brand-green mb-8 flex items-center gap-2">
-        <span class="w-8 h-8 bg-brand-green text-white rounded-full flex items-center justify-center text-sm">2</span>
+        <span class="w-8 h-8 bg-brand-green text-[var(--color-button-text)] rounded-full flex items-center justify-center text-sm">2</span>
         접근성 설정
       </h2>
 
@@ -97,7 +97,7 @@
               type="button"
               :class="[
                 form.fontSize === size
-                  ? 'bg-brand-green text-white font-black border-2 border-brand-green'
+                  ? 'bg-brand-green text-[var(--color-button-text)] font-black border-2 border-brand-green'
                   : 'bg-surface text-text-muted font-medium border-2 border-brand-green'
               ]"
               class="py-4 rounded-2xl text-lg shadow-sm transition-standard cursor-pointer flex items-center justify-center"
@@ -117,7 +117,7 @@
       <button
           @click="handleComplete"
           type="button"
-          class="w-full py-5 bg-brand-green text-white font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-standard flex items-center justify-center cursor-pointer border-none"
+          class="w-full py-5 bg-brand-green text-[var(--color-button-text)] font-black text-2xl rounded-2xl shadow-lg active:scale-95 transition-standard flex items-center justify-center cursor-pointer border-none"
       >
         시작하기
       </button>

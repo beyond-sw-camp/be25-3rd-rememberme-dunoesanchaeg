@@ -184,6 +184,12 @@ const fetchUserData = async () => {
       fontSize.value = result.fontSize || 'MEDIUM';
 
       contrastMode.value = result.isHighContrast;
+      
+      authStore.fontSize = fontSize.value.toLowerCase();
+      authStore.isHighContrast = result.isHighContrast;
+      localStorage.setItem('fontSize', authStore.fontSize);
+      localStorage.setItem('isHighContrast', String(authStore.isHighContrast));
+
       settingsStore.initSettings(fontSize.value.toLowerCase(), result.isHighContrast);
     }
   } catch (error) {
@@ -216,12 +222,17 @@ const updateMemberSettings = async () => {
 };
 
 watch(fontSize, (newVal) => {
-  settingsStore.setFontSize(newVal.toLowerCase());
+  const sizeLower = newVal.toLowerCase();
+  settingsStore.setFontSize(sizeLower);
+  authStore.fontSize = sizeLower;
+  localStorage.setItem('fontSize', sizeLower);
   updateMemberSettings();
 });
 
 watch(contrastMode, (newVal) => {
   settingsStore.setHighContrast(newVal); // Store의 함수 호출
+  authStore.isHighContrast = newVal;
+  localStorage.setItem('isHighContrast', String(newVal));
   updateMemberSettings(); // 서버에도 저장
 });
 
@@ -309,7 +320,8 @@ onMounted(fetchUserData);
   width: 2.5em;
   height: 2.5em;
   border-radius: 50%;
-  background: white;
+  background-color: var(--color-text-main, white);
+  color: var(--color-brand-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,7 +359,7 @@ onMounted(fetchUserData);
   background-color: var(--color-surface, #ffffff);
 
   border-radius: 24px;
-  border: 2px solid var(--color-brand-blue);
+  border: 2px solid var(--color-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -402,7 +414,7 @@ onMounted(fetchUserData);
   height: 20px;
   left: 2px;
   top: 2px;
-  background-color: white;
+  background-color: var(--color-surface, white);
   border-radius: 50%;
   transition: transform 0.2s ease;
 }
