@@ -7,7 +7,7 @@
         </button>
       </div>
 
-      <div class="bg-surface p-6 rounded-card border-2 border-brand-blue shadow-sm">
+      <div class="bg-surface p-6 rounded-card border-2 border-[var(--color-border)] shadow-sm">
         <h2 class="text-2xl font-bold text-main mb-2">{{ selectedNotice.title }}</h2>
         <p class="text-sm text-muted mb-6">{{ formatDate(selectedNotice.createdAt) }}</p>
 
@@ -29,7 +29,7 @@
         <div 
           v-for="item in noticeList" 
           :key="item.noticeId"
-          class="notice-item bg-surface p-5 mb-6 flex items-center justify-between rounded-card border-2 border-brand-blue flex justify-between items-center transition-standard active:scale-[0.98]"
+          class="notice-item bg-surface p-5 mb-6 flex items-center justify-between rounded-card border-2 border-[var(--color-border)] flex justify-between items-center transition-standard active:scale-[0.98]"
           @click="fetchDetail(item.noticeId)"
           >
           <div class="flex-1">
@@ -148,7 +148,6 @@ const formatDate = (dateString) => {
 }
 
 html[data-high-contrast="true"] .notice-item {
-  border-color: var(--color-brand-green) !important;
   box-shadow: none;
 }
 
