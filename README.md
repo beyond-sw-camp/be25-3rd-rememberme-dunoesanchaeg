@@ -160,7 +160,7 @@
 <details>
 <summary>세부사항</summary>
 
-<img src="https://github.com/beyond-sw-camp/be25-2nd-rememberme-dunoesanchaeg/raw/docs/images/SystemArchitecture.png" /></br>
+<img src="profile\SystemArchitecture.png" /></br>
 
 </details>
 
