@@ -67,17 +67,17 @@
               :key="word.text"
               @click="handleWordClick(word.text)"
               :class="[
-                'relative p-8 rounded-[24px] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-4 shadow-sm cursor-pointer',
+                'relative p-6 rounded-[24px] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 shadow-sm cursor-pointer',
                 getCardStyle(word.text),
               ]"
             >
               <div
-                class="size-16 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
+                class="size-13 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
               >
                 {{ word.icon }}
               </div>
               <span
-                class="text-3xl font-bold transition-colors"
+                class="text-2xl font-bold transition-colors"
                 :class="getTextColor(word.text)"
                 >{{ word.text }}</span
               >

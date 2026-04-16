@@ -42,7 +42,7 @@
       />
 
       <div class="text-center space-y-1 py-1 shrink-0 mb-2">
-        <h2 class="text-2xl font-bold text-gray-900 leading-[1.3]">
+        <h2 class="text-2xl font-bold text-gray-900 leading-[1.3] my-3">
           다음 수식을 계산하고<br />정답을 골라주세요
         </h2>
       </div>
@@ -54,7 +54,7 @@
             class="w-full flex flex-col shrink-0 relative"
           >
             <div
-              class="bg-gradient-to-br from-white to-green-50 rounded-[32px] shadow-sm py-16 sm:py-20 min-h-[160px] sm:min-h-[200px] flex justify-center items-center mb-6 shrink-0 border border-white transition-all overflow-visible px-2 sm:px-6 w-full box-border"
+              class="bg-white from-white to-green-50 rounded-[32px] shadow-sm py-16 sm:py-20 min-h-[160px] sm:min-h-[200px] flex justify-center items-center mb-6 shrink-0 border border-white transition-all overflow-visible px-2 sm:px-6 w-full box-border"
             >
               <div
                 class="text-[2.5rem] min-[360px]:text-[3rem] sm:text-6xl font-black text-[#1B2B3B] flex flex-row items-center justify-center leading-none whitespace-nowrap text-center"
