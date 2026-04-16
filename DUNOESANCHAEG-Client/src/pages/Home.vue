@@ -1,43 +1,61 @@
 <template>
-  <div class="space-y-8 min-h-screen bg-[var(--color-brand-bg)]">
+  <div
+    v-if="isLoading"
+    class="flex flex-col flex-1 min-h-[70vh] justify-center items-center"
+  >
+    <van-loading type="spinner" color="var(--color-brand-green)" size="48px" />
+    <p class="mt-4 text-[var(--color-text-muted)] font-bold">
+      정보를 불러오고 있어요 🌱
+    </p>
+  </div>
 
-    <header class="flex items-center gap-3 mb-10">
-      <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
-      <h1 @click="showConfetti" 
-        class="text-3xl font-extrabold text-brand-green tracking-tight">두뇌산책</h1>
+  <div v-else class="space-y-8 min-h-screen bg-[var(--color-brand-bg)]">
+    <header class="flex items-center mb-8 px-2 pt-2">
+      <div 
+        @click="showConfetti" 
+        class="flex items-center gap-3 cursor-pointer select-none group"
+      >
+        <van-image 
+          :src="logoGreen" 
+          alt="두뇌산책 로고" 
+          class="w-11 sm:w-12 h-auto transition-transform duration-300 group-active:rotate-12 group-active:scale-90 drop-shadow-sm" 
+        />
+        <h1 class="text-3xl sm:text-4xl font-black text-brand-green tracking-tight transition-transform group-active:scale-95 origin-left">
+          두뇌산책
+        </h1>
+      </div>
     </header>
 
-
     <!-- // 사용자 인사, 날짜 컴포넌트 -->
-    <HomeHeader :username="username" 
-                :formattedDate="formattedDate" />
+    <HomeHeader :username="username" :formattedDate="formattedDate" />
 
     <!-- // 진행률 표시 컴포넌트 -->
-    <ProgressRate :isLoading="isLoading" 
-                  :progress="progress" 
-                  :message="message" 
-                  :errorMessage="errorMessage"
-                  @retry="initializeHome" />
+    <ProgressRate
+      :isLoading="isLoading"
+      :progress="progress"
+      :message="message"
+      :errorMessage="errorMessage"
+      @retry="initializeHome"
+    />
 
     <!-- // 루틴들 컴포넌트  -->
     <TodayRoutines :missions="missions" />
-
   </div>
 </template>
 
 <script setup>
-import logoGreen from '@/assets/image/logo_green1.png';
+import logoGreen from "@/assets/image/logo_green1.png";
 
-import { useHome } from '@/composables/useHome';
-import HomeHeader from '@/pages/mainpage/HomeHeader.vue';
+import { useHome } from "@/composables/useHome";
+import HomeHeader from "@/pages/mainpage/HomeHeader.vue";
 
-import ProgressRate from './mainpage/ProgressRate.vue';
-import TodayRoutines from './mainpage/TodayRoutines.vue';
+import ProgressRate from "./mainpage/ProgressRate.vue";
+import TodayRoutines from "./mainpage/TodayRoutines.vue";
 
-import { onBeforeUnmount, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeUnmount, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 
-import JSConfetti from 'js-confetti';
+import JSConfetti from "js-confetti";
 
 const route = useRoute();
 
@@ -49,34 +67,35 @@ const {
   progress,
   message,
   missions,
-  initializeHome
+  initializeHome,
 } = useHome();
 
 const confetti = new JSConfetti();
 
-const hasCelebrated = localStorage.getItem('confettiShown');
-function showConfetti() {
+function fireConfetti() {
   confetti.addConfetti({
-    // confettiColors: ['#ff0000', '#00ff00', '#0000ff'], // 브랜드 컬러에 맞게 조정 가능
-    // confettiColors: ['#27D16A', '#DAEDFF'], // 초록, 배경색
-    confettiColors: ['#2F7431', '#8ED35D', '#FFD700'], // 초록, 연두, 금색
-    confettiNumber: 250, // 너무 많으면 렉 걸리니 적절히 조절 (기본값 150)
+    confettiColors: ["#2F7431", "#8ED35D", "#FFD700"], // 초록, 연두, 금색
+    confettiNumber: 250,
     confettiRadius: 6,
   });
+}
+
+// 로고 클릭 시: 진행률 100%일 때만 컨페티 발사
+function showConfetti() {
+  if (progress.value === 100) {
+    fireConfetti();
+  }
 }
 
 watch(
   progress,
   (newProgress) => {
-    if (
-      newProgress === 100 &&
-      !localStorage.getItem('confettiShown')
-    ) {
-      showConfetti();
-      localStorage.setItem('confettiShown', 'true');
+    if (newProgress === 100 && !localStorage.getItem("confettiShown")) {
+      fireConfetti();
+      localStorage.setItem("confettiShown", "true");
     }
   },
-  { immediate: true } 
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -84,10 +103,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  const canvas = document.getElementById('confetti-canvas');
+  const canvas = document.getElementById("confetti-canvas");
   if (canvas) canvas.remove();
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

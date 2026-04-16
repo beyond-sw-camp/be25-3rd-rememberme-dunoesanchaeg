@@ -206,7 +206,7 @@ onMounted(() => {
 :deep(.van-nav-bar .van-icon) {
   color: var(--color-brand-green);
   font-weight: 900;
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }
 :deep(.van-nav-bar) {
   background-color: var(--color-surface);

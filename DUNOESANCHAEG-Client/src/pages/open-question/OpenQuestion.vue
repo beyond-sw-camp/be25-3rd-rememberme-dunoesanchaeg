@@ -184,7 +184,7 @@ onBeforeRouteLeave(async (to, from, next) => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 1.2rem;
+  font-size: calc(1.2rem * var(--font-scale));
   font-weight: 800;
   color: var(--color-brand-green);
   background: rgba(27, 57, 30, 0.08);
@@ -194,11 +194,11 @@ onBeforeRouteLeave(async (to, from, next) => {
 }
 
 .question-label-icon {
-  font-size: 1.15rem;
+  font-size: calc(1.15rem * var(--font-scale));
 }
 
 .question-text {
-  font-size: 1.75rem;
+  font-size: calc(1.75rem * var(--font-scale));
   font-weight: 800;
   color: var(--color-text-main);
   line-height: 1.55;
@@ -208,7 +208,7 @@ onBeforeRouteLeave(async (to, from, next) => {
 
 .question-hint {
   margin-top: 18px;
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   color: var(--color-text-muted);
   font-weight: 500;
 }

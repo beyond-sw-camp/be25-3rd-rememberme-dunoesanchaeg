@@ -1,8 +1,13 @@
 <template>
+  <div v-if="isLoading" class="flex flex-col flex-1 min-h-[70vh] justify-center items-center">
+    <van-loading type="spinner" color="var(--color-brand-green)" size="48px" />
+    <p class="mt-4 text-[var(--color-text-muted)] font-bold">프로필을 불러오고 있어요 🌱</p>
+  </div>
 
-  <!-- 헤더 -->
-  <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
-  </header>
+  <div v-else>
+    <!-- 헤더 -->
+    <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
+    </header>
 
   <div class="profile-page">
     <!-- 프로필 카드 -->
@@ -61,31 +66,6 @@
       </div>
     </section>
 
-    <!-- 알림 설정 -->
-    <section class="section">
-      <div class="section-title">알림 설정</div>
-
-      <div class="menu-card">
-
-        <div class="menu-item">
-          <span>게임 리마인더</span>
-          <label class="switch">
-            <input type="checkbox" v-model="gameReminder" />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <div class="menu-item">
-          <span>일일 루틴 알림</span>
-          <label class="switch">
-            <input type="checkbox" v-model="dailyRoutine" />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-      </div>
-    </section>
-
     <!-- 하단 -->
     <footer class="footer">
       <button @click="handleLogout" class="btn-logout">
@@ -119,6 +99,7 @@
       {{ errorMessage }}
     </CustomErrorDialog>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -139,6 +120,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
+const isLoading = ref(true);
 const userInfo = ref({ nickname: '', email: '', profileImage: '' });
 const fontSize = ref('MEDIUM');
 const contrastMode = ref(false); // 로컬 UI용
@@ -172,6 +154,7 @@ const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWi
  */
 // Profile.vue 수정 제안
 const fetchUserData = async () => {
+  isLoading.value = true;
   try {
     const response = await instance.get('/members/me');
     const result = response.data.data;
@@ -205,6 +188,8 @@ const fetchUserData = async () => {
       // 로그인 페이지로 이동
       await router.replace('/login');
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -283,7 +268,7 @@ onMounted(fetchUserData);
 <style scoped>
 .profile-page {
   background: var(--color-brand-bg);
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
+  font-size: var(--text-lg);
 }
 
 /* 헤더 */
@@ -305,9 +290,11 @@ onMounted(fetchUserData);
 
 /* 카드 */
 .profile-card {
-  background: var(--color-brand-blue);
+  background-color: var(--color-surface, #ffffff);
   border-radius: 20px;
   padding: 24px;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .profile-card-inner {
@@ -336,7 +323,7 @@ onMounted(fetchUserData);
 
 .profile-email {
   color: gray;
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+  font-size: var(--text-sm);
 }
 
 /* 섹션 */
@@ -345,6 +332,7 @@ onMounted(fetchUserData);
 }
 
 .section-title {
+  font-size: var(--text-lg);
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -435,7 +423,7 @@ onMounted(fetchUserData);
 }
 
 .btn-logout {
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
+  font-size: var(--text-lg);
   cursor: pointer;
   background: none;
   border: none;
@@ -450,7 +438,7 @@ onMounted(fetchUserData);
 }
 
 .btn-withdraw {
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+  font-size: var(--text-base);
   color: red;
 }
 </style>
