@@ -52,8 +52,8 @@ const routes = [
     {path: '/statistics', name: 'Statistics', component: Statistics},
     {path: '/statistics/detail', name: 'StatisticsDetail', component: () => import("@/pages/statistics/DailyDetail.vue"), meta: {hideLayout: true}},
     {path: '/notices', name: 'Notice', component: Notice},
-    {path: '/profile', name: 'Profile', component: Profile},
-    {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue")},
+    {path: '/profile', name: 'Profile', component: Profile}, 
+    {path: '/profile/edit', name: 'ProfileEdit', component: () => import("@/pages/profile/ProfileEdit.vue"), meta: {hideLayout: true}},
     {
         path: '/minigame',
         name: 'MiniGame',

@@ -1,79 +1,100 @@
 <template>
-  <div class="min-h-screen bg-brand-bg p-2">
 
-    <header class="flex items-center gap-3 mb-10">
-      <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-10 h-auto" />
-      <h1 class="text-3xl font-black text-brand-green tracking-tight">두뇌산책</h1>
-    </header>
+  <!-- 헤더 -->
+  <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
+  </header>
 
-    <van-cell-group inset class="mb-10 profile-card shadow-lg border border-surface-variant">
-      <van-cell center class="py-10 bg-transparent">
-        <template #icon>
-          <van-image round :src="profileDefault" class="w-24 h-24 mr-6 border-4 border-white shadow-md" />
-        </template>
-        <template #title>
-          <div class="text-2xl font-extrabold text-text-main mb-1">
+  <div class="profile-page">
+    <!-- 프로필 카드 -->
+    <div class="profile-card">
+      <div class="profile-card-inner">
+        <div class="profile-logo-circle">
+          <span>{{ userInfo.nickname[0] }}</span>
+        </div>
+
+        <div class="profile-info">
+          <div class="profile-name">
+
             {{ userInfo.nickname || '가져오는 중...' }} 님
           </div>
-        </template>
-        <template #label>
-          <div class="text-xl font-medium text-text-sub">
+          <div class="profile-email">
             {{ userInfo.email || '연결 중...' }}
           </div>
-        </template>
-      </van-cell>
-    </van-cell-group>
+        </div>
+      </div>
+    </div>
 
-    <section class="mt-16 mb-10">
-      <div class="text-lg font-bold text-text-main opacity-90 mb-4 px-3">회원 관리</div>
-      <van-cell-group inset class="shadow-sm border border-surface-variant">
-        <van-cell title="회원 정보 수정" is-link size="large" icon="edit" to="/profile/edit" class="py-5" />
-      </van-cell-group>
+    <!-- 회원 관리 -->
+    <section class="section">
+      <div class="section-title">회원 관리</div>
+      <div class="menu-card">
+        <router-link to="/profile/edit" class="menu-item">
+          <span>회원 정보 수정</span>
+          <span class="text-2xl">›</span>
+        </router-link>
+      </div>
     </section>
 
-    <section class="mb-10">
-      <div class="text-lg font-bold text-text-main opacity-70 mb-4 px-3">화면 설정</div>
-      <van-cell-group inset class="shadow-sm border border-surface-variant">
-        <van-cell title="크게 보기" size="large" class="py-5">
-          <template #value>
-            <select v-model="fontSize" class="view-mode-select text-sm">
-              <option value="SMALL">작게</option>
-              <option value="MEDIUM">중간</option>
-              <option value="LARGE">크게</option>
-            </select>
-          </template>
-        </van-cell>
+    <!-- 화면 설정 -->
+    <section class="section">
+      <div class="section-title">화면 설정</div>
 
-        <van-cell title="고대비 모드" size="large" class="py-5">
-          <template #right-icon>
-            <van-switch v-model="contrastMode" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
-          </template>
-        </van-cell>
-      </van-cell-group>
+      <div class="menu-card">
+
+        <div class="menu-item">
+          <span>크게 보기</span>
+          <select v-model="fontSize" class="view-mode-select">
+            <option value="SMALL">작게</option>
+            <option value="MEDIUM">중간</option>
+            <option value="LARGE">크게</option>
+          </select>
+        </div>
+
+        <div class="menu-item">
+          <span>고대비 모드</span>
+          <label class="switch">
+            <input type="checkbox" v-model="contrastMode" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+      </div>
     </section>
 
-    <section class="mb-10">
-      <div class="text-lg font-bold text-text-main opacity-70 mb-4 px-3">알림 설정</div>
-      <van-cell-group inset class="shadow-sm border border-surface-variant">
-        <van-cell title="게임 리마인더" size="large" class="py-5">
-          <template #right-icon>
-            <van-switch v-model="gameReminder" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
-          </template>
-        </van-cell>
-        <van-cell title="일일 루틴 알림" size="large" class="py-5">
-          <template #right-icon>
-            <van-switch v-model="dailyRoutine" size="'var(--text-3xl)'" :active-color="'var(--color-brand-green)'" />
-          </template>
-        </van-cell>
-      </van-cell-group>
+    <!-- 알림 설정 -->
+    <section class="section">
+      <div class="section-title">알림 설정</div>
+
+      <div class="menu-card">
+
+        <div class="menu-item">
+          <span>게임 리마인더</span>
+          <label class="switch">
+            <input type="checkbox" v-model="gameReminder" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="menu-item">
+          <span>일일 루틴 알림</span>
+          <label class="switch">
+            <input type="checkbox" v-model="dailyRoutine" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+      </div>
     </section>
 
-    <footer class="profile-footer">
-      <button @click="handleLogout" type="button" class="btn-logout">
+    <!-- 하단 -->
+    <footer class="footer">
+      <button @click="handleLogout" class="btn-logout">
         <span class="material-symbols-outlined">logout</span>
-        로그아웃
+        <span>로그아웃</span>
       </button>
-      <button @click="handleWithdraw" type="button" class="btn-withdraw">
+    </footer>
+    <footer class="footer">
+      <button @click="handleWithdraw" class="btn-withdraw">
         회원 탈퇴
       </button>
     </footer>
@@ -146,7 +167,29 @@ const requestWithdrawConfirm = () => new Promise(resolve => {
 const onWithdrawConfirm = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(true); };
 const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(false); };
 
-/**
+const showLogoutDialog = ref(false);
+const showWithdrawDialog = ref(false);
+const showErrorDialog = ref(false);
+const errorMessage = ref('');
+
+let resolveLogout = null;
+let resolveWithdraw = null;
+
+const requestLogoutConfirm = () => new Promise(resolve => {
+  resolveLogout = resolve;
+  showLogoutDialog.value = true;
+});
+const onLogoutConfirm = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(true); };
+const onLogoutCancel = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(false); };
+
+const requestWithdrawConfirm = () => new Promise(resolve => {
+  resolveWithdraw = resolve;
+  showWithdrawDialog.value = true;
+});
+const onWithdrawConfirm = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(true); };
+const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(false); };
+
+/*
  * 데이터 로드
  */
 // Profile.vue 수정 제안
@@ -181,7 +224,6 @@ const fetchUserData = async () => {
   }
 };
 
-// 서버 저장
 const updateMemberSettings = async () => {
   try {
     await instance.patch('/members/me', {
@@ -195,13 +237,11 @@ const updateMemberSettings = async () => {
   }
 };
 
-// 폰트 변경 감시
 watch(fontSize, (newVal) => {
   settingsStore.setFontSize(newVal.toLowerCase());
   updateMemberSettings();
 });
 
-// 고대비 변경 감시
 watch(contrastMode, (newVal) => {
   settingsStore.setHighContrast(newVal); // Store의 함수 호출
   updateMemberSettings(); // 서버에도 저장
@@ -211,7 +251,6 @@ watch([gameReminder, dailyRoutine], () => {
   updateMemberSettings();
 });
 
-// 로그아웃
 const handleLogout = async () => {
   const confirmed = await requestLogoutConfirm();
   if (!confirmed) return;
@@ -253,11 +292,100 @@ onMounted(fetchUserData);
 </script>
 
 <style scoped>
-.profile-card {
-  --van-cell-background: var(--color-brand-blue);
-  --van-cell-group-inset-radius: 2rem;
+.profile-page {
+  background: var(--color-brand-bg);
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
 }
 
+/* 헤더 */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 40px;
+}
+
+.title {
+  font-weight: 900;
+  color: var(--color-brand-green);
+}
+
+/* 카드 */
+.profile-card {
+  background: var(--color-brand-blue);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.profile-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-logo-circle {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-weight: 800;
+}
+
+.profile-email {
+  color: gray;
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+}
+
+/* 섹션 */
+.section {
+  margin-top: 40px;
+}
+
+.section-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* 메뉴 */
+.menu-card {
+  background: white;
+  overflow: hidden;
+
+  align-items: center;
+
+  background-color: var(--color-surface, #ffffff);
+
+  border-radius: 24px;
+  border: 2px solid var(--color-brand-blue);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px;
+  font-weight: 600;
+
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 셀렉트 */
 .view-mode-select {
   background-color: var(--color-brand-blue);
   color: var(--color-text-main);
@@ -269,53 +397,70 @@ onMounted(fetchUserData);
   font-weight: 700;
 }
 
-.view-mode-select option {
-  font-size: var(--text-sm);
-  background-color: var(--color-surface);
-  color: var(--color-text-main);
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
 }
 
-.profile-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5rem;
-  margin-bottom: 3.75rem;
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: #d1d5db;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+/* 동그라미 */
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 2px;
+  top: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+/* 체크됐을 때 */
+.switch input:checked+.slider {
+  background-color: var(--color-brand-green);
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(20px);
+}
+
+/* 버튼 */
+.footer {
+  margin-top: 40px;
+  text-align: center;
 }
 
 .btn-logout {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text-sub);
-  background: transparent;
-  border: none;
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
   cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  vertical-align: middle;
 }
 
 .btn-withdraw {
-  margin-top: 2.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #fca5a5;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-:deep(.van-cell__title) {
-  font-size: var(--text-lg) !important;
-  line-height: var(--text-lg--line-height) !important;
-  font-weight: 600;
-}
-
-:deep(.van-cell__label) {
-  font-size: var(--text-base) !important;
-}
-
-:deep(.van-cell__value) {
-  font-size: var(--text-base) !important;
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+  color: red;
 }
 </style>

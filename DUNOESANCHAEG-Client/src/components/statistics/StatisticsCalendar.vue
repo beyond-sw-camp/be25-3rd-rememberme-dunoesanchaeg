@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-surface rounded-[24px] px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+  <div class="bg-surface rounded-[24px] px-4 py-3 border-2! border-brand-blue! shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
     <div class="flex items-center justify-between mb-2">
       <button @click="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-brand-blue transition-colors text-brand-green">
         <span class="text-xl font-bold">&lt;</span>
