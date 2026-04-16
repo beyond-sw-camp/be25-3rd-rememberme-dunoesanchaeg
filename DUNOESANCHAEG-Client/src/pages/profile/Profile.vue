@@ -167,28 +167,6 @@ const requestWithdrawConfirm = () => new Promise(resolve => {
 const onWithdrawConfirm = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(true); };
 const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(false); };
 
-const showLogoutDialog = ref(false);
-const showWithdrawDialog = ref(false);
-const showErrorDialog = ref(false);
-const errorMessage = ref('');
-
-let resolveLogout = null;
-let resolveWithdraw = null;
-
-const requestLogoutConfirm = () => new Promise(resolve => {
-  resolveLogout = resolve;
-  showLogoutDialog.value = true;
-});
-const onLogoutConfirm = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(true); };
-const onLogoutCancel = () => { showLogoutDialog.value = false; if (resolveLogout) resolveLogout(false); };
-
-const requestWithdrawConfirm = () => new Promise(resolve => {
-  resolveWithdraw = resolve;
-  showWithdrawDialog.value = true;
-});
-const onWithdrawConfirm = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(true); };
-const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWithdraw) resolveWithdraw(false); };
-
 /*
  * 데이터 로드
  */
