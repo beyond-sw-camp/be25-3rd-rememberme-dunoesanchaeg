@@ -258,7 +258,7 @@ onMounted(fetchUserData);
 <style scoped>
 .profile-page {
   background: var(--color-brand-bg);
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
+  font-size: var(--text-lg);
 }
 
 /* 헤더 */
@@ -280,9 +280,11 @@ onMounted(fetchUserData);
 
 /* 카드 */
 .profile-card {
-  background: var(--color-brand-blue);
+  background-color: var(--color-surface, #ffffff);
   border-radius: 20px;
   padding: 24px;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .profile-card-inner {
@@ -311,7 +313,7 @@ onMounted(fetchUserData);
 
 .profile-email {
   color: gray;
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+  font-size: var(--text-sm);
 }
 
 /* 섹션 */
@@ -320,6 +322,7 @@ onMounted(fetchUserData);
 }
 
 .section-title {
+  font-size: var(--text-lg);
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -410,7 +413,7 @@ onMounted(fetchUserData);
 }
 
 .btn-logout {
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
+  font-size: var(--text-lg);
   cursor: pointer;
   background: none;
   border: none;
@@ -425,7 +428,7 @@ onMounted(fetchUserData);
 }
 
 .btn-withdraw {
-  font-size: calc(var(--van-font-size-lg) * var(--font-scale));
+  font-size: var(--text-base);
   color: red;
 }
 </style>

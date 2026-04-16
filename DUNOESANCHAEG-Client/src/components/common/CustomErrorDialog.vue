@@ -39,7 +39,7 @@ defineProps({
 }
 .modal-body { padding: 40px 24px; text-align: center; }
 .icon { font-size: 50px; margin-bottom: 16px; }
-.text-content { font-size: 1.25rem; font-weight: 800; color: #18181b; line-height: 1.5; }
+.text-content { font-size: var(--text-xl); font-weight: 800; color: #18181b; line-height: 1.5; }
 
 @keyframes slideUp {
   from { transform: translateY(20px); opacity: 0; }

@@ -4,7 +4,6 @@
       <h1 class="text-3xl font-extrabold text-brand-green">
         통계
       </h1>
-      <p class="text-text-sub text-base mt-2 font-medium">나의 꾸준한 노력을 확인해보세요!</p>
     </div>
 
     <StatisticsCalendar class="mb-8" />

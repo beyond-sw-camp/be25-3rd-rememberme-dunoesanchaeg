@@ -34,13 +34,13 @@ const handleBack = () => {
 :deep(.van-nav-bar__title) {
   font-family: "Pretendard", sans-serif;
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: calc(1.2rem * var(--font-scale));
   color: var(--color-brand-green);
 }
 :deep(.van-nav-bar .van-icon) {
   color: var(--color-brand-green);
   font-weight: 900;
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }
 :deep(.van-nav-bar) {
   background-color: var(--color-brand-bg);

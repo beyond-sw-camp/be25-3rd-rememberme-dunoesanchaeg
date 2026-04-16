@@ -124,7 +124,7 @@ const goToOpenQuestion = async () => {
   padding: 0.875rem 0;
   border-radius: 0.875rem;
   font-weight: 700;
-  font-size: 1.125rem;
+font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
   cursor: pointer;
   border: none;
   background-color: var(--color-brand-green);
@@ -137,7 +137,7 @@ const goToOpenQuestion = async () => {
   padding: 0.875rem 0;
   border-radius: 0.875rem;
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: calc(var(--van-font-size-lg) * var(--font-scale) * 1.2);
   cursor: default;
   border: none;
   background-color: var(--color-surface-variant);
