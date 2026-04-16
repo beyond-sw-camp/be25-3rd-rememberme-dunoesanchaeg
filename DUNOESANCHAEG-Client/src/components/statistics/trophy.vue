@@ -1,45 +1,46 @@
 <template>
   <div class="space-y-6 px-1 pb-10">
-    <section class="overflow-hidden rounded-3xl bg-brand-blue p-6 shadow-sm">
+    <section
+      class="p-6 overflow-hidden rounded-2xl border-2 border-[var(--color-border)] bg-[var(--color-surface,#ffffff)] shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
       <div class="flex flex-col gap-4">
-        
         <div class="w-full">
-          <div
-            v-if="loading"
-            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted"
-          >
+          <div v-if="loading"
+            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted">
             트로피 정보를 불러오는 중입니다.
           </div>
 
-          <div
-            v-else-if="acquiredTrophies.length === 0"
-            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted"
-          >
+          <div v-else-if="acquiredTrophies.length === 0"
+            class="flex min-h-32 items-center justify-center rounded-3xl bg-surface px-4 text-center text-text-muted">
             획득한 트로피가 없습니다.
           </div>
 
-          <template v-else>
-            <div class="grid grid-cols-5 gap-2 pb-2 sm:gap-3">
-              <article
-                v-for="trophy in acquiredTrophies"
-                :key="trophy.trophyId"
-                class="flex min-w-0 flex-col items-center justify-start overflow-hidden rounded-[--radius-xl] p-1 sm:p-2"
-              >
-                <img
-                  v-if="trophy.image"
-                  :src="trophy.image"
-                  :alt="trophy.displayName"
-                  class="aspect-square w-full object-contain"
-                />
+          <div v-else class="relative group trophy-slider-container">
+            <button @click="scrollLeft"
+  class="absolute -left-5 top-1/2 z-30 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200 active:bg-gray-200/50 active:scale-90 rounded-full text-lg text-text-default hover:text-brand-green outline-none border-none bg-transparent"
+>
+  &lt;
+</button>
 
-                <div
-                  class="mt-1 line-clamp-2 text-center text-[12px] font-semibold text-brand-green sm:text-xs"
-                >
+<button @click="scrollRight"
+  class="absolute -right-5 top-1/2 z-30 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200 active:bg-gray-200/50 active:scale-90 rounded-full text-lg text-text-default hover:text-brand-green outline-none border-none bg-transparent"
+>
+  &gt;
+</button>
+
+            <div ref="scrollContainer"
+              class="flex gap-4 overflow-x-auto px-6 pb-2 scroll-smooth snap-x snap-mandatory no-scrollbar">
+              <article v-for="trophy in acquiredTrophies" :key="trophy.trophyId"
+                class="flex-shrink-0 w-28 snap-center flex flex-col items-center">
+                <div class="relative w-20 h-20">
+                  <img v-if="trophy.image" :src="trophy.image" :alt="trophy.displayName"
+                    class="w-full h-full object-contain" />
+                </div>
+                <div class="mt-2 text-center text-[13px] font-semibold text-brand-green whitespace-nowrap">
                   {{ trophy.caption }}
                 </div>
               </article>
             </div>
-          </template>
+          </div>
         </div>
       </div>
     </section>
@@ -59,14 +60,14 @@ import trophy50DaysImage from '@/assets/trophy/trophy-50days.png';
 
 const trophies = ref([]);
 const loading = ref(false);
+const scrollContainer = ref(null);
 
-// 트로피 이미지 매핑
 const trophyImageByCount = {
   10: trophy10DaysImage,
   20: trophy20DaysImage,
   30: trophy30DaysImage,
   40: trophy40DaysImage,
-  50: trophy50DaysImage
+  50: trophy50DaysImage,
 };
 
 const trophyCaptionByCount = {
@@ -74,15 +75,14 @@ const trophyCaptionByCount = {
   20: '루틴 20일 달성',
   30: '루틴 30일 달성',
   40: '루틴 40일 달성',
-  50: '루틴 50일 달성'
+  50: '루틴 50일 달성',
 };
 
-// 화면에 그리기 좋게 데이터 가공 (역순 정렬 및 이미지 찾기)
 const acquiredTrophies = computed(() => {
   return trophies.value
     .slice()
-    .reverse() // 백엔드에서 최신순(50->10)으로 오므로, 10->50 순서로 화면에 그리기 위해 뒤집음
-    .map(trophy => {
+    .reverse()
+    .map((trophy) => {
       const match = String(trophy.trophyName || '').match(/(10|20|30|40|50)/);
       const threshold = match ? Number(match[1]) : null;
 
@@ -90,12 +90,21 @@ const acquiredTrophies = computed(() => {
         ...trophy,
         displayName: trophy.trophyName || '이름 없는 트로피',
         image: threshold ? trophyImageByCount[threshold] : '',
-        caption: threshold ? trophyCaptionByCount[threshold] : (trophy.trophyName || '이름 없는 트로피')
+        caption: threshold
+          ? trophyCaptionByCount[threshold]
+          : trophy.trophyName || '이름 없는 트로피',
       };
     });
 });
 
-// API 호출
+const scrollLeft = () => {
+  scrollContainer.value?.scrollBy({ left: -140, behavior: 'smooth' });
+};
+
+const scrollRight = () => {
+  scrollContainer.value?.scrollBy({ left: 140, behavior: 'smooth' });
+};
+
 const fetchTrophies = async () => {
   loading.value = true;
   try {
@@ -112,3 +121,44 @@ const fetchTrophies = async () => {
 
 onMounted(fetchTrophies);
 </script>
+
+<style scoped>
+/* 스크롤바 숨기기 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.trophy-slider-container::before,
+.trophy-slider-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 10;
+  pointer-events: none;
+  /* 하드웨어 가속으로 선 생김 방지 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.trophy-slider-container::before {
+  left: -1px;
+  background: linear-gradient(to right, #ffffff 20%, rgba(255, 255, 255, 0));
+}
+
+.trophy-slider-container::after {
+  right: -2px;
+  background: linear-gradient(to left, #ffffff 20%, rgba(255, 255, 255, 0));
+}
+
+/* 서브픽셀 렌더링 보정 */
+.trophy-slider-container {
+  transform: translate3d(0, 0, 0);
+}
+</style>
