@@ -158,7 +158,7 @@
 ## <a id="4-시스템-아키텍처"></a> 4. 시스템 아키텍처
 
 <details>
-<summary>세부사항</summary>
+<summary><b>🧱 시스템 아키텍처 펼쳐보기</b></summary>
 
 <img src="profile\SystemArchitecture.png" /></br>
 
@@ -203,7 +203,7 @@ src/
 ## <a id="6-와이어-프레임"></a> 6. 와이어 프레임
 
 <details>
-<summary>세부사항</summary>
+<summary><b>📱 와이어 프레임 링크</b></summary>
   
 - [📱 와이어 프레임 (링크)](https://www.figma.com/design/gyX3NlACpQIADuk9ZCbxI5/두뇌산책?node-id=202-78&p=f&t=aJAPNPAJ4FySe4Zt-0)
 
@@ -214,7 +214,7 @@ src/
 ## <a id="7-서비스-시나리오-테스트"></a> 7. 서비스-시나리오-테스트
 
 <details>
-<summary>세부사항</summary>
+<summary><b>🎬 서비스 시나리오 테스트</b></summary>
 
 아래는 실제 서비스 기능을 검증한 시연 영상입니다.
 <img src=" " width="80%"/> 
@@ -314,11 +314,13 @@ src/
 ## <a id="9-기능-테스트-결과서"></a> 9. 기능 테스트 결과서(스프레드 시트)
 
 <details>
- <summary>기능 테스트 결과서</summary>
-</div>
-  <img width="1351" height="731" alt="image" src="" />
+ <summary><b>🧾 기능 테스트 결과서 링크</b></summary>
+
+  - [🧾 기능 테스트 결과서 (링크)](https://docs.google.com/spreadsheets/d/1cGxKolGeDWGtzUYxWShYSNCS0KK_gclYAco5hxDQDqI/edit?gid=687771753#gid=687771753)
+
 </details>
 <br>
+
 
 
 ## <a id="10-회고"></a> 10. 회고
