@@ -36,7 +36,7 @@
             <h3 class="text-lg font-bold text-main line-clamp-1">{{ item.title }}</h3>
             <p class="text-sm text-muted mt-1">{{ formatDate(item.createdAt) }}</p>
           </div>
-          <van-icon name="arrow" class="text-brand-green" />
+          <van-icon name="arrow" class="text-3xl" />
         </div>
       </van-list>
 
