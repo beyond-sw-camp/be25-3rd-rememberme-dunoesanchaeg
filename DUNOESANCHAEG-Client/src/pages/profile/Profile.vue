@@ -1,8 +1,13 @@
 <template>
+  <div v-if="isLoading" class="flex flex-col flex-1 min-h-[70vh] justify-center items-center">
+    <van-loading type="spinner" color="var(--color-brand-green)" size="48px" />
+    <p class="mt-4 text-[var(--color-text-muted)] font-bold">프로필을 불러오고 있어요 🌱</p>
+  </div>
 
-  <!-- 헤더 -->
-  <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
-  </header>
+  <div v-else>
+    <!-- 헤더 -->
+    <header class="text-3xl font-extrabold text-brand-green tracking-tight mb-10">프로필
+    </header>
 
   <div class="profile-page">
     <!-- 프로필 카드 -->
@@ -94,6 +99,7 @@
       {{ errorMessage }}
     </CustomErrorDialog>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -114,6 +120,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
+const isLoading = ref(true);
 const userInfo = ref({ nickname: '', email: '', profileImage: '' });
 const fontSize = ref('MEDIUM');
 const contrastMode = ref(false); // 로컬 UI용
@@ -147,6 +154,7 @@ const onWithdrawCancel = () => { showWithdrawDialog.value = false; if (resolveWi
  */
 // Profile.vue 수정 제안
 const fetchUserData = async () => {
+  isLoading.value = true;
   try {
     const response = await instance.get('/members/me');
     const result = response.data.data;
@@ -180,6 +188,8 @@ const fetchUserData = async () => {
       // 로그인 페이지로 이동
       await router.replace('/login');
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 
