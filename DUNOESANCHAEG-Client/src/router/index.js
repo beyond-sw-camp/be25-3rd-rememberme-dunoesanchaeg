@@ -9,7 +9,6 @@ import Statistics from "@/pages/statistics/Statistics.vue";
 import Notice from "@/pages/Notice.vue";
 import Profile from "@/pages/profile/Profile.vue";
 import KakaoCallback from "@/pages/login/KakaoCallback.vue";
-import DailyRecordPage from '@/pages/daily-record/DailyRecordPage.vue';
 
 
 // meta: {hideLayout: true} 추가시 페이지 및 하단바 안보임
@@ -44,10 +43,10 @@ const routes = [
         component: Home
     },
     {
-            path: '/daily-record',
-            name: 'DailyRecord',
-            component: () => import('@/pages/daily-record/DailyRecordPage.vue'),
-            meta: {hideLayout: true}
+        path: '/daily-record',
+        name: 'DailyRecord',
+        component: () => import('@/pages/daily-record/DailyRecordPage.vue'),
+        meta: {hideLayout: true}
     },
     {path: '/statistics', name: 'Statistics', component: Statistics},
     {path: '/statistics/detail', name: 'StatisticsDetail', component: () => import("@/pages/statistics/DailyDetail.vue"), meta: {hideLayout: true}},
@@ -113,6 +112,11 @@ router.beforeEach((to) => {
         return { name: 'AccountRecovery' };
       }
       return true;
+    }
+
+    if (role !== 'WITHDRAWN' && targetName === 'AccountRecovery') {
+        console.warn("일반 회원은 계정 복구 페이지에 접근할 수 없습니다.");
+        return { name: 'Home' };
     }
 
     if (!isProfileCompleted && targetName !== 'ProfileComplete') {
