@@ -16,13 +16,13 @@
             <section class="bg-[var(--color-surface)] p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-2 border-[var(--color-border)]">
                 <div class="flex justify-between items-center">
                     <p class="routine_progress text-2xl font-semibold text-[var(--color-text-main)]">오늘의 루틴 진행률</p>
-                    <p class="text-2xl font-bold text-brand-green">{{ progress }}%</p>
+                    <p class="text-2xl font-bold text-brand-green">{{ animatedProgress }}%</p>
                 </div>
 
                 <div class="w-full pt-6 pb-4">
                     <div class="w-full h-10 bg-[var(--color-surface-variant)] rounded-full overflow-hidden">
-                        <div class="h-full bg-brand-green rounded-full transition-all duration-700"
-                            :style="{ width: progress + '%' }"></div>
+                        <div class="h-full bg-brand-green rounded-full transition-all duration-100 ease-out"
+                            :style="{ width: animatedProgress + '%' }"></div>
                     </div>
                 </div>
 
@@ -35,6 +35,8 @@
 </template>
 
 <script setup>
+import { ref, watch, onMounted } from 'vue';
+
 const props = defineProps({
     isLoading: Boolean,
     progress: Number,
@@ -43,6 +45,39 @@ const props = defineProps({
 });
 
 defineEmits(['retry']);
+
+const animatedProgress = ref(0);
+
+const animateValue = (start, end, duration) => {
+    if (start === end) {
+        animatedProgress.value = end;
+        return;
+    }
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        let progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        // ease-out cubic 효과
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        animatedProgress.value = Math.floor(easeOut * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            animatedProgress.value = end;
+        }
+    };
+    window.requestAnimationFrame(step);
+};
+
+watch(() => props.progress, (newVal) => {
+    animateValue(animatedProgress.value, newVal, 1200);
+});
+
+onMounted(() => {
+    if (props.progress > 0) {
+        animateValue(0, props.progress, 1200);
+    }
+});
 </script>
 
 <style scoped>
