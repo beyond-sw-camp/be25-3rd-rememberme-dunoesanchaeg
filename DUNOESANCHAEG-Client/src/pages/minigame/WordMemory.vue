@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-dvh bg-gray-50 flex flex-col relative">
+  <div class="min-h-dvh bg-brand-bg flex flex-col relative">
     <GameGuide
       v-if="!isGameStarted"
       title="단어 기억"
@@ -12,13 +12,13 @@
     <template v-else>
       <AppNavBar title="단어 연상 게임" />
 
-      <div class="p-6 flex flex-col space-y-4 flex-1 relative">
+      <div class="p-6 flex flex-col space-y-4 flex-1 relative bg-brand-bg">
         <div class="flex justify-between items-end shrink-0">
           <div>
             <span class="text-brand-green font-black text-3xl">{{
               currentRound
             }}</span>
-            <span class="text-gray-400 font-bold text-lg">
+            <span class="text-text-muted font-bold text-lg">
               / {{ TOTAL_ROUNDS }}</span
             >
           </div>
@@ -36,14 +36,14 @@
             (timeLeft / (isMemorizing ? MEMORY_TIME : SELECT_TIME)) * 100
           "
           pivot-text=""
-          color="#1B391E"
-          track-color="#E5E7EB"
+          color="var(--color-brand-green)"
+          track-color="var(--color-surface-variant)"
           stroke-width="8"
           class="rounded-full overflow-hidden shrink-0"
         />
 
         <div class="text-center py-1 shrink-0">
-          <h2 class="text-2xl font-bold text-gray-900 min-h-[3rem]">
+          <h2 class="text-2xl font-bold text-text-main min-h-[3rem]">
             <transition name="slide-up" mode="out-in">
               <span :key="isMemorizing" class="block whitespace-pre-line">
                 {{
@@ -72,7 +72,7 @@
               ]"
             >
               <div
-                class="size-12 bg-gray-50 rounded-full flex items-center justify-center text-4xl"
+                class="size-12 bg-surface-variant rounded-full flex items-center justify-center text-4xl"
               >
                 {{ word.icon }}
               </div>
@@ -99,12 +99,12 @@
               currentProblem.userSelection.length <
               currentProblem.displayWords.length
             "
-            class="w-full py-4 rounded-2xl font-bold text-xl !text-[var(--color-button-text)] transition-all shadow-lg"
+            class="w-full py-4 rounded-2xl font-bold text-xl transition-all shadow-lg"
             :class="
               currentProblem.userSelection.length <
               currentProblem.displayWords.length
-                ? 'bg-gray-300'
-                : 'bg-brand-green active:scale-95 shadow-green-900/20'
+                ? 'bg-surface-variant text-text-muted'
+                : 'bg-brand-green !text-[var(--color-button-text)] active:scale-95 shadow-green-900/20'
             "
           >
             제출하기
@@ -305,23 +305,23 @@ const getSelectionOrder = (wordText) =>
   currentProblem.userSelection.indexOf(wordText) + 1;
 
 const getCardStyle = (wordText) => {
-  if (isMemorizing.value) return "bg-white border-transparent";
+  if (isMemorizing.value) return "bg-surface border-border";
   if (currentProblem.userSelection.includes(wordText)) {
     if (isWrongFlash.value) {
-      return "border-rose-300 bg-rose-50";
+      return "border-error bg-surface";
     }
-    return "border-brand-green bg-green-50";
+    return "border-brand-green bg-surface-tinted";
   }
-  return "border-white bg-white active:bg-gray-100";
+  return "border-border bg-surface active:bg-surface-variant";
 };
 
 const getTextColor = (wordText) => {
-  if (isMemorizing.value) return "text-[#1B2B3B]";
+  if (isMemorizing.value) return "text-text-main";
   if (currentProblem.userSelection.includes(wordText)) {
-    if (isWrongFlash.value) return "text-rose-400";
+    if (isWrongFlash.value) return "text-error";
     return "text-brand-green";
   }
-  return "text-[#1B2B3B]";
+  return "text-text-main";
 };
 
 const checkAnswer = () => {

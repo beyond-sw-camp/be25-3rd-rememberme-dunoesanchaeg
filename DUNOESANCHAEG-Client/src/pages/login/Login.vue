@@ -8,7 +8,7 @@
             class="w-20 h-auto mx-auto mb-6"
         />
 
-        <h1 class="text-3xl font-black text-brand-green tracking-tight">
+        <h1 class="text-3xl font-black text-[green] tracking-tight">
           두뇌산책
         </h1>
         <p class="text-gray-500 text-sm font-medium">
@@ -18,7 +18,7 @@
 
       <div class="space-y-8 w-full">
         <div class="space-y-2">
-          <p class="text-xl font-bold text-brand-green leading-tight">
+          <p class="text-xl font-bold text-[green] leading-tight">
             반가워요!
           </p>
           <p class="text-gray-700 font-medium">
