@@ -369,7 +369,7 @@ const nextStep = () => {
       correctCount: correctCount.value,
       wrongCount: wrongCount.value,
       timeoutCount: timeoutCount.value,
-      totalTryCount: correctCount.value + wrongCount.value + timeoutCount.value,
+      totalTryCount: correctCount.value + wrongCount.value,
       totalPlayedTime: totalPlayedTime,
     };
 

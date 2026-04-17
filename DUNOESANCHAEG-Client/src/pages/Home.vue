@@ -88,8 +88,10 @@ function showConfetti() {
 }
 
 watch(
-  progress,
-  (newProgress) => {
+  [progress, isLoading],
+  ([newProgress, newIsLoading]) => {
+    if (newIsLoading) return;
+
     if (newProgress === 100) {
       // 아직 컨페티를 안 터뜨렸다면 발사합니다
       if (!localStorage.getItem("confettiShown")) {
