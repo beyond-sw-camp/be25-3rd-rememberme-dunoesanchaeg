@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+# 빌드 도구인 Node.js가 관리하는 폴더로, 팀원마다 설치 버전이 다를 수 있어 제외합니다.
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+# 개인 설정 파일들은 협업 시 충돌을 일으킬 수 있습니다.
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables
+# API 키나 DB 비밀번호 등 보안이 필요한 설정 파일은 절대 올리지 않습니다.
+.env
+.env.local
+.env.*.local
+.env.*

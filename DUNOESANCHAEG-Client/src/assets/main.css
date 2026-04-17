@@ -1,0 +1,372 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('./fonts/Pretendard-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 1. 전역 CSS 변수 정의 (기본값) */
+:root {
+  /* --- 기반 수치 --- */
+  --font-scale: 1;
+  /* 기본 중간(Medium) */
+  --radius-card: 2rem;
+
+  /* --- 브랜드 색상 (기본) --- */
+  --color-brand-green: #2D7A36;
+  --color-brand-bg: #F6FAFF;
+  --color-brand-blue: #E8F2FF;
+
+  /* --- UI 요소 및 텍스트 색상 (기본) --- */
+  --color-text-main: #111827;
+  /* gray-900 */
+  --color-text-sub: #4b5563;
+  /* gray-600 */
+  --color-text-muted: #9ca3af;
+  /* gray-400 */
+  --color-surface: #ffffff;
+  /* bg-white */
+  --color-surface-variant: #f3f4f6;
+  /* gray-100 */
+  --color-surface-tinted: #ebf5e0;
+  /* 연한 연두색 배경 */
+
+  /* --- 하단바 색상 --- */
+  --tabbar-bg: #ffffff;
+  --tabbar-active: #1B391E;
+  --tabbar-inactive: #A8B5AA;
+  --tabbar-border: #ebedf0;
+  --tabbar-active-bg: transparent;
+  --color-error: rgba(255, 0, 0, 0.66);
+  /* 회원탈퇴 붉은색 */
+
+  /* 컨포넌트 커스텀용 */
+  --color-button-text: #ffffff;
+  --color-border: var(--color-brand-blue);
+}
+
+/* 2. 조건부 변수 재정의 (폰트 크기 및 고대비) */
+
+/* 폰트 스케일링 선택자 */
+html[data-font-size="small"] {
+  --font-scale: 0.80;
+}
+
+html[data-font-size="medium"] {
+  --font-scale: 1;
+}
+
+html[data-font-size="large"] {
+  --font-scale: 1.25;
+}
+
+html[data-font-size="xlarge"] {
+  --font-scale: 1.30;
+}
+
+/* 고대비 모드 선택자 */
+html[data-high-contrast="true"] {
+  --color-brand-bg: #000000;
+  --color-brand-blue: #000000;
+  --color-brand-green: #ccff00;
+  /* 노란색에 초록빛이 조금 섞인 형광색(Chartreuse) */
+
+  --color-text-main: #FFFFFF;
+  /* 완전한 흰색 */
+  --color-text-sub: #CCFF00;
+  --color-text-muted: #E5E7EB;
+
+  --color-surface: #000000;
+  /* 블랙 배경 */
+  --color-surface-variant: #1a1a1a;
+  --color-surface-tinted: #000000;
+
+  /* 하단바 고대비 */
+  --tabbar-bg: #000000;
+  --tabbar-active: #000000;
+  --tabbar-inactive: #FFFFFF;
+  --tabbar-border: #FFFFFF;
+  --tabbar-active-bg: #CCFF00;
+
+  /* 컴포넌트 커스텀용 */
+  --color-button-text: #000000;
+  /* 형광 배경에 검은 글자 */
+  --color-border: #FFFFFF;
+  /* 검은 배경에 흰색 테두리로 카드 구분 */
+
+  /* 고대비 시 Vant 강제 조정 */
+  --van-cell-background: #000000;
+  --van-cell-text-color: #FFFFFF;
+  --van-button-primary-background: #CCFF00;
+  --van-button-primary-color: #000000;
+  --van-cell-border-color: #FFFFFF;
+}
+
+/* 3. Tailwind v4 테마 연동 */
+@theme {
+  /* 추가된 코드: 글로벌 폰트 패밀리 지정 (Tailwind의 기본 sans 폰트를 덮어씀) */
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* 색상 매핑 */
+  --color-brand-green: var(--color-brand-green);
+  --color-brand-bg: var(--color-brand-bg);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-text-main: var(--color-text-main);
+  --color-text-sub: var(--color-text-sub);
+  --color-text-muted: var(--color-text-muted);
+  --color-surface: var(--color-surface);
+  --color-surface-variant: var(--color-surface-variant);
+  --color-surface-tinted: var(--color-surface-tinted);
+
+  --color-tabbar-bg: var(--tabbar-bg);
+  --color-tabbar-active: var(--tabbar-active);
+  --color-tabbar-inactive: var(--tabbar-inactive);
+
+  --color-error: var(--color-error);
+
+  --radius-card: var(--radius-card);
+
+  /* 텍스트 크기 및 line-height 상세 스케일링 */
+  --text-xs: calc(0.75rem * var(--font-scale));
+  --text-xs--line-height: calc(1rem * var(--font-scale));
+
+  --text-sm: calc(0.875rem * var(--font-scale));
+  --text-sm--line-height: calc(1.25rem * var(--font-scale));
+
+  --text-base: calc(1rem * var(--font-scale));
+  --text-base--line-height: calc(1.5rem * var(--font-scale));
+
+  --text-lg: calc(1.125rem * var(--font-scale));
+  --text-lg--line-height: calc(1.75rem * var(--font-scale));
+
+  --text-xl: calc(1.25rem * var(--font-scale));
+  --text-xl--line-height: calc(1.75rem * var(--font-scale));
+
+  --text-2xl: calc(1.5rem * var(--font-scale));
+  --text-2xl--line-height: calc(2rem * var(--font-scale));
+
+  --text-3xl: calc(1.875rem * var(--font-scale));
+  --text-3xl--line-height: calc(2.25rem * var(--font-scale));
+
+  --text-4xl: calc(2.25rem * var(--font-scale));
+  --text-4xl--line-height: calc(2.5rem * var(--font-scale));
+
+  --text-5xl: calc(3rem * var(--font-scale));
+  --text-5xl--line-height: 1;
+
+  --text-6xl: calc(3.75rem * var(--font-scale));
+  --text-6xl--line-height: 1;
+
+  --text-7xl: calc(4.5rem * var(--font-scale));
+  --text-7xl--line-height: 1;
+}
+
+/* 4. 외부 라이브러리(Vant) 및 표준 CSS 설정 */
+@layer base {
+  :root {
+    /* Vant 글로벌 폰트 변경 (Pretendard 적용) */
+    --van-base-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+
+    /* Vant 레이아웃 */
+    --van-nav-bar-height: 64px;
+    --van-nav-bar-title-text-color: var(--color-brand-green);
+    --van-tag-default-color: #8A968D;
+    --van-tag-round-border-radius: 999px;
+    --van-button-primary-background: var(--color-brand-green);
+    --van-button-border-radius: 1rem;
+
+    /* Vant UI 폰트 및 라인헤이트 스케일링 */
+    --van-font-size-xs: calc(10px * var(--font-scale));
+    --van-font-size-sm: calc(12px * var(--font-scale));
+    --van-font-size-md: calc(14px * var(--font-scale));
+    --van-font-size-lg: calc(16px * var(--font-scale));
+
+    --van-line-height-xs: calc(14px * var(--font-scale));
+    --van-line-height-sm: calc(18px * var(--font-scale));
+    --van-line-height-md: calc(20px * var(--font-scale));
+    --van-line-height-lg: calc(22px * var(--font-scale));
+
+    /* 하단바 맵핑 */
+    --color-tabbar-bg: var(--tabbar-bg);
+    --color-tabbar-active: var(--tabbar-active);
+    --color-tabbar-inactive: var(--tabbar-inactive);
+    --color-tabbar-border: var(--tabbar-border);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif !important;
+    background-color: var(--color-brand-bg);
+    color: var(--color-text-main);
+    /* 모드 전환 시 부드러운 애니메이션 */
+    transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+    
+    /* 앱처럼 보이도록 텍스트 선택 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* 이미지 및 링크 드래그 방지 */
+  img, a {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
+
+  /* 입력 필드는 텍스트 선택 허용 */
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+  }
+
+  /* 모든 버튼 공통 active(누르기) 효과 */
+  button {
+    transition: transform 0.1s ease, background-color 0.1s ease, opacity 0.1s ease;
+  }
+
+  button:active {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+}
+
+/* 5. 커스텀 컴포넌트 클래스 정의 */
+@layer components {
+
+  /* 입력창 공통 스타일 */
+  .input-custom {
+    @apply w-full p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .input-custom:focus {
+    box-shadow: 0 0 0 4px rgba(45, 122, 54, 0.3);
+    background-color: var(--color-surface);
+  }
+
+  /* 셀렉트 박스: border-none을 지우고 테두리 2px 추가 */
+  .select-custom {
+    @apply flex-1 p-4 rounded-2xl border-2 border-brand-green shadow-sm outline-none text-center font-bold appearance-none;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    transition: all 0.2s ease-in-out;
+
+    /* 화살표 아이콘 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D7A36' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.2em;
+    padding-right: 2rem;
+  }
+
+
+  .transition-standard {
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+/* 6. 페이지 트랜지션 애니메이션 */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.slide-left-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-left-leave-to {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.slide-right-enter-from {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
