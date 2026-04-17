@@ -28,4 +28,4 @@ dist-ssr/
 # API 키나 DB 비밀번호 등 보안이 필요한 설정 파일은 절대 올리지 않습니다.
 .env
 .env.local
-.env.*.local
+.env.*
