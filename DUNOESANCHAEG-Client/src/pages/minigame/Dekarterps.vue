@@ -18,7 +18,7 @@
             <span class="text-brand-green font-black text-3xl">{{
               currentRound
             }}</span>
-            <span class="text-gray-400 font-bold text-lg">
+            <span class="text-text-muted font-bold text-lg">
               / {{ TOTAL_ROUNDS }}</span
             >
           </div>
@@ -34,33 +34,33 @@
         <van-progress
           :percentage="(timeLeft / TIME_LIMIT) * 100"
           pivot-text=""
-          color="#1B391E"
-          track-color="#E5E7EB"
+          color="var(--color-brand-green)"
+          track-color="var(--color-surface-variant)"
           stroke-width="8"
           class="rounded-full overflow-hidden shrink-0 mb-6"
         />
 
-        <div class="flex flex-col w-full mb-auto shrink-0 relative">
+        <div class=" flex flex-col w-full mb-auto shrink-0 relative">
           <Transition name="fade" mode="out-in" appear>
             <div
               :key="currentRound"
               class="w-full flex flex-col shrink-0 relative"
             >
               <div
-                class="bg-[var(--color-brand-green)] rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-[var(--color-button-text)]"
+                class="bg-brand-bg !border-border rounded-[28px] py-6 flex flex-col items-center justify-center mb-4 shadow-md text-[var(--color-button-text)]"
               >
-                <span class="text-sm font-bold opacity-90 mb-2">미션</span>
-                <span class="text-[2.5rem] font-black tracking-tight">{{
+                <span class="text-xl text-text-main font-bold opacity-90 mb-2">미션</span>
+                <span class="text-3xl text-text-main font-black tracking-tight">{{
                   currentProblem.missionText
                 }}</span>
               </div>
 
               <div
-                class="bg-white from-white to-green-50 rounded-[32px] shadow-sm py-8 sm:py-12 min-h-[140px] sm:min-h-[180px] flex flex-col justify-center items-center mt-4 mb-6 shrink-0 border border-white transition-all overflow-visible px-4 w-full box-border"
+                class="bg-surface rounded-[32px] shadow-sm py-8 sm:py-12 min-h-[140px] sm:min-h-[180px] flex flex-col justify-center items-center mt-4 mb-6 shrink-0 border-2 border-border transition-all overflow-visible px-4 w-full box-border"
               >
-                <span class="text-gray-700 font-bold mb-4 text-2xl">상대의 손</span>
+                <span class="text-text-sub font-bold mb-4 text-2xl">상대의 손</span>
                 <div
-                  class="size-20 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm border border-gray-50"
+                  class="size-20 bg-surface-variant rounded-full flex items-center justify-center mb-3 shadow-sm border border-border"
                 >
                   <img
                     :src="getImgUrl(currentProblem.opponentImg)"
@@ -68,7 +68,7 @@
                     alt="상대방 손"
                   />
                 </div>
-                <span class="text-[#1B2B3B] font-black text-2xl">{{
+                <span class="text-text-main font-black text-2xl">{{
                   currentProblem.opponentText
                 }}</span>
               </div>
@@ -78,7 +78,7 @@
                   v-for="choice in choices"
                   :key="choice.id"
                   @click="selectAnswer(choice.id)"
-                  class="bg-white rounded-[24px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-3 sm:py-4 flex flex-col items-center justify-center cursor-pointer transition-all border-[3px]"
+                  class="bg-surface rounded-[24px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-3 sm:py-4 flex flex-col items-center justify-center cursor-pointer transition-all border-[3px]"
                   :class="getChoiceClass(choice.id)"
                 >
                   <img
@@ -209,19 +209,19 @@ const currentProblem = computed(
 const getChoiceClass = (choiceId) => {
   if (selectedAnswer.value === choiceId) {
     if (isWrongFlash.value) {
-      return "border-rose-300 bg-rose-50 scale-[0.98]";
+      return "border-error bg-surface scale-[0.98]";
     }
     return "border-brand-green text-brand-green scale-[0.98]";
   }
-  return "border-transparent active:scale-[0.98] active:bg-gray-50";
+  return "border-border active:scale-[0.98] active:bg-surface-variant";
 };
 
 const getTextColor = (choiceId) => {
   if (selectedAnswer.value === choiceId) {
-    if (isWrongFlash.value) return "text-rose-400";
+    if (isWrongFlash.value) return "text-error";
     return "text-brand-green";
   }
-  return "text-[#1B2B3B]";
+  return "text-text-main";
 };
 
 const selectAnswer = (choiceId) => {
@@ -266,7 +266,7 @@ const handleRoundEnd = (isCorrect) => {
       correctCount: correctCount.value,
       wrongCount: wrongCount.value,
       timeoutCount: timeoutCount.value,
-      totalTryCount: correctCount.value + wrongCount.value + timeoutCount.value,
+      totalTryCount: correctCount.value + wrongCount.value,
       totalPlayedTime: totalPlayedTime,
     };
 

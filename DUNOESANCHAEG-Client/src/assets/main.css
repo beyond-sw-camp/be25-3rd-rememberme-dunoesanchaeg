@@ -184,6 +184,7 @@ html[data-high-contrast="true"] {
   --color-surface: var(--color-surface);
   --color-surface-variant: var(--color-surface-variant);
   --color-surface-tinted: var(--color-surface-tinted);
+  --color-border: var(--color-border);
 
   --color-tabbar-bg: var(--tabbar-bg);
   --color-tabbar-active: var(--tabbar-active);
