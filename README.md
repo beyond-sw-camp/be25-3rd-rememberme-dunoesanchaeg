@@ -229,103 +229,103 @@ src/
 <details> 
 	<summary><b>회원정보 관리</b></summary> 
 	<h4>🔸카카오계정 로그인 및 회원 식별</h4>
-	<img src="gif\로그인.gif" width="20%"/> 
+	<img src="gif\로그인.gif" width="350"/> 
   <br>
   <h4>🔸추가 프로필 기본 정보 입력</h4>
-	<img src="gif\추가 프로필 기본 정보 입력.gif" width="20%"/>
+	<img src="gif\추가 프로필 기본 정보 입력.gif" width="350"/>
 	<br>
   <h4>🔸회원 이메일과 보호자 이메일이 중복 되는 경우</h4>
-	<img src="gif\회원이메일과 보호자이메일 중복.gif" width="20%"/>
+	<img src="gif\회원이메일과 보호자이메일 중복.gif" width="350"/>
 	<br>
 	<h4>🔸추가 정보 양식 오류</h4>
-	<img src="gif\추가 정보 양식 오류.gif" width="20%"/> 
+	<img src="gif\추가 정보 양식 오류.gif" width="350"/> 
   <br>
   <h4>🔸회원 전화번호와 보호자 전화번호가 같은 경우</h4>
-	<img src="gif\회원전번 보호자전번 같은경우.gif" width="20%"/> 
+	<img src="gif\회원전번 보호자전번 같은경우.gif" width="350"/> 
   <br>
   <h4>🔸회원 프로필 페이지 접근</h4>
-	<img src="gif\회원 프로필 페이지 접근.gif" width="20%"/> 
+	<img src="gif\회원 프로필 페이지 접근.gif" width="350"/> 
   <br>
   <h4>🔸회원 정보 수정</h4>
-	<img src="gif\회원정보 수정.gif" width="20%"/> 
+	<img src="gif\회원정보 수정.gif" width="350"/> 
   <br>
   <h4>🔸보호자 동의 철회</h4>
-	<img src="gif\보호자 동의 철회.gif" width="20%"/> 
+	<img src="gif\보호자 동의 철회.gif" width="350"/> 
   <br>
   <h4>🔸고대비 모드 및 글자크기 수정 후 재로그인 시 기존 정보 유지</h4>
-	<img src="gif\고대비모드 및 글자크기 수정후 재로그인시 기존정보 유지.gif" width="20%"/>
+	<img src="gif\고대비모드 및 글자크기 수정후 재로그인시 기존정보 유지.gif" width="350"/>
   <br>
   <h4>🔸로그아웃</h4>
-	<img src="gif\로그아웃.gif" width="20%"/> 
+	<img src="gif\로그아웃.gif" width="350"/> 
   <br>
   <h4>🔸회원 탈퇴</h4>
-	<img src="gif\회원 탈퇴.gif" width="20%"/> 
+	<img src="gif\회원 탈퇴.gif" width="350"/> 
   <br>
   <h4>🔸회원 복구</h4>
-	<img src="gif\회원 복구.gif" width="20%"/>
+	<img src="gif\회원 복구.gif" width="350"/>
   <br>
 </details> 
 
 <details> 
 	<summary><b>루틴 관리</b></summary> 
 	<h4>🔸오늘의 루틴 작동</h4>
-	<img src="gif\오늘의 루틴 달성.gif" width="20%"/> 
+	<img src="gif\오늘의 루틴 달성.gif" width="350"/> 
   <br>
   <h4>🔸오늘의 루틴 100%</h4>
-	<img src="gif\이스터애그.gif" width="20%"/>
+	<img src="gif\이스터애그.gif" width="350"/>
 </details> 
 
 <details> 
 	<summary><b>인지 콘텐츠 관리(미니게임)</b></summary> 
 	<h4>🔸단어 연상</h4>
-	<img src="gif\단어 연상.gif" width="20%"/> 
+	<img src="gif\단어 연상.gif" width="350"/> 
 	<br>
 	<h4>🔸데카르트 가위바위보</h4>
-	<img src="gif\데카르트 가위바위보.gif" width="20%"/> 
+	<img src="gif\데카르트 가위바위보.gif" width="350"/> 
   <br>
   <h4>🔸사칙 연산</h4>
-	<img src="gif\사칙연산.gif" width="20%"/> 
+	<img src="gif\사칙연산.gif" width="350"/> 
 </details> 
 
 <details> 
 	<summary><b>기억 / 정서 관리 (개방형 질문, 하루기록)</b></summary> 
 	<h4>🔸개방형질문 시작</h4>
-	<img src="gif\개방형질문 시작.gif" width="20%"/> 
+	<img src="gif\개방형질문 시작.gif" width="350"/> 
 	<br>
 	<h4>🔸개방형질문 이탈</h4>
-	<img src="gif\개방형질문 이탈.gif" width="20%"/> 
+	<img src="gif\개방형질문 이탈.gif" width="350"/> 
 	<br>
   <h4>🔸개방형질문 이탈 후 재시작</h4>
-	<img src="gif\개방형질문 이탈 후 재시작.gif" width="20%"/>
+	<img src="gif\개방형질문 이탈 후 재시작.gif" width="350"/>
   <br>
   <h4>🔸개방형질문 완료</h4>
-	<img src="gif\개방형질문 완료.gif" width="20%"/>
+	<img src="gif\개방형질문 완료.gif" width="350"/>
   <br>
   <h4>🔸하루기록 필수값이 미입력된 경우</h4>
-	<img src="gif\필수값입력안됨.gif" width="20%"/>
+	<img src="gif\필수값입력안됨.gif" width="350"/>
   <br>
   <h4>🔸하루기록 완료 및 저장</h4>
-	<img src="gif\정상저장성공.gif" width="20%"/>
+	<img src="gif\정상저장성공.gif" width="350"/>
   <br>
 </details> 
 
 <details> 
   <summary><b>조회 / 통계</b></summary> 
   <h4>🔸캘린더 조회</h4>
-	<img src="gif\캘린더.gif" width="200"/>
+	<img src="gif\캘린더.gif" width="350"/>
   <br>
 	<h4>🔸미니게임 통계 조회</h4>
-	<img src="gif\통계.gif" width="200"/>
+	<img src="gif\통계.gif" width="350"/>
   <br>
   <h4>🔸트로피 획득 내역 조회</h4>
-	<img src="gif\트로피.gif" width="200"/>
+	<img src="gif\트로피.gif" width="350"/>
   <br>
 </details>
 
 <details> 
     <summary><b>공지사항</b></summary>
     <h4>🔸공지사항 조회</h4>
-    <img src="gif\공지사항 조회.gif" width="20%"/> 
+    <img src="gif\공지사항 조회.gif" width="350"/> 
 </details>
 
 <br/><br/>
