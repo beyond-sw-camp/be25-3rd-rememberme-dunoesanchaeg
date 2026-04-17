@@ -42,7 +42,7 @@
       />
 
       <div class="text-center space-y-1 py-1 shrink-0 mb-2">
-        <h2 class="text-2xl font-bold text-gray-900 leading-[1.3] my-3">
+        <h2 class="text-2xl font-bold text-brand-main leading-[1.3] my-3">
           다음 수식을 계산하고<br />정답을 골라주세요
         </h2>
       </div>
@@ -54,10 +54,10 @@
             class="w-full flex flex-col shrink-0 relative"
           >
             <div
-              class="bg-white from-white to-green-50 rounded-[32px] shadow-sm py-16 sm:py-20 min-h-[160px] sm:min-h-[200px] flex justify-center items-center mb-6 shrink-0 border border-white transition-all overflow-visible px-2 sm:px-6 w-full box-border"
+              class="bg-brand-main from-white to-green-50 rounded-[32px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-16 sm:py-20 min-h-[160px] sm:min-h-[200px] flex justify-center items-center mb-6 shrink-0 border-2 border-border transition-all overflow-visible px-2 sm:px-6 w-full box-border"
             >
               <div
-                class="text-[2.5rem] min-[360px]:text-[3rem] sm:text-6xl font-black text-[#1B2B3B] flex flex-row items-center justify-center leading-none whitespace-nowrap text-center"
+                class="text-[2.5rem] min-[360px]:text-[3rem] sm:text-6xl font-black text-brand-main flex flex-row items-center justify-center leading-none whitespace-nowrap text-center"
               >
                 <span>{{ currentProblem.a }}</span>
                 <span class="mx-1.5 sm:mx-4">{{ currentProblem.op }}</span>
@@ -75,11 +75,11 @@
                 v-for="(choice, index) in currentProblem.options"
                 :key="index"
                 @click="selectAnswer(choice)"
-                class="bg-white rounded-[32px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-6 flex flex-col items-center justify-center cursor-pointer transition-all border-[3px]"
+                class="bg-brand-main rounded-[32px] shadow-[0_4px_12px_rgba(0,0,0,0.03)] py-6 flex flex-col items-center justify-center cursor-pointer transition-all !border-2 !border-border transition-all overflow-visible"
                 :class="getChoiceClass(choice)"
               >
                 <span
-                  class="text-slate-500 font-bold mb-2 text-sm transition-colors"
+                  class="text-brand-main font-bold mb-2 text-sm transition-colors"
                   :class="
                     isWrongFlash && selectedAnswer === choice
                       ? 'text-rose-400'
@@ -88,7 +88,7 @@
                   >보기{{ index + 1 }}</span
                 >
                 <span
-                  class="text-4xl sm:text-5xl font-black transition-colors"
+                  class="!text-brand-main text-4xl sm:text-5xl font-bold transition-colors"
                   :class="getTextColor(choice)"
                   >{{ choice }}</span
                 >
@@ -222,7 +222,7 @@ const getChoiceClass = (choice) => {
     if (isWrongFlash.value) {
       return "border-rose-300 bg-rose-50 scale-[0.98]";
     }
-    return "border-brand-green text-brand-green scale-[0.98]";
+    return "border-[text-brand-green] bg-brand-green/30 text-brand-green scale-[0.98]";
   }
   return "border-transparent active:scale-[0.98] active:bg-gray-50";
 };
@@ -232,7 +232,7 @@ const getTextColor = (choice) => {
     if (isWrongFlash.value) return "text-rose-400";
     return "text-brand-green";
   }
-  return "text-[#1B2B3B]";
+  return "text-brand-main";
 };
 
 const selectAnswer = (choice) => {

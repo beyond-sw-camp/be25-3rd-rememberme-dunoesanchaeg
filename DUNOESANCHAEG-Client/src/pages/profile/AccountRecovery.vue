@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-brand-bg p-6 flex flex-col justify-center">
     <header class="text-center mb-12">
       <van-image :src="logoGreen" alt="두뇌산책 로고" class="w-24 h-auto mb-6" />
-      <h1 class="text-3xl font-black text-gray-800 tracking-tight">반가워요!</h1>
+      <h1 class="text-3xl font-black text-[var(--color-button-main)] tracking-tight">반가워요!</h1>
       <p class="text-gray-500 mt-2 text-lg font-medium">다시 만나기를 기다리고 있었어요.</p>
     </header>
 
@@ -12,7 +12,7 @@
         <p class="text-gray-500 leading-relaxed font-medium">
           현재 회원님의 계정은 <span class="text-red-500 font-bold">탈퇴 대기</span> 상태입니다.<br/>
           지금 복구하시면 이전에 사용하던 데이터를<br/>
-          <span class="text-brand-green font-black">그대로</span> 다시 사용할 수 있습니다.
+          <span class="text-[green] font-black">그대로</span> 다시 사용할 수 있습니다.
         </p>
         <div class="py-2 px-4 bg-white/50 rounded-xl inline-block text-sm text-gray-400">
           * 탈퇴 신청 후 30일이 지나면 복구가 불가능합니다.

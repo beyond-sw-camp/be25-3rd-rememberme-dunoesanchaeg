@@ -102,7 +102,7 @@
               ]"
               class="py-4 rounded-2xl text-lg shadow-sm transition-standard cursor-pointer flex items-center justify-center"
           >
-            {{ size === 'SMALL' ? '작게' : size === 'MEDIUM' ? '보통' : '크게' }}
+            {{ size === 'SMALL' ? '작게' : size === 'MEDIUM' ? '중간' : '크게' }}
           </button>
         </div>
       </div>
