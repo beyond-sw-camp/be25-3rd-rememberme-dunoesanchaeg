@@ -312,13 +312,13 @@ src/
 <details> 
   <summary><b>조회 / 통계</b></summary> 
   <h4>🔸캘린더 조회</h4>
-	<img src="gif\캘린더.gif" width="20%"/>
+	<img src="gif\캘린더.gif" width="200"/>
   <br>
 	<h4>🔸미니게임 통계 조회</h4>
-	<img src="gif\통계.gif" width="20%"/>
+	<img src="gif\통계.gif" width="200"/>
   <br>
   <h4>🔸트로피 획득 내역 조회</h4>
-	<img src="gif\트로피.gif" width="20%"/>
+	<img src="gif\트로피.gif" width="200"/>
   <br>
 </details>
 
