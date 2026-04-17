@@ -268,6 +268,28 @@ html[data-high-contrast="true"] {
     color: var(--color-text-main);
     /* 모드 전환 시 부드러운 애니메이션 */
     transition: background-color 0.2s ease, color 0.2s ease, font-size 0.2s ease-in-out;
+    
+    /* 앱처럼 보이도록 텍스트 선택 방지 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* 이미지 및 링크 드래그 방지 */
+  img, a {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
+
+  /* 입력 필드는 텍스트 선택 허용 */
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
   }
 
   /* 모든 버튼 공통 active(누르기) 효과 */
