@@ -311,12 +311,12 @@ src/
 <br/><br/>
 
 
-## <a id="9-기능-테스트-결과서"></a> 9. 기능 테스트 결과서(스프레드 시트)
+## <a id="9-테스트-보고서"></a> 9. 테스트 보고서(스프레드 시트)
 
 <details>
- <summary><b>🧾 기능 테스트 결과서 링크</b></summary>
+ <summary><b>🧾 프론트엔드 테스트</b></summary>
 
-  - [🧾 기능 테스트 결과서 (링크)](https://docs.google.com/spreadsheets/d/1cGxKolGeDWGtzUYxWShYSNCS0KK_gclYAco5hxDQDqI/edit?gid=687771753#gid=687771753)
+  - [🧾 프론트엔드 테스트 결과서 (링크)](https://docs.google.com/spreadsheets/d/1cGxKolGeDWGtzUYxWShYSNCS0KK_gclYAco5hxDQDqI/edit?gid=687771753#gid=687771753)
 
 </details>
 <br>
