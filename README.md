@@ -216,7 +216,7 @@ src/
 <details>
 <summary><b>🎬 서비스 시나리오 테스트</b></summary>
 
-아래는 실제 서비스 기능을 검증한 시연 영상입니다.
+아래 이미지를 클릭하면 실제 서비스 기능을 확인할 수 있는 시연 영상으로 이동합니다.
 <br>
 <br>
 <a href="https://youtube.com/shorts/Z0aDc_7EqAQ">
