@@ -220,7 +220,7 @@ src/
 <br>
 <br>
 <a href="https://youtube.com/shorts/Z0aDc_7EqAQ">
-  <img src="gif\thumbnail.png" width="300" alt="서비스 시나리오 영상">
+  <img src="gif\thumbnail.png" width="500" alt="서비스 시나리오 영상">
 </a>
 <br>
 
