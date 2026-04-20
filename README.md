@@ -217,7 +217,8 @@ src/
 <summary><b>🎬 서비스 시나리오 테스트</b></summary>
 
 아래는 실제 서비스 기능을 검증한 시연 영상입니다.
-<img src="gif\시나리오영상.mp4" width="80%"/> 
+<br>
+[![서비스 시나리오 영상](./gif/thumbnail.png)](gif\시나리오영상.mp4)
 <br>
 
 </details>
