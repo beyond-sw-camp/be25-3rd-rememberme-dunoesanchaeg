@@ -218,8 +218,9 @@ src/
 
 아래는 실제 서비스 기능을 검증한 시연 영상입니다.
 <br>
+<br>
 <a href="https://youtube.com/shorts/Z0aDc_7EqAQ">
-  <img src="./gif/thumbnail.png" width="400" alt="서비스 시나리오 영상">
+  <img src="gif\thumbnail.png" width="300" alt="서비스 시나리오 영상">
 </a>
 <br>
 
